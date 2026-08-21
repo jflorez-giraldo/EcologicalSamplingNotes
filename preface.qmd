@@ -1,0 +1,53 @@
+# Prefacio {.unnumbered}
+
+## Propósito y enfoque
+
+El muestreo ecológico conecta una pregunta científica con observaciones
+obtenidas bajo restricciones espaciales, temporales, logísticas y éticas. Este
+libro enfatiza la relación entre el diseño, los estimadores y el alcance real de
+las conclusiones, con una orientación aplicada y reproducible.
+
+## Audiencia
+
+El material está dirigido a estudiantes de estadística aplicada, ciencia de
+datos, ecología y áreas afines que requieran diseñar o analizar estudios sobre
+poblaciones biológicas.
+
+## Prerrequisitos
+
+Se espera familiaridad con probabilidad, inferencia estadística y programación
+básica en R. Los conceptos especializados se introducirán en los capítulos
+donde sean necesarios.
+
+## Principios de trabajo
+
+- La pregunta ecológica determina la población objetivo y la unidad de muestreo.
+- La inferencia debe corresponder al mecanismo real de selección de unidades.
+- El esfuerzo de campo, la precisión y los posibles sesgos se evalúan juntos.
+- El código, los datos derivados y las decisiones analíticas deben ser
+  reproducibles.
+- Las limitaciones del diseño se comunican junto con los resultados.
+
+## Organización
+
+El libro se organiza en seis partes. Las dos primeras desarrollan los
+fundamentos probabilísticos y los métodos de observación en parcelas,
+transectos, organismos y hábitats. Las siguientes estudian estimación de
+poblaciones, ocupación, comparaciones y monitoreo. La quinta parte aborda
+demografía y comunidades; la última integra todo el flujo en un proyecto
+reproducible.
+
+## Cómo trabajar con los capítulos
+
+Cada capítulo combina teoría, formulación estadística, supuestos, una aplicación
+completa en R con datos reales, interpretación ecológica, análisis de
+sensibilidad y una actividad propuesta para el lector. Los archivos QMD son la fuente principal; los notebooks
+IPYNB se generan a partir de ellos para evitar versiones divergentes.
+
+## Diversidad de casos
+
+Los casos recorren inventarios biológicos, vegetación, transectos de fauna,
+métodos de censo, intervenciones, series de monitoreo, ocupación,
+captura-recaptura, demografía vegetal y diversidad. Esta diversidad permite
+reconocer qué principios son transferibles y qué métodos dependen del proceso
+ecológico y de observación.

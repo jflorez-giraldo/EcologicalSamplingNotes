@@ -1,0 +1,265 @@
+---
+title: "Estudios comparativos, intervenciones y sesgos"
+subtitle: "Diseño, estimandos y comparaciones ajustadas"
+execute:
+  enabled: true
+  echo: true
+  warning: false
+  message: false
+  error: false
+---
+
+{{< chapter-actions >}}
+
+Comparar grupos es sencillo; decidir qué significa la diferencia es más difícil.
+Una diferencia observada puede reflejar una intervención, selección de unidades,
+medición desigual, pérdidas o azar. El diseño determina qué comparación es
+defendible y el análisis debe conservar sus bloques, unidades y restricciones
+[@woodward2014epidemiology; @gerstman2013epidemiology].
+
+## Pregunta, diseño y estimando
+
+Un estudio comparativo define antes de medir: población objetivo, condiciones,
+respuesta, unidad de asignación o selección, unidad de observación y periodo. En
+una intervención, la unidad experimental es la entidad que recibe una condición;
+varias mediciones dentro de ella son submuestras. En un estudio observacional no
+hay asignación controlada y una diferencia ajustada sigue siendo una asociación.
+
+Sea $Y_{ij}$ la respuesta de la unidad $j$ bajo la condición $i$. Un estimando
+simple es la diferencia de medias
+
+$$
+\Delta=\mu_1-\mu_0.
+$$
+
+Debe indicarse si las medias describen unidades, áreas o individuos; si son
+condicionales a bloques; y sobre qué distribución de ambientes se promedian. Un
+cociente de medias responde otra pregunta y exige que el denominador sea positivo.
+La precisión no corrige un estimando mal definido [@lohr2022sampling].
+
+## Asignación, comparación y bloqueo
+
+La asignación aleatoria hace comparables las condiciones en expectativa y da una
+base para atribuir diferencias a la intervención. La selección aleatoria, en
+cambio, sustenta la generalización a una población. Ninguna reemplaza a la otra.
+Sin información explícita sobre selección, el alcance se limita a las unidades
+estudiadas [@manly2015ecological; @gregg2008field].
+
+Un bloque reúne unidades parecidas antes de asignar condiciones. El contraste se
+realiza dentro de bloque y luego se combina:
+
+$$
+Y_{bj}=\alpha+\beta_b+\tau X_{bj}+\varepsilon_{bj}.
+$$
+
+$\tau$ es una diferencia ajustada por bloque si la respuesta es aproximadamente
+aditiva en esa escala. El bloqueo puede reducir variación ambiental, pero no crea
+réplicas adicionales ni permite ignorar bloque en el análisis. Si cada bloque no
+contiene todas las condiciones, solo son estimables comparaciones apoyadas por el
+patrón conjunto de asignación; conviene usar un modelo deliberadamente limitado.
+
+## Sesgos que alteran una comparación
+
+- **Selección:** inclusión o permanencia relacionadas con condición y respuesta.
+- **Confusión:** diferencias previas acompañan a la condición en estudios sin
+  asignación aleatoria.
+- **Información:** método, observador o precisión difieren entre condiciones.
+- **Pérdidas:** faltantes posteriores dependen de condición o resultado.
+- **Contaminación:** una unidad recibe parte de otra condición.
+- **Pseudorreplicación:** submuestras se analizan como unidades asignadas.
+- **Reporte selectivo:** se eligen respuestas o modelos después de ver resultados.
+
+La prevención mediante diseño y protocolo es preferible a un ajuste posterior.
+Una auditoría debe conservar identificadores, asignación prevista y recibida,
+fechas, faltantes, exclusiones y cambios de medición [@woodward2014epidemiology].
+
+## Estimación, incertidumbre y diagnóstico
+
+Una estimación necesita tamaño de efecto, incertidumbre y escala. En modelos
+lineales, el intervalo para un contraste combina variación residual con los grados
+de libertad disponibles. Con pocos bloques, aproximaciones asintóticas y
+remuestreos son frágiles; deben mostrarse los datos por bloque.
+
+Los residuos permiten revisar no linealidad, varianza desigual y observaciones
+influyentes. No prueban aleatorización, ausencia de sesgo ni independencia. Una
+conclusión robusta conserva signo y magnitud ecológica bajo decisiones razonables:
+ajuste por bloque, exclusión de una unidad influyente o una escala alternativa.
+
+## Aplicación completa: intervención nutricional en guisantes
+
+### Procedencia, diseño y alcance
+
+`datasets::npk`, distribuido con R, registra rendimiento de guisantes en libras
+por parcela de 1/70 acre. Se aplicaron nitrógeno (`N`), fosfato (`P`) y potasio
+(`K`) en seis bloques. La ayuda `?datasets::npk` documenta 24 parcelas y cuatro
+combinaciones por bloque. Cada parcela es unidad experimental; el rendimiento es
+la respuesta; bloque representa heterogeneidad previa.
+
+No están las ocho combinaciones dentro de cada bloque. Por ello, el análisis
+principal estima diferencias medias aditivas de cada nutriente, ajustadas por
+bloque y promediadas sobre la asignación del experimento. No se desarrolla una
+interpretación general de interacciones ni se extrapola a otras fincas, años o
+dosis. La procedencia no informa un marco probabilístico de fincas.
+
+### Importación y auditoría
+
+```{r}
+#| label: ch08-auditoria
+data("npk", package = "datasets")
+d <- npk
+
+stopifnot(nrow(d) == 24L, !anyNA(d), !anyDuplicated(rownames(d)))
+stopifnot(all(d$yield > 0), nlevels(d$block) == 6L)
+audit <- list(
+  dimensions = dim(d),
+  levels = lapply(d[c("block", "N", "P", "K")], levels),
+  units_per_block = table(d$block),
+  treatment_replication = xtabs(~ N + P + K, d)
+)
+audit
+```
+
+La tabla tridimensional verifica replicación global, pero no demuestra que cada
+bloque sea completo. Esta comprobación evita atribuir al modelo una estructura
+que los datos no poseen.
+
+### Exploración por unidad y bloque
+
+```{r}
+#| label: ch08-exploracion
+#| fig-cap: "Rendimiento de cada parcela; las líneas unen parcelas del mismo bloque."
+comb <- interaction(d$N, d$P, d$K, sep = "")
+cols <- c("#3d5a80", "#ee6c4d", "#2a9d8f", "#9b5de5",
+          "#bc6c25", "#457b9d", "#6a994e", "#d62828")
+plot(jitter(as.numeric(comb), amount = .07), d$yield,
+     pch = 21, bg = cols[as.numeric(d$block)], xaxt = "n",
+     xlab = "Combinación NPK", ylab = "Rendimiento (lb/parcela)")
+axis(1, at = seq_along(levels(comb)), labels = levels(comb))
+legend("topright", legend = levels(d$block), pt.bg = cols[1:6], pch = 21,
+       title = "Bloque", bty = "n", ncol = 2)
+
+aggregate(yield ~ block, d, function(x) c(media = mean(x), rango = diff(range(x))))
+aggregate(yield ~ N + P + K, d, mean)
+```
+
+La dispersión entre bloques justifica conservarlos. Las medias crudas por
+combinación son descriptivas y no sustituyen los contrastes ajustados.
+
+### Estimación de diferencias ajustadas
+
+```{r}
+#| label: ch08-estimacion
+fit <- lm(yield ~ block + N + P + K, data = d)
+coef_table <- summary(fit)$coefficients
+effects <- coef_table[c("N1", "P1", "K1"), , drop = FALSE]
+intervals <- confint(fit, parm = c("N1", "P1", "K1"), level = .95)
+result <- data.frame(
+  nutrient = c("N", "P", "K"),
+  difference_lb_plot = effects[, "Estimate"],
+  standard_error = effects[, "Std. Error"],
+  lower = intervals[, 1], upper = intervals[, 2],
+  row.names = NULL
+)
+result
+anova(fit)
+```
+
+Cada coeficiente compara presencia con ausencia del nutriente, manteniendo bloque
+y los otros dos indicadores en el modelo. Es una diferencia en libras por parcela,
+no un porcentaje ni una respuesta a cualquier dosis posible. La tabla ANOVA no
+debe reemplazar los tamaños de efecto y sus intervalos.
+
+### Incertidumbre respetando bloques
+
+Como complemento se remuestrean bloques completos. Solo hay seis, de modo que el
+intervalo bootstrap es un diagnóstico de estabilidad, no una garantía de cobertura.
+
+```{r}
+#| label: ch08-incertidumbre
+set.seed(808)
+B <- 1999
+boot_effects <- replicate(B, {
+  chosen <- sample(levels(d$block), replace = TRUE)
+  db <- do.call(rbind, lapply(seq_along(chosen), function(i) {
+    z <- d[d$block == chosen[i], ]
+    z$boot_block <- factor(i)
+    z
+  }))
+  coef(lm(yield ~ boot_block + N + P + K, db))[c("N1", "P1", "K1")]
+})
+boot_ci <- t(apply(boot_effects, 1, quantile, c(.025, .5, .975), na.rm = TRUE))
+data.frame(nutrient = rownames(boot_ci), boot_ci, row.names = NULL)
+```
+
+### Diagnósticos
+
+```{r}
+#| label: ch08-diagnosticos
+op <- par(mfrow = c(1, 2))
+plot(fitted(fit), residuals(fit), pch = 21, bg = "#457b9d",
+     xlab = "Ajustado", ylab = "Residuo")
+abline(h = 0, lty = 2)
+qqnorm(residuals(fit), pch = 21, bg = "#ee6c4d")
+qqline(residuals(fit))
+par(op)
+
+influence <- data.frame(
+  row = seq_len(nrow(d)), block = d$block,
+  combination = comb, cooks_distance = cooks.distance(fit)
+)
+influence[order(-influence$cooks_distance), ][1:5, ]
+```
+
+Patrones curvos o de abanico cuestionarían la forma lineal y la varianza común.
+Una distancia de Cook alta señala dependencia del resultado, no autoriza borrar
+la parcela sin revisar el registro y el protocolo.
+
+### Sensibilidad analítica
+
+Se compara el modelo primario con el análisis sin bloque y con seis análisis que
+omiten un bloque completo. Esto evalúa confusión por heterogeneidad espacial y
+dependencia de un bloque, sin inventar nuevas unidades.
+
+```{r}
+#| label: ch08-sensibilidad
+unblocked <- coef(lm(yield ~ N + P + K, d))[c("N1", "P1", "K1")]
+leave_block <- sapply(levels(d$block), function(b) {
+  coef(lm(yield ~ block + N + P + K, d[d$block != b, ]))[
+    c("N1", "P1", "K1")]
+})
+round(cbind(primary = coef(fit)[c("N1", "P1", "K1")],
+            unblocked = unblocked,
+            leave_block_min = apply(leave_block, 1, min),
+            leave_block_max = apply(leave_block, 1, max)), 2)
+```
+
+### Interpretación
+
+El análisis identifica qué nutrientes muestran una diferencia ajustada grande y
+cuánta incertidumbre acompaña esa magnitud en estas 24 parcelas. La atribución a
+las aplicaciones depende de que la asignación descrita se haya ejecutado y de que
+no haya contaminación o medición diferencial. El diseño incompleto por bloque,
+las seis réplicas ambientales y la falta de dosis adicionales impiden concluir
+sobre interacciones generales, forma de la respuesta o transporte a otros
+ambientes. Una conclusión debe reportar diferencias e intervalos, y mencionar si
+cambian al retirar bloques o ignorar el ajuste.
+
+## Síntesis
+
+- Diseño y estimando preceden al modelo.
+- Asignación sustenta atribución; selección sustenta generalización.
+- Bloques se conservan en estimación, incertidumbre y sensibilidad.
+- Sesgos de selección, información y pérdidas no desaparecen con precisión.
+- Diagnósticos evalúan el modelo, no validan retrospectivamente el diseño.
+
+## Actividad propuesta para el lector
+
+Use `datasets::InsectSprays`, un experimento real distribuido con R sobre conteos
+de insectos bajo seis tratamientos. Consulte y registre su ayuda como procedencia;
+defina unidad, respuesta, condiciones, población alcanzable y diferencia de medias
+de interés; audite tamaño por tratamiento, ceros, faltantes y valores extremos;
+explore distribuciones y medias; estime contrastes seleccionados antes del ajuste
+con intervalos compatibles con conteos o con una justificación explícita de otra
+escala; diagnostique dispersión y observaciones influyentes; compare al menos dos
+decisiones razonables de modelación; e interprete magnitud, incertidumbre, sesgos
+posibles y límites de generalización.

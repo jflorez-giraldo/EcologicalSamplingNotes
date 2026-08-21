@@ -1,0 +1,17 @@
+Package: ecologicalsampling
+Type: Project
+Title: Ecological Sampling Quarto Book
+Version: 0.1.0
+Authors@R: person("Jonathan", "Florez Giraldo", role = c("aut", "cre"))
+Description: Reproducible environment for a book on ecological sampling.
+License: CC BY 4.0
+Encoding: UTF-8
+Imports:
+    Distance,
+    IRkernel,
+    knitr,
+    popbio,
+    renv,
+    rmarkdown,
+    unmarked,
+    vegan

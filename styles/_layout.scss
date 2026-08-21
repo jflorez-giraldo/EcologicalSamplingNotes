@@ -1,0 +1,34 @@
+#quarto-content { padding-bottom: 3rem; }
+main.content { padding-top: 1.25rem; }
+section { scroll-margin-top: 5rem; }
+hr { margin: 2.2rem 0; border: 0; border-top: 1px solid rgba($primary, 0.16); }
+.quarto-figure { margin: 1.6rem 0 1.8rem; }
+.quarto-figure img, .figure-img { max-width: 100%; height: auto; border-radius: 0.4rem; }
+.figure-caption, figcaption {
+  margin-top: 0.55rem;
+  color: $muted-text;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  text-align: center;
+}
+.cell-output-display img { box-shadow: none; }
+.math.display { margin: 1.35rem 0; overflow-x: auto; overflow-y: hidden; }
+.sidebar-navigation .sidebar-item-container { margin-bottom: 0.1rem; }
+.sidebar-navigation .sidebar-item-text { line-height: 1.35; }
+.sidebar-item-container .active, #TOC .active { color: $primary; font-weight: 600; }
+#TOC { font-size: 0.9rem; }
+.nav-footer {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  color: $muted-text;
+  border-top: 1px solid rgba($primary, 0.14);
+  font-size: 0.88rem;
+}
+::selection { color: $body-color; background: rgba($soft-green-border, 0.55); }
+@media (max-width: 768px) {
+  body { font-size: 0.97rem; }
+  h1 { font-size: 1.9rem; }
+  h2 { font-size: 1.45rem; }
+  pre code { font-size: 0.82rem; }
+  .table, table { font-size: 0.88rem; }
+}

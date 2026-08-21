@@ -1,0 +1,373 @@
+---
+title: "Transectos y muestreo por distancias"
+execute:
+  enabled: true
+---
+
+{{< chapter-actions >}}
+
+## Del encuentro a la densidad
+
+El número observado combina distribución, esfuerzo y detección. Esta suele
+disminuir con distancia, vegetación, conducta y observador. El muestreo por
+distancias modela esa pérdida para estimar un área efectiva de búsqueda
+[@sutherland2006census; @henderson2016ecological].
+
+El **diseño espacial** determina dónde buscar; el **proceso ecológico**, dónde se
+encuentran los objetos; y el **proceso de observación**, cuáles se detectan. Una
+buena curva de detección no corrige líneas ubicadas solo en hábitat accesible.
+
+## Población, unidades y estimando
+
+Un protocolo debe declarar población objetivo y disponible, región y período,
+unidad de muestreo, objeto detectado, esfuerzo y estimando. En transectos
+lineales, la línea o segmento es unidad de muestreo, y el individuo o grupo es
+unidad de observación.
+
+La disponibilidad y la percepción son distintas. Un ave que no vocaliza puede no
+estar disponible; una que vocaliza puede no ser percibida. El modelo convencional
+supone detección segura sobre la línea, $g(0)=1$. Si falla, la estimación describe
+objetos disponibles y perceptibles bajo el protocolo.
+
+## Geometría y función de detección
+
+Para líneas de longitud total $L$, truncadas a distancia perpendicular $w$ a
+cada lado, el área geométrica es $2wL$. Con función de detección $g(x)$,
+
+$$
+P_a=\frac1w\int_0^w g(x)\,dx,\qquad
+\mu=\int_0^w g(x)\,dx,
+$$
+
+y para $n$ detecciones,
+
+$$
+\widehat D=\frac{n}{2wL\widehat P_a}
+=\frac{n}{2L\widehat\mu}.
+$$
+
+$2\mu$ es el ancho efectivo total. La corrección reemplaza área geométrica por
+área efectivamente cubierta; no crea objetos ni corrige un marco sesgado.
+
+Dos funciones clave son media normal y tasa de riesgo:
+
+$$
+g_{HN}(x)=\exp\{-x^2/(2\sigma^2)\},
+$$
+
+$$
+g_{HR}(x)=1-\exp\{-(x/\sigma)^{-b}\}.
+$$
+
+La primera produce un hombro suave. La segunda puede sostener detección alta
+cerca de la línea y caer con mayor flexibilidad. Complejidad adicional requiere
+datos suficientes y una mejora diagnóstica, no solo un AIC menor.
+
+## Supuestos y fuentes de incertidumbre
+
+1. Las líneas representan la región respecto de los objetos.
+2. Los objetos sobre la línea se detectan: $g(0)=1$.
+3. Se registran en su posición inicial.
+4. Las distancias perpendiculares se miden sin error importante.
+5. Cada objeto se registra una vez y se clasifica correctamente.
+6. Esfuerzo, área y unidades son compatibles.
+7. Las líneas aportan replicación de la tasa de encuentro.
+
+El histograma y una prueba de ajuste examinan la distribución condicionada de
+distancias observadas. No verifican representatividad, movimiento ni $g(0)=1$.
+La incertidumbre combina tasa de encuentro y función de detección. Remuestrear
+líneas conserva mejor la unidad de diseño que remuestrear detecciones.
+
+## Truncamiento y calidad de datos
+
+Detecciones lejanas suelen ser escasas y difíciles de medir. Truncar puede
+estabilizar el ajuste, pero cambia $n$, el área geométrica y $P_a$. Deben
+declararse la regla y la sensibilidad. Acumulaciones en distancias preferidas
+pueden indicar redondeo; agrupar intervalos puede ser más honesto que tratar las
+medidas como exactas [@manly2015ecological].
+
+Las líneas sin detecciones deben conservarse. Excluirlas reduce esfuerzo sin
+reducir encuentros e infla la tasa. Igualmente, sumar `Effort` en cada fila de
+detección cuenta varias veces una misma línea.
+
+## Aplicación reproducible: chochín de Montrave
+
+`Distance::wren_lt` contiene observaciones reales de chochín (*Troglodytes
+troglodytes*) recolectadas por Steve Buckland en bosque y parque de Montrave
+Estate, cerca de Leven, Fife, Escocia. Son datos de transecto lineal: esfuerzo en
+km, distancia perpendicular en m y área de 33.2 ha. El conjunto se distribuye con
+el paquete `Distance` [@miller2019distance].
+
+La documentación no aporta fecha por registro, geometría de las líneas,
+covariables de observación, tamaño de grupo ni filas de transectos sin detección.
+Por ello el estimando será densidad de **objetos detectables** por hectárea en el
+área y protocolo representados, no densidad contemporánea de toda la especie.
+
+### Carga y auditoría de tablas
+
+```{r}
+suppressPackageStartupMessages(library(Distance))
+data(wren_lt, package = "Distance")
+
+regiones <- unique(wren_lt[c("Region.Label", "Area", "Study.Area")])
+lineas <- unique(wren_lt[c("Region.Label", "Sample.Label", "Effort")])
+obs <- wren_lt[c("Region.Label", "Sample.Label", "object", "distance")]
+
+encuentros <- aggregate(object ~ Region.Label + Sample.Label, obs, length)
+names(encuentros)[3] <- "n"
+lineas <- merge(lineas, encuentros,
+                by = c("Region.Label", "Sample.Label"), all.x = TRUE)
+lineas$n[is.na(lineas$n)] <- 0
+lineas$tasa <- lineas$n / lineas$Effort
+
+data.frame(
+  regiones = nrow(regiones), lineas_documentadas = nrow(lineas),
+  detecciones = nrow(obs), objetos_duplicados = sum(duplicated(obs$object)),
+  distancias_faltantes = sum(is.na(obs$distance)),
+  distancias_negativas = sum(obs$distance < 0),
+  esfuerzo_no_positivo = sum(lineas$Effort <= 0),
+  lineas_con_cero = sum(lineas$n == 0)
+)
+```
+
+Los 19 identificadores de línea tienen encuentros. Esto puede significar que no
+hubo líneas con cero o que el archivo no las conserva; sin el registro de campo
+no se puede decidir. La inferencia de tasa de encuentro queda condicionada al
+esfuerzo documentado y esta limitación debe acompañarse al resultado.
+
+### Esfuerzo y tasa de encuentro
+
+```{r}
+c(area_ha = unique(wren_lt$Area),
+  esfuerzo_km = sum(lineas$Effort),
+  detecciones = sum(lineas$n),
+  tasa_global_por_km = sum(lineas$n) / sum(lineas$Effort))
+
+op <- par(mfrow = c(1, 2), mar = c(4, 4, 2, 1))
+plot(lineas$Effort, lineas$n, pch = 19,
+     xlab = "Longitud de línea (km)", ylab = "Detecciones")
+stripchart(lineas$tasa, method = "jitter", vertical = TRUE, pch = 19,
+           ylab = "Detecciones por km", xlab = "Líneas")
+par(op)
+summary(lineas[c("Effort", "n", "tasa")])
+```
+
+La variación entre tasas muestra por qué 156 encuentros no equivalen a 156
+réplicas. Las 19 líneas sostienen la variación de encuentro; las detecciones
+internas sostienen la forma de la función de detección.
+
+### Distribución y precisión de distancias
+
+```{r}
+op <- par(mfrow = c(1, 2), mar = c(4, 4, 2, 1))
+hist(obs$distance, breaks = seq(0, 100, by = 5),
+     col = "grey80", border = "white",
+     xlab = "Distancia perpendicular (m)", main = "Distancias observadas")
+plot(ecdf(obs$distance), verticals = TRUE, do.points = FALSE,
+     xlab = "Distancia perpendicular (m)", ylab = "Proporción acumulada")
+par(op)
+
+sort(table(obs$distance), decreasing = TRUE)[1:10]
+c(minimo = min(obs$distance), maximo = max(obs$distance),
+  multiplos_de_5 = mean(obs$distance %% 5 == 0))
+```
+
+La acumulación en múltiplos de cinco sugiere redondeo. La disminución hacia el
+límite superior aporta información sobre detección, pero también hace sensibles
+los modelos al truncamiento.
+
+### Modelos candidatos con unidades compatibles
+
+Usamos inicialmente $w=100$ m para conservar las 156 detecciones. Como esfuerzo
+está en km y área en ha, `convert_units = 0.1` convierte el producto m por km a
+hectáreas. Comparamos media normal y tasa de riesgo sin ajustes adicionales.
+
+```{r}
+ajustar <- function(w, key) {
+  Distance::ds(wren_lt, truncation = w, key = key,
+               adjustment = NULL, convert_units = 0.1, quiet = TRUE)
+}
+
+modelos <- list(
+  `Media normal` = ajustar(100, "hn"),
+  `Tasa de riesgo` = ajustar(100, "hr")
+)
+
+tabla_modelos <- do.call(rbind, lapply(names(modelos), function(nombre) {
+  fit <- modelos[[nombre]]
+  sm <- summary(fit$ddf)
+  data.frame(modelo = nombre, n = sm$n,
+             parametros = length(fit$ddf$par),
+             AIC = fit$ddf$criterion,
+             p_deteccion = sm$average.p,
+             densidad_ha = fit$dht$individuals$D$Estimate[1])
+}))
+tabla_modelos[-1] <- lapply(tabla_modelos[-1], round, 4)
+tabla_modelos
+```
+
+Con el mismo truncamiento, el AIC compara ajuste y complejidad. La tasa de riesgo
+es defendible si mejora claramente el criterio, conserva monotonicidad y supera
+los diagnósticos. La diferencia en probabilidad media muestra que la forma de la
+curva tiene una consecuencia directa sobre densidad.
+
+### Diagnósticos del modelo elegido
+
+```{r}
+fit_final <- modelos[["Tasa de riesgo"]]
+gof <- Distance::gof_ds(fit_final, plot = FALSE)
+c(CvM = gof$dsgof$CvM$W, p_CvM = gof$dsgof$CvM$p,
+  p_deteccion = summary(fit_final$ddf)$average.p)
+
+op <- par(mfrow = c(1, 2), mar = c(4, 4, 2, 1))
+plot(fit_final, pdf = TRUE, main = "Tasa de riesgo, w = 100 m")
+Distance::gof_ds(fit_final, plot = TRUE)
+par(op)
+```
+
+La curva debe tener hombro cerca de cero y descenso monótono. Cramer--von Mises
+evalúa compatibilidad acumulada entre distancias y modelo. Un resultado no
+extremo apoya la forma elegida, pero no verifica selección espacial, $g(0)=1$,
+movimiento ni exactitud de las distancias.
+
+### Densidad, abundancia e incertidumbre
+
+```{r}
+estimacion <- merge(
+  fit_final$dht$individuals$D[c("Label", "Estimate", "se", "cv", "lcl", "ucl")],
+  fit_final$dht$individuals$N[c("Label", "Estimate", "se", "cv", "lcl", "ucl")],
+  by = "Label", suffixes = c("_D", "_N")
+)
+estimacion[-1] <- lapply(estimacion[-1], round, 3)
+estimacion
+
+with(estimacion, {
+  plot(1, Estimate_D, pch = 19, xaxt = "n",
+       ylim = c(lcl_D, ucl_D), xlab = "Montrave", ylab = "Objetos por ha")
+  axis(1, 1, Label)
+  arrows(1, lcl_D, 1, ucl_D, angle = 90, code = 3, length = 0.08)
+})
+```
+
+`D` expresa objetos detectables por hectárea y `N` los expande a 33.2 ha. El
+intervalo incorpora variación estimada de encuentros y detección bajo las 19
+líneas documentadas. Sin tamaño de grupo, disponibilidad o líneas ausentes, no
+debe reinterpretarse como número total de aves presentes.
+
+### Diagnóstico de líneas influyentes
+
+Una línea corta con muchos encuentros puede dominar la tasa. Comparamos la tasa
+global al retirar una línea por vez; es un diagnóstico, no un método para excluir
+resultados incómodos.
+
+```{r}
+tasa_loo <- vapply(seq_len(nrow(lineas)), function(i)
+  sum(lineas$n[-i]) / sum(lineas$Effort[-i]), 0.0)
+influencia <- data.frame(
+  linea_retirada = lineas$Sample.Label,
+  esfuerzo = lineas$Effort,
+  encuentros = lineas$n,
+  tasa_sin_linea = tasa_loo,
+  cambio = tasa_loo - sum(lineas$n) / sum(lineas$Effort)
+)
+influencia[order(abs(influencia$cambio), decreasing = TRUE), ][1:5, ]
+```
+
+Cambios grandes identifican recorridos que merecen revisar en bitácoras. No son
+evidencia automática de error: también pueden reflejar heterogeneidad ecológica
+real.
+
+### Sensibilidad a función y truncamiento
+
+```{r}
+w_grid <- c(60, 75, 80, 100)
+sensibilidad <- do.call(rbind, lapply(w_grid, function(w) {
+  do.call(rbind, lapply(c(HN = "hn", HR = "hr"), function(key) {
+    fit <- ajustar(w, key)
+    sm <- summary(fit$ddf)
+    data.frame(w = w, clave = key, n = sm$n,
+               descartadas = nrow(obs) - sm$n,
+               AIC = fit$ddf$criterion, p_deteccion = sm$average.p,
+               D = fit$dht$individuals$D$Estimate[1],
+               N = fit$dht$individuals$N$Estimate[1])
+  }))
+}))
+sensibilidad[-2] <- lapply(sensibilidad[-2], round, 4)
+sensibilidad
+
+matplot(w_grid,
+        cbind(sensibilidad$D[sensibilidad$clave == "hn"],
+              sensibilidad$D[sensibilidad$clave == "hr"]),
+        type = "b", pch = c(19, 17), lty = 1,
+        xlab = "Truncamiento (m)", ylab = "Densidad (objetos/ha)")
+legend("topleft", c("Media normal", "Tasa de riesgo"),
+       pch = c(19, 17), lty = 1, col = 1:2, bty = "n")
+```
+
+Los AIC solo se comparan entre funciones dentro del mismo $w$, pues cambia el
+conjunto de observaciones. Truncamientos bajos eliminan la cola donde se aprecia
+la caída y pueden estimar detección casi perfecta; el análisis completo muestra
+que esa conclusión depende de ocultar las detecciones lejanas. La estabilidad de
+la densidad dentro de decisiones plausibles es tan importante como el mínimo AIC.
+
+### Sensibilidad a líneas no documentadas con cero
+
+No sabemos si faltan ceros. El siguiente cálculo no inventa observaciones
+primarias: muestra algebraicamente cuánto cambiaría la tasa si el registro hubiera
+omitido líneas de esfuerzo mediano sin detecciones.
+
+```{r}
+esfuerzo_mediano <- median(lineas$Effort)
+ceros_posibles <- 0:5
+tasa_ceros <- data.frame(
+  lineas_cero_adicionales = ceros_posibles,
+  tasa_por_km = sum(lineas$n) /
+    (sum(lineas$Effort) + ceros_posibles * esfuerzo_mediano)
+)
+tasa_ceros$razon_frente_observada <-
+  tasa_ceros$tasa_por_km / tasa_ceros$tasa_por_km[1]
+round(tasa_ceros, 3)
+```
+
+Como la densidad es proporcional a la tasa si la función de detección se
+mantiene, líneas omitidas reducirían densidad en la misma razón. Este escenario
+no afirma que existan; cuantifica una limitación de procedencia que el ajuste no
+puede resolver.
+
+## Interpretación y reproducibilidad
+
+El modelo de tasa de riesgo con $w=100$ m usa todas las detecciones y representa
+mejor la caída en la cola que la media normal según el criterio y diagnósticos.
+La conclusión se limita a objetos detectables y al esfuerzo documentado. El
+redondeo, la ausencia de covariables, la imposibilidad de confirmar líneas con
+cero y los supuestos $g(0)=1$ y posición inicial son fuentes de incertidumbre no
+incluidas en el intervalo.
+
+```{r}
+list(
+  archivo = "Distance::wren_lt",
+  version_Distance = as.character(packageVersion("Distance")),
+  version_R = R.version.string,
+  objeto = "detección de chochín",
+  area_ha = unique(wren_lt$Area),
+  esfuerzo_km = sum(lineas$Effort),
+  truncamiento_m = 100,
+  funcion = "tasa de riesgo sin ajustes",
+  conversion_m_km_a_ha = 0.1
+)
+sessionInfo()
+```
+
+## Actividad propuesta para el lector
+
+Use el conjunto real `Distance::amakihi` para construir un análisis de muestreo
+por distancias. Documente especie, lugar, unidades y limitaciones desde la ayuda
+del paquete; reconstruya tablas de región, muestra y detección; audite esfuerzo,
+ceros, duplicados, faltantes, rangos y redondeo; defina población disponible,
+unidad y estimando; explore tasas y distancias; ajuste dos funciones clave con
+truncamientos justificados; compare AIC solo sobre los mismos datos; revise curva,
+residuos cuantiles y ajuste acumulado; estime densidad, abundancia e intervalos;
+identifique unidades influyentes; y evalúe sensibilidad a truncamiento, función y
+posible omisión de esfuerzo sin encuentros. Interprete qué supuestos pueden
+examinarse con el archivo, cuáles dependen del protocolo y qué información
+adicional sería necesaria para hablar de individuos totales.

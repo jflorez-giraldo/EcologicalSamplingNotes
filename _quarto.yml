@@ -1,0 +1,125 @@
+project:
+  type: book
+  output-dir: _book
+  execute-dir: project
+  resources:
+    - notebooks/**
+    - resources/templates/**
+    - resources/figures/**
+    - resources/icons/**
+    - resources/logos/**
+    - data/**
+
+book:
+  title: "Muestreo ecológico"
+  subtitle: "Diseño, estimación y análisis reproducible con R"
+  author: "Jonathan Florez Giraldo"
+  output-file: ecological-sampling
+  description: >
+    Fundamentos estadísticos, métodos de campo y proyectos reproducibles para
+    el estudio de poblaciones, comunidades e interacciones biológicas.
+  downloads:
+    - pdf
+  page-navigation: true
+  search:
+    location: sidebar
+    type: textbox
+    limit: 20
+  sidebar:
+    style: docked
+    search: true
+    collapse-level: 1
+  chapters:
+    - index.qmd
+    - preface.qmd
+    - reading-guide.qmd
+    - literature-review.qmd
+    - data-catalog.qmd
+    - part: "Parte I — Fundamentos"
+      chapters:
+        - chapters/chapter01.qmd
+        - chapters/chapter02.qmd
+    - part: "Parte II — Métodos de campo"
+      chapters:
+        - chapters/chapter03.qmd
+        - chapters/chapter04.qmd
+        - chapters/chapter05.qmd
+    - part: "Parte III — Estimación de poblaciones"
+      chapters:
+        - chapters/chapter06.qmd
+        - chapters/chapter07.qmd
+    - part: "Parte IV — Comparación y seguimiento"
+      chapters:
+        - chapters/chapter08.qmd
+        - chapters/chapter09.qmd
+    - part: "Parte V — Poblaciones y comunidades"
+      chapters:
+        - chapters/chapter10.qmd
+        - chapters/chapter11.qmd
+    - part: "Parte VI — Síntesis"
+      chapters:
+        - chapters/chapter12.qmd
+    - part: "Prácticas"
+      chapters:
+        - chapters/practica02.qmd
+        - chapters/practica03.qmd
+    - part: "Material complementario"
+      chapters:
+        - appendix.qmd
+        - references.qmd
+  page-footer:
+    left: "Muestreo ecológico con R"
+    right: "Jonathan Florez Giraldo"
+    border: true
+
+bibliography: references.bib
+lang: es
+
+format:
+  html:
+    theme:
+      - cosmo
+      - styles/custom.scss
+    toc: true
+    toc-title: "Contenido"
+    toc-depth: 3
+    number-sections: true
+    number-depth: 3
+    anchor-sections: true
+    code-copy: true
+    code-overflow: wrap
+    code-line-numbers: false
+    highlight-style: github
+    callout-appearance: simple
+    callout-icon: true
+    fig-align: center
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    smooth-scroll: true
+    link-external-newwindow: true
+  pdf:
+    documentclass: scrreprt
+    papersize: letter
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    number-depth: 3
+    colorlinks: true
+    keep-tex: false
+    fig-align: center
+    fig-cap-location: bottom
+    tbl-cap-location: top
+
+execute:
+  freeze: auto
+  warning: true
+  message: false
+  echo: true
+  cache: true
+
+knitr:
+  opts_chunk:
+    collapse: true
+    comment: "#>"
+    fig.align: center
+    out.width: "90%"

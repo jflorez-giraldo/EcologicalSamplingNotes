@@ -1,0 +1,509 @@
+---
+title: "Práctica 3: Parcelas, cuadrantes e intercepción"
+subtitle: "Densidad, frecuencia y cobertura en R"
+execute:
+  enabled: true
+  warning: false
+  message: false
+---
+
+## Presentación
+
+Esta práctica trabaja con el censo de árboles de Barro Colorado
+(`vegan::BCI` y `vegan::BCI.env`), las mismas 50 hectáreas del capítulo 3, y con
+una pequeña red simulada de transectos para ejercitar la cobertura por
+intercepción (el censo no contiene longitudes de línea). El documento es
+autocontenido: construye todos los objetos que necesita, por lo que se resuelve
+en una sesión nueva de R sin depender del resto del capítulo.
+
+**Materiales.** Una instalación de R con el paquete `vegan`. No se requieren
+otros paquetes.
+
+**Cómo trabajar.** La práctica es de construcción guiada: el código de cada
+bloque está incompleto. Los huecos están marcados con `# COMPLETAR` y, en el
+texto, con `____` dentro del código. Debe reemplazarlos por la expresión
+correcta, ejecutar el bloque y comprobar contra el cuadro de comprobación
+(colapsado, al final). Después trace las gráficas pedidas (escríbalas usted
+mismo), responda las preguntas de análisis y resuelva la tarea de exploración
+de cada bloque, que exige modificar y volver a ejecutar. En la entrega incluya
+el código completado, las gráficas y las respuestas.
+
+**Convención del texto.** Se usa `#> ` para la salida de R. Las semillas están
+fijadas para que sus resultados coincidan con la comprobación. Recuerde, de la
+teoría, tres advertencias que volverán aquí: el soporte forma parte del
+estimando, la frecuencia depende de la unidad de muestreo y la réplica es la
+unidad con probabilidad de inclusión (la parcela o el transecto), no cada
+individuo ni cada metro.
+
+## Bloque 0. Arranque autocontenido
+
+Construya el marco y las verdades poblacionales. Este bloque está completo;
+ejecútelo y verifique los valores.
+
+```{r}
+# Marco espacial de Barro Colorado: conteos por hectárea y hábitat.
+# - "Y": matriz 50 x 225 de conteos (unidad de observación: tallo con DAP >= 10 cm).
+# - "marco": una fila por hectárea (unidad de muestreo) con coordenadas y hábitat.
+data(BCI, BCI.env, package = "vegan")
+Y <- as.matrix(BCI)
+marco <- BCI.env
+marco$id <- seq_len(nrow(marco))
+marco$x <- (marco$UTM.EW - min(marco$UTM.EW)) / 100 + 1
+marco$y <- (marco$UTM.NS - min(marco$UTM.NS)) / 100 + 1
+marco$tallos <- rowSums(Y)
+marco$riqueza <- vegan::specnumber(Y)
+N <- nrow(marco)
+
+# Frecuencia de presencia por especie, calculada una sola vez. Elegimos una
+# especie de presencia parcial: Miconia.argentea, un árbol pionero presente en
+# el 46 % de las hectáreas.
+frecuencia_especie <- colMeans(Y > 0)
+focal <- "Miconia.argentea"
+
+# Verdades poblacionales de estas 50 hectáreas.
+cbind(verdad = c(
+  densidad_media = mean(marco$tallos),
+  DE_poblacional = sd(marco$tallos) * sqrt((N - 1) / N),
+  indice_dispersion = var(marco$tallos) / mean(marco$tallos),
+  riqueza_media = mean(marco$riqueza),
+  frecuencia_focal = unname(frecuencia_especie[focal])
+))
+```
+
+```{r}
+# Clases de hábitat del sitio (el parche secundario y el suelo anegado son
+# pequeños: solo dos hectáreas cada uno).
+table(marco$Habitat)
+
+# Teselación por bloques contiguos: suma celdas sin generar conteos nuevos.
+# "desf_y"/"desf_x" desplazan el origen de la cuadrícula (se usará en el
+# bloque 5). "alto" y "ancho" se dan en hectáreas.
+agrupar <- function(z, alto, ancho, desf_y = 0, desf_x = 0) {
+  fi <- seq.int(1 + desf_y, nrow(z) - alto + 1, by = alto)
+  co <- seq.int(1 + desf_x, ncol(z) - ancho + 1, by = ancho)
+  if (!length(fi) || !length(co)) return(numeric())
+  unlist(lapply(fi, function(i) vapply(co, function(j)
+    sum(z[i:(i + alto - 1), j:(j + ancho - 1)]), 0.0)))
+}
+```
+
+## Bloque 1. MAS de hectáreas: densidad, total y frecuencia
+
+Seleccione un MAS de $n=15$ hectáreas y estime la densidad de tallos, el total
+extendido por el área del dominio y la frecuencia de presencia de la especie
+focal, con su EE (incluya la corrección por población finita) y su intervalo
+con $t_{14}$.
+
+```{r}
+#| eval: false
+# COMPLETAR: MAS de n = 15 hectáreas entre las 50 del marco.
+set.seed(3401)
+n <- 15
+s <- marco[____, ]            # sample.int(N, n)
+
+D_hat <- ____                 # mean(s$tallos)
+SE_D <- ____                  # sqrt((1 - n / N) * var(s$tallos) / n)
+IC_D <- D_hat + qt(c(0.025, 0.975), n - 1) * SE_D
+
+F_hat <- ____                 # mean(Y[s$id, focal] > 0)
+SE_F <- ____                  # sqrt((1 - n / N) * var(Y[s$id, focal] > 0) / n)
+
+round(c(densidad_tallos_ha = D_hat, SE = SE_D,
+        LI_densidad = IC_D[1], LS_densidad = IC_D[2],
+        total_tallos = ____,        # N * D_hat
+        SE_total = ____,            # N * SE_D
+        frecuencia_focal = F_hat, SE_frecuencia = SE_F), 3)
+```
+
+**Gráfica.** Escriba el mapa de la cuadrícula de 10 × 5 hectáreas resaltando las
+15 sorteadas.
+
+```{r}
+#| eval: false
+# COMPLETAR: resalte la muestra (pch 15, rojo) frente al resto (gris) y añada
+# leyenda y ejes en este y norte (centenas de m).
+cols <- ifelse(____, "#bc4749", "grey88")   # seq_len(N) %in% s$id
+plot(____, ____, pch = 15, cex = 1.4, col = cols,
+     xlab = "Este (centenas de m)", ylab = "Norte (centenas de m)",
+     main = "Muestra MAS de hectáreas")
+legend("bottomleft", c("Seleccionada", "No seleccionada"),
+       pch = 15, col = c("#bc4749", "grey88"), bty = "n")
+```
+
+**Preguntas de análisis.**
+
+1. Compare el ancho del intervalo de la densidad con el de la frecuencia. ¿Por
+   qué un indicador binario con 15 observaciones aporta menos información que
+   un conteo de la misma muestra?
+2. La frecuencia estimada (0.267) queda lejos de la verdad del censo (0.46).
+   ¿El intervalo del 95 % alcanza a contener esa verdad? ¿Qué dice eso del
+   muestreo con pocas unidades binarias?
+3. Si la misma pregunta se planteara en un bosque enorme donde $n/N = 0.001$,
+   ¿qué cambiaría en `SE_D` y por qué?
+
+**Tarea de exploración.** Construya el intervalo del 95 % de la frecuencia
+restringiéndolo al rango natural $[0, 1]$ con `pmin(1, pmax(0, ...))`. ¿Se
+recorta en esta realización? Después repita todo el bloque con una semilla
+nueva (`set.seed(3413)`) y anote cuánto se mueven la densidad y la frecuencia
+entre las dos muestras del mismo diseño.
+
+## Bloque 2. Repetición: las fórmulas describen la incertidumbre real
+
+Repita el diseño 2000 veces sobre el censo y compruebe que el EE de la fórmula
+coincide con la variación real del estimador.
+
+```{r}
+#| eval: false
+# COMPLETAR: est y se de cada realización del MAS de n = 15 hectáreas.
+set.seed(3402)
+B <- 2000
+rep_mas <- t(vapply(seq_len(B), function(i) {
+  z <- sample(marco$tallos, n)
+  c(est = ____,                        # mean(z)
+    se = ____)                         # sqrt((1 - n / N) * var(z) / n)
+}, numeric(2)))
+
+# Metricas de largo plazo frente a la densidad del censo.
+metricas_evaluacion <- function(x, verdad, df = n - 1) c(
+  sesgo = ____,                        # mean(x[, "est"] - verdad)
+  DE_empirica = ____,                  # sd(x[, "est"])
+  SE_medio = ____,                     # mean(x[, "se"])
+  RMSE = ____,                         # sqrt(mean((x[, "est"] - verdad)^2))
+  cobertura = mean(abs(x[, "est"] - verdad) <= qt(0.975, df) * x[, "se"])
+)
+round(metricas_evaluacion(rep_mas, mean(marco$tallos)), 3)
+```
+
+**Gráfica.** Escriba el histograma de la densidad estimada con la línea roja de
+la densidad del censo y la línea verde (punteada) de la muestra del bloque 1.
+
+```{r}
+#| eval: false
+# COMPLETAR: histograma de rep_mas[, "est"] con líneas de la verdad y de D_hat.
+hist(____, breaks = 30, col = "#a7c957", border = "white",
+     xlab = "Densidad estimada (tallos/ha)", main = "")
+abline(v = ____, col = "#bc4749", lwd = 2)        # densidad del censo
+abline(v = ____, col = "#386641", lwd = 2, lty = 2)  # D_hat (muestra)
+legend("topright", c("Densidad del censo", "Muestra observada"),
+       col = c("#bc4749", "#386641"), lty = c(1, 2), lwd = 2, bty = "n")
+```
+
+**Preguntas de análisis.**
+
+1. ¿Por qué el `SE_medio` (lo que predice la fórmula) debe parecerse a la
+   `DE_empirica` (lo que ocurre al repetir)? ¿Qué valida esa coincidencia?
+2. La `cobertura` dice que aproximadamente 93 de cada 100 intervalos contienen
+   la verdad. ¿Qué supuesto probabilístico sostiene ese 93 % y no el 95 %
+   exacto?
+3. El `sesgo` es pequeño frente al RMSE. ¿Qué propiedad del MAS demuestra eso y
+   por qué un sesgo distinto de cero sería un problema?
+
+**Tarea de exploración.** (a) Repita la repetición estimando la *frecuencia*
+focal en lugar de la densidad (semilla 3407): calcule sesgo, DE, RMSE y
+cobertura del indicador binario y explique por qué la cobertura puede superar el
+93 % de la densidad. (b) Repita la repetición de la densidad con $n=30$
+(semilla 3412) y compare RMSE y `SE_medio` con los de $n=15$: ¿cuánto se reduce
+la incertidumbre al duplicar la muestra y coincide con $\sqrt{15/30}$?
+
+## Bloque 3. Soporte y orientación: cortar el espacio cambia el estimando
+
+Cambie el soporte agregando celdas contiguas con `agrupar()` y describa cómo
+cambian densidad, varianza entre unidades y frecuencia de la especie focal al
+pasar de 1 ha a 2 y 4 ha y al girar la orientación.
+
+```{r}
+#| eval: false
+# COMPLETAR: para cada geometría (alto x ancho en hectáreas) normalice por el
+# area y calcule la frecuencia de presencia del focal en el nuevo soporte.
+M_tallos <- xtabs(tallos ~ y + x, data = marco)
+M_focal <- xtabs(Y[, focal] ~ marco$y + marco$x)
+
+formas <- data.frame(alto = c(1, 1, 2, 1, 4), ancho = c(1, 2, 1, 4, 1))
+escala <- do.call(rbind, lapply(seq_len(nrow(formas)), function(k) {
+  a <- formas$alto[k] * formas$ancho[k]
+  yt <- agrupar(M_tallos, ____, ____)   # alto, ancho
+  yf <- agrupar(M_focal, ____, ____)
+  data.frame(geometria = ____,          # paste(alto, "x", ancho)
+             area_ha = a,
+             unidades = ____,           # length(yt)
+             densidad = ____,           # mean(yt / a)
+             var_densidad = ____,       # var(yt / a)
+             frecuencia_focal = ____)   # mean(yf > 0)
+}))
+escala[-c(1, 2)] <- lapply(escala[-c(1, 2)], round, 3)
+escala
+```
+
+**Gráfica.** Escriba tres barplots en una fila: densidad media, varianza de la
+densidad y frecuencia del focal, con los nombres de las geometrías en el eje y,
+una línea horizontal en la densidad del censo en el primero y la misma escala de
+colores para las orientaciones (banda este—oeste y banda apilada norte—sur).
+
+```{r}
+#| eval: false
+# COMPLETAR: barplot(escala$densidad / escala$var_densidad / escala$frecuencia_focal,
+# with names.arg = escala$geometria, col diferenciando orientación).
+par(mfrow = c(1, 3), mar = c(5, 4, 2, 1))
+```
+
+**Preguntas de análisis.**
+
+1. La densidad media se mantiene casi fija al cambiar el soporte, pero la
+   varianza entre unidades cae de 1810.8 (1 ha) a 548.1 (4 ha apiladas). ¿Por
+   qué normalizar por el área cuida la densidad y qué se paga en réplicas
+   (50 frente a 10 unidades)?
+2. Compare las parejas de igual área: 1×2 frente a 2×1 y 1×4 frente a 4×1. ¿Qué
+   orientación retiene más heterogeneidad y por qué, sabiendo que el gradiente
+   del censo corre este—oeste?
+3. La frecuencia de `Miconia.argentea` sube de 0.46 a 1.00 al pasar de 1 ha a
+   4 ha. ¿Qué le dice la saturación sobre la escala de agregación de la especie
+   y por qué comparar frecuencias entre estudios con soportes distintos es
+   comparar instrumentos distintos?
+
+**Tarea de exploración.** Añada la geometría 2×2 (bloques de 4 ha) con
+`agrupar(M_tallos, 2, 2)`: reporte unidades, densidad, varianza y frecuencia.
+¿Dónde cae frente a las bandas 1×4 y 4×1? Comente qué pasaría con la varianza
+si el bloque fuera todavía mayor y qué implicaría para la detección de parches.
+
+## Bloque 4. Cobertura por intercepción: transectos y puntos
+
+La cobertura se mide por línea (longitud ocupada) y por puntos. En ambos casos
+la réplica es la línea o el transecto, no cada metro ni cada punto.
+
+```{r}
+#| eval: false
+# COMPLETAR: cinco transectos con longitud L_i y longitud ocupada l_i por la
+# especie focal. Estime la cobertura como cociente de totales y como media de
+# razones, con su EE y su intervalo usando el transecto como réplica.
+set.seed(3404)
+transectos <- data.frame(
+  linea = seq_len(5),
+  L = c(20, 25, 20, 25, 30),
+  l = round(c(20, 25, 20, 25, 30) * (0.28 + rnorm(5, 0, 0.03)))
+)
+transectos
+
+C_R <- ____                  # sum(l) / sum(L)
+C_U <- ____                  # mean(l / L)
+EE_U <- ____                 # sd(l / L) / sqrt(nrow(transectos))
+IC_U <- C_U + qt(c(0.025, 0.975), nrow(transectos) - 1) * EE_U
+
+c(cobertura_cociente = C_R, cobertura_media = C_U,
+  EE_media = EE_U, LI = IC_U[1], LS = IC_U[2])
+```
+
+```{r}
+#| eval: false
+# COMPLETAR: en intercepción por puntos se bajan 80 puntos y cada uno cae o no
+# sobre la especie (simulación con semilla). Estime la cobertura con el EE
+# binomial y un intervalo de Wald.
+set.seed(3406)
+puntos <- 80
+hits <- sum(rbinom(puntos, 1, 0.15))
+C_p <- ____                  # hits / puntos
+EE_bin <- ____               # sqrt(C_p * (1 - C_p) / puntos)
+IC_wald <- C_p + c(-1, 1) * qnorm(0.975) * EE_bin
+c(cobertura = C_p, EE_binomial = EE_bin, LI = IC_wald[1], LS = IC_wald[2])
+```
+
+**Gráfica.** Escriba un barplot de la cobertura por transecto (`transectos$l /
+transectos$L`) con una línea horizontal en `C_U` y rótulos por línea.
+
+```{r}
+#| eval: false
+# COMPLETAR: barplot de la proporción ocupada por transecto y su línea en C_U.
+```
+
+**Preguntas de análisis.**
+
+1. `C_R` y `C_U` difieren poco aquí. ¿Qué le da más influencia a las líneas
+   largas en el cociente de totales y cuándo preferiría esa versión?
+2. El EE binomial supone puntos independientes. Si los 80 puntos estuvieran
+   agrupados en diez líneas, ¿qué unidad debería tratarse como réplica y qué
+   pasaría con otra medida de incertidumbre?
+3. ¿Qué medida de las tres del capítulo (densidad, frecuencia, cobertura)
+   sería más robusta para monitorear una especie rara y gregaria como
+   `Miconia.argentea`, y qué información sacrificaría?
+
+**Tarea de exploración.** Convierta los 80 puntos en diez líneas de ocho
+puntos con presencia agrupada (semilla 3409): calcule la proporción global y la
+media de las proporciones por línea, junto con su EE (`sd(...) / sqrt(10)`).
+Compárela con el `EE_bin` de la cobertura global y explique cuál describe mejor
+la incertidumbre cuando la línea es la réplica.
+
+```{r}
+#| eval: false
+# COMPLETAR: semilla 3409, matriz 10 x 8 con agregación por líneas; C_global,
+# C_linea = media de (hits/8), EE_linea = sd(hits/8)/sqrt(10).
+```
+
+## Bloque 5. Diseños y origen de la cuadrícula
+
+Compare con 12 hectáreas un MAS con dos criterios de estratificación previa y
+evalúe la sensibilidad de una teselación de 2×2 ha al origen.
+
+```{r}
+#| eval: false
+# COMPLETAR: estimador estratificado ponderado por W_h = N_h / N.
+evaluar_estrat <- function(grupo, Nh_gr, nh_local) {
+  por_h <- do.call(rbind, lapply(names(nh_local), function(h) {
+    u <- marco$tallos[grupo == h]
+    n_h <- unname(nh_local[h])
+    z <- sample(u, n_h)
+    c(h = h, media = ____,             # mean(z)
+      var = ____)                      # (1 - n_h / length(u)) * var(z) / n_h
+  }))
+  W <- ____                            # Nh_gr[por_h[, "h"]] / sum(Nh_gr)
+  c(est = sum(W * as.numeric(por_h[, "media"])),
+    se = sqrt(sum(W^2 * as.numeric(por_h[, "var"]))))
+}
+
+# Criterio (a): OldLow frente a Otros (26 y 24 hectáreas), 6 + 6 observaciones.
+estrato_a <- ifelse(marco$Habitat == "OldLow", "OldLow", "Otros")
+Nh_a <- table(estrato_a)
+nh_a <- c(OldLow = 6, Otros = 6)
+
+set.seed(3403)
+mas12 <- t(replicate(B, {
+  z <- sample(marco$tallos, 12)
+  c(est = ____,                        # mean(z)
+    se = ____)                         # sqrt((1 - 12 / N) * var(z) / 12)
+}))
+est_oldlow <- t(replicate(B, evaluar_estrat(estrato_a, Nh_a, nh_a)))
+
+# Criterio (b): Young (2 ha) frente a Resto, 2 + 10 observaciones.
+set.seed(3405)
+estrato_b <- ifelse(marco$Habitat == "Young", "Young", "Resto")
+Nh_b <- table(estrato_b)
+nh_b <- c(Young = 2, Resto = 10)
+est_young <- t(replicate(B, evaluar_estrat(estrato_b, Nh_b, nh_b)))
+
+# Cada realización usa 12 hectáreas: el intervalo de cobertura usa df = 11.
+metricas_disenos <- rbind(
+  MAS = metricas_evaluacion(mas12, mean(marco$tallos), df = ____),  # 11
+  Estrat_OldLow = metricas_evaluacion(est_oldlow, mean(marco$tallos), df = 11),
+  Estrat_Young = metricas_evaluacion(est_young, mean(marco$tallos), df = 11)
+)
+round(metricas_disenos, 3)
+```
+
+**Gráfica.** Escriba el boxplot de la densidad estimada bajo los tres diseños
+con la línea de la verdad y su leyenda.
+
+```{r}
+#| eval: false
+# COMPLETAR: boxplot de mas12, est_oldlow y est_young y línea del censo.
+boxplot(list(MAS = mas12[, "est"], OldLow = est_oldlow[, "est"],
+             Young = est_young[, "est"]),
+        col = c("grey80", "#90a955", "#386641"),
+        ylab = "Densidad estimada (tallos/ha)", las = 2)
+abline(h = ____, lty = 2)              # media del censo
+```
+
+```{r}
+#| eval: false
+# COMPLETAR: para bloques de 2 x 2 ha el origen decide cuántas celdas completas
+# quedan (8 o 10). Calcule la desviación de la densidad frente al censo para los
+# cuatro orígenes posibles.
+origenes <- expand.grid(desf_y = 0:1, desf_x = 0:1)
+sens_origen <- do.call(rbind, lapply(seq_len(nrow(origenes)), function(k) {
+  yt <- agrupar(M_tallos, 2, 2, ____, ____)   # desf_y[k], desf_x[k]
+  data.frame(origen_y = origenes$desf_y[k], origen_x = origenes$desf_x[k],
+             unidades = ____,           # length(yt)
+             area_cubierta = 4 * length(yt),
+             densidad = ____)           # mean(yt / 4)
+}))
+sens_origen$desviacion <- sens_origen$densidad - mean(marco$tallos)
+round(sens_origen, 2)
+
+# COMPLETAR: barplot de desviaciones con nombres "(origen_y, origen_x)" y una
+# línea en cero (colores según el signo).
+```
+
+**Preguntas de análisis.**
+
+1. ¿Qué criterio de estratificación reduce el RMSE y por qué? Apoye la respuesta
+   con las medias por estrato (OldLow 425 frente a Otros 434; Young 538 frente
+   a Resto 424.6).
+2. Los tres diseños son prácticamente insesgados. ¿De dónde proviene entonces la
+   diferencia de RMSE y qué papel juega la `cobertura` en esa lectura?
+3. Según el origen, la densidad con bloques de 4 ha oscila entre 410.8 y 431.5.
+   Dos causas se combinan: el número de celdas completas (10 u 8) y la densidad
+   del borde descartado. ¿Qué protocolo recomendaría y por qué no es defendible
+   elegir el origen después de mirar los datos?
+
+**Tarea de exploración.** Repita la comparación con dos criterios adicionales
+y compare su RMSE con el del MAS: (a) `Swamp` frente a `Resto` con 2 + 10
+observaciones (semilla 3408) y (b) `OldHigh` frente a `Resto` con 6 + 6
+observaciones (semilla 3411). Discuta cuándo la estratificación puede ser
+*peor* que el MAS aunque separe efectivamente dos grupos.
+
+```{r}
+#| eval: false
+# COMPLETAR: Swamp (semilla 3408) y OldHigh (semilla 3411) como en el bloque.
+```
+
+## Síntesis y comprobación
+
+Reúna el RMSE de los tres diseños con 12 hectáreas desde los objetos del bloque
+5, sin escribir números, y compare la variación entre unidades según el soporte
+del bloque 3.
+
+```{r}
+#| eval: false
+# COMPLETAR: tabla de RMSE desde metricas_disenos y tabla de soporte desde escala.
+tabla_disenos <- data.frame(
+  diseno = c("MAS (12 ha)", "Estrat. OldLow", "Estrat. Young"),
+  RMSE = metricas_disenos[, ____])   # "RMSE"
+tabla_disenos
+
+tabla_soporte <- escala[c(____, ____, ____, ____)]   # geometria, unidades, var_densidad, frecuencia_focal
+tabla_soporte
+
+barplot(setNames(____, ____),        # RMSE por diseño y sus nombres
+        col = c("grey80", "#90a955", "#386641"),
+        ylab = "RMSE de la densidad (tallos/ha)", las = 2)
+```
+
+**Conclusión.** Escriba tres o cuatro frases que ordenen los diseños por
+precisión, expliquen qué estructura del marco aprovecha cada ganancia (o cuándo
+no la hay) y relacionen la escala del soporte con la varianza y la frecuencia.
+Recuerde los límites: dos estratificaciones y un origen entre muchos, sobre un
+censo de 50 hectáreas que no es una muestra probabilística de los bosques
+tropicales.
+
+::: {.callout-note collapse="true"}
+## Resultados breves de comprobación
+
+**Bloque 0.** `Miconia.argentea`: frecuencia 0.46 (23 de 50). Verdades: densidad
+media 429.14, DE poblacional 42.13, índice de dispersión 4.22, riqueza media
+90.78, total 21 457. Hábitats: OldHigh 8, OldLow 26, OldSlope 12, Swamp 2,
+Young 2.
+
+**Bloque 1.** Con la semilla 3401 y $n=15$: densidad 411.47 (EE 10.31; IC
+[389.35, 433.58]), total 20 573 (EE 515.5), frecuencia focal 0.267 (EE 0.099;
+IC $[0.055, 0.479]$, sin truncar). La verdad 0.46 cae fuera del IC de
+frecuencia: una realización binaria con $n=15$ es imprecisa.
+
+**Bloque 2.** Con la semilla 3402: sesgo −0.31, DE empírica 9.29, SE medio 8.78,
+RMSE 9.29, cobertura 0.934. Exploración: (a) frecuencia (semilla 3407) con sesgo
+0.005, DE 0.105, RMSE 0.105 y cobertura ≈ 0.97; (b) densidad con $n=30$
+(semilla 3412) con RMSE 4.91 y SE medio 4.85 (≈ $9.29\sqrt{15/30}$).
+
+**Bloque 3.** Densidades 429.1, 429.1, 417.4, 431.3, 417.4 (≈ censo); varianzas
+1810.8, 1444.2, 717.3, 1083.5, 548.1; frecuencias 0.46, 0.68, 0.80, 0.90, 1.00;
+unidades 50, 25, 20, 10, 10. Exploración 2×2: 10 unidades, densidad 417.4,
+varianza 547.4, frecuencia 0.90.
+
+**Bloque 4.** Transectos (semilla 3404): $L=(20,25,20,25,30)$, $l=(5,7,5,8,11)$,
+$C_R=0.300$, $C_U=0.2933$ (EE 0.0224; IC $[0.231, 0.356]$). Puntos (semilla
+3406): 10 de 80, $C=0.125$, EE binomial 0.0370, Wald $[0.053, 0.197]$.
+Exploración por líneas (semilla 3409): presencias por línea
+$(4,0,3,0,1,1,3,0,0,0)$, $C=0.15$, EE por línea 0.0612 frente a EE binomial
+0.0399.
+
+**Bloque 5.** RMSE (12 ha): MAS 10.94, OldLow 10.39, Young 9.20; sesgos −0.3 a
+0.2 y cobertura ≈ 0.95. Origen 2×2: desviaciones −11.76, +2.38, −18.39 y −2.55
+con 10, 10, 8 y 8 celdas completas. Exploración: Swamp (semilla 3408) RMSE
+10.50; OldHigh (semilla 3411) RMSE 14.45, peor que el MAS.
+:::

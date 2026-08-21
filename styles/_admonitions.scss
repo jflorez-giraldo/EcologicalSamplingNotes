@@ -1,0 +1,6 @@
+.callout { margin: 1.5rem 0; border-radius: 0.55rem; }
+.callout.callout-style-simple { border-left-width: 4px; }
+.callout-note.callout { background-color: $soft-blue; }
+.callout-tip.callout { background-color: $soft-green; }
+.callout-warning.callout { background-color: $soft-yellow; }
+.callout-important.callout, .callout-caution.callout { background-color: $soft-red; }

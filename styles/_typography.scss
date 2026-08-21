@@ -1,0 +1,36 @@
+body {
+  font-size: 1rem;
+  line-height: 1.68;
+  letter-spacing: 0.002em;
+}
+
+p { margin-bottom: 1rem; }
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.25;
+  letter-spacing: -0.012em;
+}
+
+h1 { margin: 0 0 1.4rem; font-weight: 650; }
+h2 {
+  margin: 2.6rem 0 1rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid rgba($primary, 0.16);
+}
+h3 { margin: 2rem 0 0.8rem; }
+h4 { margin: 1.5rem 0 0.65rem; }
+a { text-decoration-thickness: 0.07em; text-underline-offset: 0.16em; }
+a:hover { text-decoration-thickness: 0.1em; }
+ul, ol { padding-left: 1.4rem; }
+li { margin-bottom: 0.3rem; }
+blockquote {
+  margin: 1.4rem 0;
+  padding: 0.8rem 1.1rem;
+  color: $muted-text;
+  background-color: $soft-green;
+  border-left: 4px solid $soft-green-border;
+  border-radius: 0 0.45rem 0.45rem 0;
+}
+blockquote p:last-child { margin-bottom: 0; }
+dt { margin-top: 0.8rem; color: $heading-color; font-weight: 600; }
+dd { margin: 0 0 0.6rem 1rem; }

@@ -1,0 +1,39 @@
+# Presentación {.unnumbered}
+
+El muestreo ecológico convierte preguntas sobre organismos, poblaciones y
+comunidades en observaciones capaces de sostener inferencias. Esa conversión no
+depende únicamente del análisis final: comienza al delimitar la población,
+continúa con la selección de unidades y el protocolo de observación, y culmina
+con estimadores cuya incertidumbre corresponde al diseño realmente ejecutado.
+
+## Propósito
+
+Este libro desarrolla de forma conjunta fundamentos estadísticos, métodos de
+campo y análisis reproducible con R. Su hilo conductor es:
+
+$$
+\text{pregunta}\rightarrow\text{población}\rightarrow\text{diseño}
+\rightarrow\text{observación}\rightarrow\text{estimación}
+\rightarrow\text{incertidumbre}\rightarrow\text{interpretación}.
+$$
+
+## Enfoque
+
+Los conceptos se introducen mediante problemas ecológicos, ejemplos numéricos y
+aplicaciones desarrolladas. Cada aplicación muestra el flujo completo en R: procedencia y
+validación de datos, reconstrucción del diseño, exploración, estimación,
+diagnóstico, sensibilidad, interpretación y comunicación reproducible. Los
+ejercicios y las actividades propuestas para el lector permiten trasladar el método a datos nuevos.
+
+## Recursos del libro
+
+- navegación y búsqueda en la edición HTML;
+- código reproducible en R;
+- capítulos fuente en formato QMD;
+- notebooks IPYNB compatibles con un kernel de R; y
+- una edición completa en PDF.
+
+Consulte el [Prefacio](preface.qmd), la [guía de lectura](reading-guide.qmd) y
+el [catálogo de datos](data-catalog.qmd) antes de comenzar. El capítulo final
+integra los métodos en un [proyecto completo de muestreo
+ecológico](chapters/chapter12.qmd).

@@ -1,0 +1,12 @@
+.table, table { margin: 1.4rem 0; border-color: $table-border-color; }
+.table thead, table thead {
+  color: $table-header-color;
+  background-color: $table-header-bg;
+}
+.table-striped > tbody > tr:nth-of-type(odd) > *,
+table tbody tr:nth-of-type(even) { background-color: $table-stripe-bg; }
+caption, .table-caption {
+  color: $muted-text;
+  font-size: 0.9rem;
+  text-align: left;
+}

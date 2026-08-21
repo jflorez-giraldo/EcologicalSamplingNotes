@@ -1,0 +1,24 @@
+dataset:
+  title: "Annual Transition Data for Aquilegia chrysantha"
+  version: "popbio 2.8"
+  source_url: "https://cran.r-project.org/package=popbio"
+  accessed: "2026-08-16"
+  license: "GPL-2, package popbio"
+  citation: "popbio::aq.trans"
+  raw_files: ["package:popbio/aq.trans"]
+study:
+  purpose: "Describir transiciones anuales, supervivencia y reproducción."
+  target_population: "Plantas marcadas en las parcelas y años observados."
+  sampling_frame: "Diez parcelas documentadas en el objeto."
+  sampling_unit: "Parcela."
+  observation_unit: "Planta marcada por intervalo anual."
+  selection_mechanism: "No asumido probabilístico para poblaciones externas."
+  observation_process: "Estado inicial, destino anual y frutos."
+  geographic_scope: "Población de Aquilegia chrysantha documentada por popbio."
+  temporal_scope: "Intervalos anuales contenidos en el objeto."
+processing:
+  script: "chapters/chapter10.qmd"
+  output_files: []
+  exclusions: []
+  transformations: ["Tablas de transición", "Matriz demográfica descriptiva"]
+  missing_data: "Los faltantes se conservan y auditan según variable."

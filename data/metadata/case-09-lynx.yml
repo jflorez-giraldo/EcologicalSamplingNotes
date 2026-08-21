@@ -1,0 +1,24 @@
+dataset:
+  title: "Annual Canadian Lynx Trappings 1821-1934"
+  version: "R 4.5.2"
+  source_url: "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/lynx.html"
+  accessed: "2026-08-16"
+  license: "R distribution license (GPL-2 | GPL-3)"
+  citation: "datasets::lynx"
+  raw_files: ["package:datasets/lynx"]
+study:
+  purpose: "Registrar capturas anuales históricas de lince canadiense."
+  target_population: "Capturas registradas en la serie histórica, no la abundancia total."
+  sampling_frame: "No documentado en el objeto."
+  sampling_unit: "Año."
+  observation_unit: "Captura registrada."
+  selection_mechanism: "Registro administrativo, no muestreo probabilístico."
+  observation_process: "Total anual sin esfuerzo ni detectabilidad."
+  geographic_scope: "Canadá; asociada históricamente con la región del río Mackenzie."
+  temporal_scope: "1821-1934."
+processing:
+  script: "chapters/chapter09.qmd"
+  output_files: []
+  exclusions: []
+  transformations: ["Logaritmo", "Tendencia y dependencia temporal"]
+  missing_data: "Serie anual continua de 114 valores."

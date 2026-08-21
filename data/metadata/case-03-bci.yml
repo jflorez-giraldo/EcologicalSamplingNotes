@@ -1,0 +1,28 @@
+dataset:
+  title: "Barro Colorado Island Tree Counts"
+  version: "vegan 2.7-5"
+  source_url: "https://vegandevs.github.io/vegan/reference/BCI.html"
+  accessed: "2026-08-16"
+  license: "GPL-2 (package vegan); verificar términos de los datos fuente"
+  citation: "vegan::BCI; vegan::BCI.env"
+  raw_files: ["package:vegan/BCI", "package:vegan/BCI.env"]
+study:
+  purpose: "Registrar árboles con DAP mínimo documentado en una parcela forestal."
+  target_population: "Árboles censables de la parcela de 50 ha en Barro Colorado."
+  sampling_frame: "Cincuenta parcelas contiguas de una hectárea."
+  sampling_unit: "Parcela de una hectárea."
+  observation_unit: "Árbol por especie."
+  selection_mechanism: "Censo espacial contiguo del área documentada."
+  observation_process: "Conteos por especie y parcela."
+  geographic_scope: "Isla Barro Colorado, Panamá."
+  temporal_scope: "Censo de 1982 según la documentación citada."
+processing:
+  script: "chapters/chapter02.qmd; chapters/chapter03.qmd"
+  output_files: []
+  exclusions: []
+  transformations:
+    - "Totales y riqueza por parcela"
+    - "Diez franjas contiguas como conglomerados didácticos"
+    - "Indicador de riqueza mayor o igual a 95 especies"
+    - "Agregación espacial para sensibilidad"
+  missing_data: "Se audita en el capítulo."

@@ -1,0 +1,24 @@
+dataset:
+  title: "Duiker Camera Trap Survey"
+  version: "Distance 2.0.1"
+  source_url: "https://distancesampling.org/Distance/reference/DuikerCameraTraps.html"
+  accessed: "2026-08-16"
+  license: "GPL (>= 2), package Distance"
+  citation: "Distance::DuikerCameraTraps"
+  raw_files: ["package:Distance/DuikerCameraTraps"]
+study:
+  purpose: "Registrar eventos y distancias de duiker de Maxwell con cámaras."
+  target_population: "Eventos disponibles ante las cámaras durante el esfuerzo registrado."
+  sampling_frame: "Veintiuna estaciones de cámara documentadas."
+  sampling_unit: "Estación de cámara."
+  observation_unit: "Evento u objeto registrado."
+  selection_mechanism: "Selección espacial no documentada como probabilística."
+  observation_process: "Cámaras y distancias radiales agrupadas."
+  geographic_scope: "Parque Nacional Taï, Costa de Marfil."
+  temporal_scope: "2014."
+processing:
+  script: "chapters/chapter05.qmd"
+  output_files: []
+  exclusions: []
+  transformations: ["Conversión del esfuerzo a cámara-días", "Tasa por 100 cámara-días"]
+  missing_data: "Filas sin objeto se preservan como estaciones sin evento."

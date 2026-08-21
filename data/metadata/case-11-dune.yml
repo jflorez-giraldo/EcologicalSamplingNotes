@@ -1,0 +1,24 @@
+dataset:
+  title: "Vegetation and Environment in Dutch Dune Meadows"
+  version: "vegan 2.7-5"
+  source_url: "https://vegandevs.github.io/vegan/reference/dune.html"
+  accessed: "2026-08-16"
+  license: "GPL-2 (package vegan); verificar términos de los datos fuente"
+  citation: "vegan::dune; vegan::dune.env"
+  raw_files: ["package:vegan/dune", "package:vegan/dune.env"]
+study:
+  purpose: "Relacionar vegetación y manejo de praderas de dunas."
+  target_population: "Los veinte sitios observados; extensión externa no documentada."
+  sampling_frame: "Veinte sitios del estudio."
+  sampling_unit: "Sitio de pradera."
+  observation_unit: "Abundancia de una especie en un sitio."
+  selection_mechanism: "No documentado como probabilístico."
+  observation_process: "Abundancia de 30 especies y variables ambientales."
+  geographic_scope: "Praderas de dunas neerlandesas."
+  temporal_scope: "No especificado en el objeto."
+processing:
+  script: "chapters/chapter11.qmd"
+  output_files: []
+  exclusions: []
+  transformations: ["Índices clásicos", "Jaccard y Bray-Curtis", "Clasificación y ordenación"]
+  missing_data: "Se audita en el capítulo."

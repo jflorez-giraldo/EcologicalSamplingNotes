@@ -1,0 +1,35 @@
+_book/
+_freeze/
+.quarto/
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+.DS_Store
+*.aux
+*.log
+*.out
+*.toc
+*.tex
+*_files/
+*_cache/
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+renv/library/
+renv/staging/
+renv/python/
+
+/.quarto/
+**/*.quarto_ipynb
+
+/.luarc.json
+
+# Material local o privado que no debe publicarse
+/instructor/
+/references/
+
+# Artefactos generados fuera de los directorios estándar de Quarto
+/Rplots.pdf
+/chapters/*.html
+/*_files*/

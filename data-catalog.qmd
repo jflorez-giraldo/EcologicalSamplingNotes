@@ -1,0 +1,84 @@
+# Catálogo de datos reales {.unnumbered}
+
+## Criterios de selección
+
+Cada aplicación principal utiliza observaciones empíricas distribuidas con R o
+con un paquete instalado. La teoría procede de los siete libros del corpus; las
+referencias externas de esta página documentan únicamente datos y software.
+
+::: {.callout-important}
+## Datos reales no significa inferencia automática
+
+Un archivo empírico puede proceder de una muestra conveniente, omitir unidades
+no detectadas o carecer de probabilidades de inclusión. Cada capítulo reconstruye
+lo que la documentación permite y limita sus conclusiones al diseño conocido.
+:::
+
+## Casos adoptados
+
+| Código | Caso real | Fuente reproducible | Capítulo | Uso principal |
+|---|---|---|---:|---|
+| C1 | Flores de iris | `datasets::iris` | 1 | Población, marco, dominios e incertidumbre |
+| C2 | Cerezos negros | `datasets::trees` | 2 | Comparación de diseños probabilísticos |
+| C3 | Árboles de Barro Colorado | `vegan::BCI`, `BCI.env` | 2 y 3 | Conglomerados, etapas, parcelas, soporte y dependencia espacial |
+| C4 | Chochines de Montrave | `Distance::wren_lt` | 4 | Transectos y función de detección |
+| C5 | Duikers en cámaras | `Distance::DuikerCameraTraps` | 5 | Eventos, esfuerzo y métodos de censo |
+| C6 | Mosquero de alisos | CSV incluidos en `unmarked` | 6 | Historias cerradas y captura-recaptura |
+| C7 | Mesocarnívoros | `unmarked::MesoCarnivores` | 7 | Ocupación y detección repetida |
+| C8 | Ensayo de fertilización NPK | `datasets::npk` | 8 | Comparaciones ajustadas por bloque |
+| C9 | Capturas históricas de lince | `datasets::lynx` | 9 | Índices, tendencia y dependencia temporal |
+| C10 | *Aquilegia chrysantha* | `popbio::aq.trans` | 10 | Transiciones y demografía por estadios |
+| C11 | Praderas de dunas | `vegan::dune`, `dune.env` | 11 | Diversidad clásica y composición |
+| C12 | Ácaros oribátidos | `vegan::mite`, `mite.env` | 12 | Flujo integrado y reproducible |
+
+## Procedencia y límites
+
+### C1–C2. Datos incluidos con R
+
+`iris` conserva mediciones morfológicas compiladas por Edgar Anderson y `trees`
+registra diámetro, altura y volumen de 31 cerezos negros. Los capítulos los
+tratan como poblaciones finitas didácticas; no representan muestras
+probabilísticas de todas las flores o bosques.
+
+### C3, C11 y C12. Datos de `vegan`
+
+BCI contiene conteos de árboles en 50 parcelas contiguas de una hectárea
+[@condit2002beta; @harms2001habitat; @pyke2001floristic]. `dune` documenta
+vegetación de veinte praderas neerlandesas y `mite` contiene ácaros oribátidos
+de setenta sitios. La distribución y estructura de estos objetos se documentan
+con @oksanen2024vegan. Ninguno proporciona por sí solo un marco probabilístico
+para un paisaje mayor.
+
+### C4–C5. Datos de `Distance`
+
+`wren_lt` contiene transectos reales de chochín en Montrave y
+`DuikerCameraTraps` contiene registros de cámaras para duiker de Maxwell en el
+Parque Nacional Taï. Los capítulos conservan esfuerzo, ceros y unidades y
+documentan el software con @miller2019distance. El capítulo 5 estima tasas de
+eventos, no individuos ni densidad.
+
+### C6–C7. Datos de `unmarked`
+
+Los archivos del mosquero de alisos registran individuos seguidos durante
+intervalos de conteo [@chandler2009scrub]. `MesoCarnivores` contiene tres
+visitas de cámaras para 1 437 sitios y tres especies
+[@rota2016multispecies]. El paquete se documenta con @kellner2023unmarked.
+
+### C8–C10. Intervención, índice y demografía
+
+`npk` es un ensayo agrícola histórico en bloques; su alcance no se extiende a
+otras fincas o dosis. `lynx` registra capturas anuales, no abundancia, y carece
+de esfuerzo [@campbell1977lynx]. `aq.trans` contiene destinos anuales de plantas
+marcadas de *Aquilegia chrysantha* y se distribuye con `popbio`
+[@stubben2007popbio].
+
+## Política de datos
+
+- `data/raw/` se reserva para archivos externos sin modificación.
+- Los objetos distribuidos por paquetes se cargan desde su fuente para evitar
+  copias divergentes.
+- `data/metadata/` registra fuente, versión, licencia, diseño, unidades y
+  limitaciones de cada caso.
+- `data/processed/` solo contendrá derivados reconstruibles por código.
+- Ninguna corrección manual se incorpora sin quedar registrada.
+- Los datos no se redistribuyen fuera de los términos de su licencia.

@@ -1,0 +1,66 @@
+# Marco bibliográfico {.unnumbered}
+
+## Corpus delimitado
+
+El contenido metodológico del libro se sustenta exclusivamente en los siete
+libros disponibles en `references/`. Las fuentes externas se utilizan solo para
+documentar la procedencia de datos o software y no para ampliar la teoría más
+allá de este corpus.
+
+## Diseño y estimación
+
+@lohr2022sampling desarrolla población, marco, muestreo aleatorio simple,
+estratificación, conglomerados, etapas, probabilidades desiguales, estimación
+auxiliar, no respuesta, varianza y calidad total. @manly2015ecological conecta
+estos principios con problemas ecológicos y añade muestreo adaptativo, métodos
+sin parcela, remoción, captura-recaptura, ocupación, monitoreo y tendencias.
+
+## Métodos ecológicos de campo
+
+@sutherland2006census organiza la planificación, los principios de muestreo, los
+métodos generales y los protocolos para plantas, invertebrados, peces,
+anfibios, reptiles, aves y mamíferos. @henderson2016ecological complementa esa
+base con instrumentos y métodos para ambientes terrestres y acuáticos,
+estimación poblacional, demografía, diversidad, clasificación, ordenación y
+series ecológicas.
+
+## Comparación, sesgo y vigilancia
+
+@woodward2014epidemiology y @gerstman2013epidemiology se usan únicamente en sus
+estructuras transferibles: medidas de ocurrencia, diseños comparativos,
+intervenciones, error, sesgo de selección e información, confusión,
+interacción, clasificación y supervivencia. No se trasladan al libro
+recomendaciones clínicas ni contenidos propios del manejo de enfermedades.
+
+@gregg2008field aporta organización de investigaciones de campo, vigilancia,
+calidad de datos, documentación y comunicación. Sus procedimientos se traducen
+a observaciones ecológicas sin importar prácticas clínicas, legales o de
+control de brotes.
+
+## Correspondencia con el libro
+
+| Área | Fuentes del corpus |
+|---|---|
+| Pregunta, marco y unidades | Sutherland; Manly y Navarro Alberto; Lohr |
+| Diseños probabilísticos | Lohr; Manly y Navarro Alberto; Sutherland |
+| Parcelas e intercepción | Sutherland; Henderson; Manly y Navarro Alberto |
+| Transectos y distancias | Manly y Navarro Alberto; Sutherland; Henderson |
+| Métodos por taxón y hábitat | Sutherland; Henderson |
+| Remoción y captura-recaptura | Manly y Navarro Alberto; Henderson; Sutherland; Lohr |
+| Ocupación | Manly y Navarro Alberto; Sutherland |
+| Comparaciones y sesgos | Woodward; Gerstman; Gregg; Lohr |
+| Monitoreo y tendencias | Manly y Navarro Alberto; Sutherland; Henderson; Gregg |
+| Demografía | Henderson; Gerstman; Manly y Navarro Alberto |
+| Comunidades | Henderson |
+| Proyecto completo | Las siete obras, dentro de sus alcances declarados |
+
+## Política de fidelidad
+
+- Cada afirmación metodológica debe corresponder a un tema explícito del corpus.
+- Las aplicaciones en R implementan esos métodos, pero los paquetes no actúan
+  como autoridades metodológicas.
+- Los datos externos requieren fuente, licencia, unidad y limitaciones
+  documentadas.
+- Una técnica ausente del corpus no se incorpora por estar disponible en R.
+- Los ejemplos sintetizan y atribuyen; no reproducen extensamente texto,
+  figuras o tablas protegidas.

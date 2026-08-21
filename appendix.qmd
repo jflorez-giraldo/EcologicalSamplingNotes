@@ -1,0 +1,32 @@
+# Material complementario {.unnumbered}
+
+## Profundizaciones metodológicas previstas
+
+- estimadores de razón, regresión y calibración;
+- estimación de varianza para diseños complejos;
+- muestreo adaptativo, de red e indirecto;
+- ocupación y detectabilidad imperfecta;
+- captura, marcado y recaptura;
+- análisis espacial y selección de muestras balanceadas; y
+- protocolos de control de calidad en campo.
+
+Estos temas ofrecen rutas de profundización más allá del desarrollo central.
+
+## Plantillas
+
+El repositorio incluye:
+
+- `resources/templates/activity-report.qmd`, para informes breves;
+- `resources/templates/project-report.qmd`, para proyectos autónomos; y
+- `resources/templates/dataset-metadata.yml`, para documentar datos.
+
+## Lista de comprobación de reproducibilidad
+
+1. El informe se renderiza desde una sesión limpia.
+2. Las rutas son relativas a la raíz del proyecto.
+3. Las semillas se fijan cuando la aleatoriedad no es el objeto de estudio.
+4. Los datos originales no se modifican manualmente.
+5. Las transformaciones se ejecutan mediante código.
+6. Las versiones y fuentes están registradas.
+7. Las tablas y figuras incluyen unidades y leyendas.
+8. Los resultados principales pueden rastrearse hasta una operación documentada.

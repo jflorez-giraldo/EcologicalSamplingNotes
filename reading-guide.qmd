@@ -1,0 +1,45 @@
+# Cómo usar este libro {.unnumbered}
+
+## Tres niveles de trabajo
+
+Cada capítulo ofrece tres recorridos complementarios:
+
+1. **Fundamentos:** conceptos, notación, estimadores, supuestos e incertidumbre.
+2. **Aplicación completa:** análisis reproducible de datos reales que conecta la pregunta con una
+   interpretación ecológica mediante código R ejecutable.
+3. **Actividad propuesta para el lector:** extensión autónoma del método a otra
+   pregunta, conjunto de datos o decisión analítica.
+
+La aplicación no debe leerse como una receta universal. Su función es hacer
+visibles las decisiones que suelen quedar ocultas entre la recolección y el
+resultado final.
+
+## Convenciones
+
+- $U=\{1,\ldots,N\}$ denota una población finita.
+- $s\subset U$ denota la muestra realizada.
+- $\pi_i$ y $\pi_{ij}$ son probabilidades de inclusión de primer y segundo
+  orden.
+- Los sombreros identifican estimadores o cantidades ajustadas.
+- El término **diseño** se reserva para el mecanismo de selección o asignación;
+  el **proceso de observación** describe cómo un estado ecológico produce un
+  registro.
+- Un cero observado, una no detección y un dato faltante no son equivalentes.
+
+## Código y reproducibilidad
+
+Los bloques R se ejecutan en orden desde la raíz del proyecto. Se usan semillas
+cuando la aleatoriedad no es el objeto de estudio, rutas relativas y datos con
+procedencia documentada. Las salidas se interpretan en el texto; el código no
+sustituye la argumentación.
+
+Los botones de cada capítulo permiten descargar el QMD y un notebook con kernel
+R. La edición HTML facilita explorar código, mientras el PDF ofrece una lectura
+continua.
+
+## Ruta sugerida
+
+Los capítulos 1 y 2 establecen la notación y la lógica de inferencia. A partir de
+allí, los capítulos pueden consultarse por familia metodológica, aunque conviene
+leer el capítulo de síntesis después de haber trabajado al menos un método de
+campo, uno poblacional y uno comunitario.

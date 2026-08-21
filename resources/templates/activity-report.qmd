@@ -1,0 +1,70 @@
+---
+title: "Informe de análisis ecológico"
+subtitle: "Plantilla reproducible"
+author: ""
+date: today
+lang: es
+format:
+  html:
+    toc: true
+    code-fold: true
+    embed-resources: true
+  pdf:
+    toc: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+# Resumen ejecutivo
+
+Presente el problema, el resultado principal y su limitación más importante en
+un máximo de 200 palabras.
+
+# Problema y población objetivo
+
+- Pregunta:
+- Población objetivo:
+- Marco o fuente de datos:
+- Unidad de muestreo:
+- Unidad de observación:
+- Parámetro de interés:
+
+# Datos
+
+Documente fuente, licencia, fecha de acceso, variables utilizadas, exclusiones
+y transformaciones. Incluya un diagrama del proceso de análisis cuando haya
+varias etapas de selección.
+
+# Método
+
+Justifique el diseño, estimador o modelo. Declare supuestos y explique cómo se
+evaluaron. Evite describir funciones de R línea por línea.
+
+# Resultados
+
+Presente únicamente tablas y figuras que respondan la pregunta. Incluya medidas
+de incertidumbre y unidades.
+
+# Interpretación
+
+Explique el significado sustantivo de los resultados y diferencie evidencia de
+especulación.
+
+# Limitaciones y sensibilidad
+
+Discuta selección, medición, supuestos, datos faltantes y generalización.
+Describa el análisis de sensibilidad solicitado.
+
+# Recomendación
+
+Formule una recomendación concreta para el equipo científico o de gestión que
+planteó el problema.
+
+# Reproducibilidad
+
+Registre versiones de R y paquetes, semillas y cualquier paso externo necesario
+para reconstruir el análisis.
+
+# Referencias
