@@ -1,0 +1,24 @@
+dataset:
+  title: "Edgar Anderson's Iris Data"
+  version: "R 4.5.2"
+  source_url: "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/iris.html"
+  accessed: "2026-08-16"
+  license: "R distribution license (GPL-2 | GPL-3)"
+  citation: "datasets::iris"
+  raw_files: ["package:datasets/iris"]
+study:
+  purpose: "Comparar medidas morfológicas entre tres especies de iris."
+  target_population: "Flores de las especies y localidades representadas por la colección histórica."
+  sampling_frame: "No documentado en el objeto distribuido con R."
+  sampling_unit: "Flor registrada."
+  observation_unit: "Medición morfológica de una flor."
+  selection_mechanism: "No probabilístico o no documentado."
+  observation_process: "Cuatro medidas en centímetros y especie."
+  geographic_scope: "Península de Gaspé y otras localidades de la colección de Anderson."
+  temporal_scope: "Colección histórica; fecha no incluida en el objeto."
+processing:
+  script: "chapters/chapter01.qmd"
+  output_files: []
+  exclusions: []
+  transformations: ["Asignación de identificador de fila"]
+  missing_data: "El objeto no contiene valores faltantes."

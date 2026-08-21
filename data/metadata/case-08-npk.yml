@@ -1,0 +1,24 @@
+dataset:
+  title: "Classical N, P, K Factorial Experiment"
+  version: "R 4.5.2"
+  source_url: "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/npk.html"
+  accessed: "2026-08-16"
+  license: "R distribution license (GPL-2 | GPL-3)"
+  citation: "datasets::npk"
+  raw_files: ["package:datasets/npk"]
+study:
+  purpose: "Comparar rendimiento bajo aplicaciones de N, P y K."
+  target_population: "Parcelas y condiciones del ensayo histórico."
+  sampling_frame: "Veinticuatro parcelas en seis bloques."
+  sampling_unit: "Parcela experimental."
+  observation_unit: "Rendimiento por parcela."
+  selection_mechanism: "Asignación experimental documentada; selección externa no documentada."
+  observation_process: "Rendimiento en libras por parcela de 1/70 acre."
+  geographic_scope: "No especificado en el objeto."
+  temporal_scope: "Ensayo histórico."
+processing:
+  script: "chapters/chapter08.qmd"
+  output_files: []
+  exclusions: []
+  transformations: ["Modelo aditivo ajustado por bloque"]
+  missing_data: "El objeto no contiene valores faltantes."

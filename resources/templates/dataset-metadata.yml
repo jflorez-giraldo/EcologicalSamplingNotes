@@ -1,0 +1,35 @@
+dataset:
+  title: ""
+  version: ""
+  source_url: ""
+  accessed: "YYYY-MM-DD"
+  license: ""
+  citation: ""
+  checksum: ""
+  raw_files: []
+
+study:
+  purpose: ""
+  target_population: ""
+  sampling_frame: ""
+  sampling_unit: ""
+  observation_unit: ""
+  selection_mechanism: ""
+  observation_process: ""
+  geographic_scope: ""
+  temporal_scope: ""
+
+processing:
+  script: ""
+  output_files: []
+  exclusions: []
+  transformations: []
+  missing_data: ""
+
+variables:
+  - name: ""
+    label: ""
+    type: ""
+    unit: ""
+    allowed_values: ""
+    missing_code: ""

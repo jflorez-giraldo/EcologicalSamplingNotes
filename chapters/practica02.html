@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Fundamentos estadísticos, métodos de campo y proyectos reproducibles para el estudio de poblaciones, comunidades e interacciones biológicas.">
+
+<title>13&nbsp; Práctica 2: Diseños probabilísticos en R – Muestreo ecológico</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/practica03.html" rel="next">
+<link href="../chapters/chapter12.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-3fee61de2b36a07911a09d94e160f21d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-7cffdf8bbe0ff56ccfce34d1b7d2026d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/practica02.html">Prácticas</a></li><li class="breadcrumb-item"><a href="../chapters/practica02.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Muestreo ecológico</a> 
+        <div class="sidebar-tools-main">
+    <a href="../ecological-sampling.pdf" title="Descargar PDF" class="quarto-navigation-tool px-1" aria-label="Descargar PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Presentación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reading-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cómo usar este libro</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../literature-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Marco bibliográfico</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-catalog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Catálogo de datos reales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte I — Fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Del problema ecológico al diseño</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Diseños probabilísticos para poblaciones biológicas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte II — Métodos de campo</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transectos y muestreo por distancias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Métodos de censo por organismos y hábitats</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte III — Estimación de poblaciones</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Remoción, captura-recaptura e índices de abundancia</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ocupación y detección imperfecta</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte IV — Comparación y seguimiento</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Estudios comparativos, intervenciones y sesgos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Monitoreo ecológico y análisis de tendencias</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte V — Poblaciones y comunidades</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte VI — Síntesis</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Prácticas</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica02.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Práctica 3: Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Material complementario</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Material complementario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referencias</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contenido</h2>
+   
+  <ul>
+  <li><a href="#presentación" id="toc-presentación" class="nav-link active" data-scroll-target="#presentación"><span class="header-section-number">13.1</span> Presentación</a></li>
+  <li><a href="#bloque-0.-arranque-autocontenido" id="toc-bloque-0.-arranque-autocontenido" class="nav-link" data-scroll-target="#bloque-0.-arranque-autocontenido"><span class="header-section-number">13.2</span> Bloque 0. Arranque autocontenido</a></li>
+  <li><a href="#bloque-1.-auxiliar-y-tamaño-de-muestra" id="toc-bloque-1.-auxiliar-y-tamaño-de-muestra" class="nav-link" data-scroll-target="#bloque-1.-auxiliar-y-tamaño-de-muestra"><span class="header-section-number">13.3</span> Bloque 1. Auxiliar y tamaño de muestra</a></li>
+  <li><a href="#bloque-2.-estratificación-asignación-y-ganancia-de-precisión" id="toc-bloque-2.-estratificación-asignación-y-ganancia-de-precisión" class="nav-link" data-scroll-target="#bloque-2.-estratificación-asignación-y-ganancia-de-precisión"><span class="header-section-number">13.4</span> Bloque 2. Estratificación: asignación y ganancia de precisión</a></li>
+  <li><a href="#bloque-3.-sistemático-arranques-y-sensibilidad-al-orden" id="toc-bloque-3.-sistemático-arranques-y-sensibilidad-al-orden" class="nav-link" data-scroll-target="#bloque-3.-sistemático-arranques-y-sensibilidad-al-orden"><span class="header-section-number">13.5</span> Bloque 3. Sistemático: arranques y sensibilidad al orden</a></li>
+  <li><a href="#bloque-4.-conglomerados-orientación-de-las-unidades-primarias" id="toc-bloque-4.-conglomerados-orientación-de-las-unidades-primarias" class="nav-link" data-scroll-target="#bloque-4.-conglomerados-orientación-de-las-unidades-primarias"><span class="header-section-number">13.6</span> Bloque 4. Conglomerados: orientación de las unidades primarias</a></li>
+  <li><a href="#bloque-5.-auxiliar-razón-frente-a-regresión" id="toc-bloque-5.-auxiliar-razón-frente-a-regresión" class="nav-link" data-scroll-target="#bloque-5.-auxiliar-razón-frente-a-regresión"><span class="header-section-number">13.7</span> Bloque 5. Auxiliar: razón frente a regresión</a></li>
+  <li><a href="#síntesis-y-comprobación" id="toc-síntesis-y-comprobación" class="nav-link" data-scroll-target="#síntesis-y-comprobación"><span class="header-section-number">13.8</span> Síntesis y comprobación</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/practica02.html">Prácticas</a></li><li class="breadcrumb-item"><a href="../chapters/practica02.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></h1>
+<p class="subtitle lead">Estimación por repetición, gráficas y análisis de resultados</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="presentación" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="presentación"><span class="header-section-number">13.1</span> Presentación</h2>
+<p>Esta práctica trabaja con los dos censos usados en el capítulo 2: los 31 árboles de <code>datasets::trees</code> y las 50 hectáreas del censo de Barro Colorado (<code>vegan::BCI</code>). El documento es autocontenido: construye todos los objetos que necesita, por lo que se resuelve en una sesión nueva de R sin depender del resto del capítulo.</p>
+<p><strong>Materiales.</strong> Una instalación de R con el paquete <code>vegan</code>. No se requieren otros paquetes.</p>
+<p><strong>Cómo trabajar.</strong> La práctica es de construcción guiada: el código de cada bloque está incompleto. Los huecos están marcados con <code># COMPLETAR</code> y, en el texto, con <code>____</code> dentro del código. Debe reemplazarlos por la expresión correcta, ejecutar el bloque y comprobar contra el cuadro de comprobación (colapsado, al final). Después trace las gráficas pedidas (escríbalas usted mismo), responda las preguntas de análisis y resuelva la tarea de exploración de cada bloque, que exige modificar y volver a ejecutar. En la entrega incluya el código completado, las gráficas y las respuestas.</p>
+<p><strong>Convención del texto.</strong> Se usa <code>#&gt;</code> para la salida de R. Las semillas están fijadas para que sus resultados coincidan con la comprobación.</p>
+</section>
+<section id="bloque-0.-arranque-autocontenido" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="bloque-0.-arranque-autocontenido"><span class="header-section-number">13.2</span> Bloque 0. Arranque autocontenido</h2>
+<p>Construya los marcos y las verdades poblacionales. Este bloque está completo; ejecútelo y verifique los valores.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(trees, <span class="at">package =</span> <span class="st">"datasets"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>U <span class="ot">&lt;-</span> <span class="fu">transform</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  trees,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(trees)),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">grande =</span> <span class="fu">as.integer</span>(Volume <span class="sc">&gt;=</span> <span class="dv">30</span>),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">x_aux =</span> Girth<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> Height</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(U)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>verdad_arboles <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">media =</span> <span class="fu">mean</span>(U<span class="sc">$</span>Volume), <span class="at">total =</span> <span class="fu">sum</span>(U<span class="sc">$</span>Volume),</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">proporcion =</span> <span class="fu">mean</span>(U<span class="sc">$</span>grande), <span class="at">DE =</span> <span class="fu">sd</span>(U<span class="sc">$</span>Volume)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>X_aux <span class="ot">&lt;-</span> <span class="fu">sum</span>(U<span class="sc">$</span>x_aux)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(verdad_arboles)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            verdad_arboles</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; media          30.1709677</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; total         935.3000000</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; proporcion      0.3870968</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; DE             16.4378464</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>U<span class="sc">$</span>estrato <span class="ot">&lt;-</span> <span class="fu">cut</span>(U<span class="sc">$</span>Girth, <span class="fu">c</span>(<span class="fl">8.3</span>, <span class="fl">11.3</span>, <span class="fl">14.0</span>, <span class="fl">20.6</span>),</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">include.lowest =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"pequeno"</span>, <span class="st">"medio"</span>, <span class="st">"grande"</span>))</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>Nh <span class="ot">&lt;-</span> <span class="fu">table</span>(U<span class="sc">$</span>estrato)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>asignar_enteros <span class="ot">&lt;-</span> <span class="cf">function</span>(pesos, n_total, <span class="at">minimo =</span> <span class="dv">2</span>) {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> <span class="fu">rep</span>(minimo, <span class="fu">length</span>(pesos)); <span class="fu">names</span>(a) <span class="ot">&lt;-</span> <span class="fu">names</span>(pesos)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  faltan <span class="ot">&lt;-</span> n_total <span class="sc">-</span> <span class="fu">sum</span>(a)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (faltan <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    cuota <span class="ot">&lt;-</span> faltan <span class="sc">*</span> pesos <span class="sc">/</span> <span class="fu">sum</span>(pesos)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    a <span class="ot">&lt;-</span> a <span class="sc">+</span> <span class="fu">floor</span>(cuota)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    resto <span class="ot">&lt;-</span> n_total <span class="sc">-</span> <span class="fu">sum</span>(a)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (resto <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>      fraccion <span class="ot">&lt;-</span> cuota <span class="sc">-</span> <span class="fu">floor</span>(cuota)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>      idx <span class="ot">&lt;-</span> <span class="fu">order</span>(fraccion, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="fu">seq_len</span>(resto)]</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>      a[idx] <span class="ot">&lt;-</span> a[idx] <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  a</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>nh <span class="ot">&lt;-</span> <span class="fu">asignar_enteros</span>(<span class="fu">as.numeric</span>(Nh), <span class="dv">10</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nh) <span class="ot">&lt;-</span> <span class="fu">names</span>(Nh)</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>S_h <span class="ot">&lt;-</span> <span class="fu">tapply</span>(U<span class="sc">$</span>Volume, U<span class="sc">$</span>estrato, sd)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>nh_neyman <span class="ot">&lt;-</span> <span class="fu">asignar_enteros</span>(<span class="fu">as.numeric</span>(Nh) <span class="sc">*</span> S_h, <span class="dv">10</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nh_neyman) <span class="ot">&lt;-</span> <span class="fu">names</span>(Nh)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">poblacion =</span> Nh,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">proporcional =</span> nh,</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">Neyman =</span> nh_neyman,</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="at">S_h =</span> <span class="fu">round</span>(S_h, <span class="dv">1</span>)</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              pequeno medio grande</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; poblacion       11.0  10.0   10.0</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; proporcional     4.0   3.0    3.0</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Neyman           3.0   3.0    4.0</span></span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; S_h              4.9   5.4   13.2</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(BCI, BCI.env, <span class="at">package =</span> <span class="st">"vegan"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>marco_bci <span class="ot">&lt;-</span> BCI.env</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>marco_bci<span class="sc">$</span>id <span class="ot">&lt;-</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(marco_bci))</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>marco_bci<span class="sc">$</span>x <span class="ot">&lt;-</span> <span class="fu">as.integer</span>((marco_bci<span class="sc">$</span>UTM.EW <span class="sc">-</span> <span class="fu">min</span>(marco_bci<span class="sc">$</span>UTM.EW)) <span class="sc">/</span> <span class="dv">100</span> <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>marco_bci<span class="sc">$</span>y <span class="ot">&lt;-</span> <span class="fu">as.integer</span>((marco_bci<span class="sc">$</span>UTM.NS <span class="sc">-</span> <span class="fu">min</span>(marco_bci<span class="sc">$</span>UTM.NS)) <span class="sc">/</span> <span class="dv">100</span> <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>marco_bci<span class="sc">$</span>conglomerado <span class="ot">&lt;-</span> marco_bci<span class="sc">$</span>x</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>marco_bci<span class="sc">$</span>fila <span class="ot">&lt;-</span> marco_bci<span class="sc">$</span>y</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>marco_bci<span class="sc">$</span>tallos <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(BCI)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>marco_bci<span class="sc">$</span>riqueza_alta <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(vegan<span class="sc">::</span><span class="fu">specnumber</span>(BCI) <span class="sc">&gt;=</span> <span class="dv">95</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>N_bci <span class="ot">&lt;-</span> <span class="fu">nrow</span>(marco_bci)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>verdad_bci <span class="ot">&lt;-</span> <span class="fu">mean</span>(marco_bci<span class="sc">$</span>tallos)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">N_bci =</span> N_bci,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">conglomerados =</span> <span class="fu">length</span>(<span class="fu">unique</span>(marco_bci<span class="sc">$</span>conglomerado)),</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">hectareas_por_conglomerado =</span> <span class="fu">as.integer</span>(<span class="fu">table</span>(marco_bci<span class="sc">$</span>conglomerado)[<span class="dv">1</span>]),</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">verdad_media =</span> verdad_bci)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                      N_bci              conglomerados </span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                      50.00                      10.00 </span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; hectareas_por_conglomerado               verdad_media </span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                       5.00                     429.14</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="bloque-1.-auxiliar-y-tamaño-de-muestra" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="bloque-1.-auxiliar-y-tamaño-de-muestra"><span class="header-section-number">13.3</span> Bloque 1. Auxiliar y tamaño de muestra</h2>
+<p>Compare, por repetición, el error del estimador MAS y del estimador de razón para tres tamaños de muestra (<span class="math inline">\(n = 6, 10, 15\)</span>). La razón usa el auxiliar <span class="math inline">\(x = \mathrm{DAP}^2\cdot\mathrm{altura}\)</span>, conocido para las 31 unidades. Complete los RMSE dentro de la repetición.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: en cada repetición "MAS" y "razon" son filas de rep_k con las B</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># réplicas de cada método. Para cada una calcule su RMSE: la raíz del promedio</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># del error cuadrático frente a verdad_arboles["total"] (sección de evaluación</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># por repetición del capítulo 2).</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2210</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>resultados_tam <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">10</span>, <span class="dv">15</span>), <span class="cf">function</span>(k) {</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  rep_k <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, {</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    z <span class="ot">&lt;-</span> U[<span class="fu">sample.int</span>(N, k), ]</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="at">MAS =</span> N <span class="sc">*</span> <span class="fu">mean</span>(z<span class="sc">$</span>Volume),</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">razon =</span> <span class="fu">sum</span>(z<span class="sc">$</span>Volume) <span class="sc">/</span> <span class="fu">sum</span>(z<span class="sc">$</span>x_aux) <span class="sc">*</span> X_aux)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">n =</span> k, <span class="at">MAS =</span> ____, <span class="at">razon =</span> ____)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>resultados_tam</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Gráfica.</strong> Escriba la gráfica del RMSE frente al tamaño de muestra.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: complete argumentos (lty, col) y leyenda.</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(resultados_tam[, <span class="st">"n"</span>], resultados_tam[, <span class="fu">c</span>(<span class="st">"MAS"</span>, <span class="st">"razon"</span>)],</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">lty =</span> ____, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> ____,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Tamaño de muestra (n)"</span>, <span class="at">ylab =</span> <span class="st">"RMSE del total"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">c</span>(<span class="st">"MAS"</span>, <span class="st">"Razón"</span>), <span class="at">col =</span> ____, <span class="at">lty =</span> ____, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Preguntas de análisis.</strong></p>
+<ol type="1">
+<li>¿La ventaja relativa del auxiliar se mantiene, crece o desaparece al pasar de <span class="math inline">\(n=6\)</span> a <span class="math inline">\(n=15\)</span>? Use la relación entre los RMSE.</li>
+<li>¿Qué implicación tiene ese resultado para planear el esfuerzo de muestreo cuando existe un buen auxiliar?</li>
+<li>¿Por qué el resultado (y sus RMSE) está limitado a estas 31 filas y no debe extrapolarse como una regla general?</li>
+</ol>
+<p><strong>Tarea de exploración.</strong> Repita con <code>c(6, 8, 10, 15, 20)</code> y calcule también el sesgo de cada método (promedio de la desviación respecto de la verdad). ¿Qué le dice el cociente entre RMSE sobre el papel del auxiliar a medida que crece <span class="math inline">\(n\)</span>?</p>
+</section>
+<section id="bloque-2.-estratificación-asignación-y-ganancia-de-precisión" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="bloque-2.-estratificación-asignación-y-ganancia-de-precisión"><span class="header-section-number">13.4</span> Bloque 2. Estratificación: asignación y ganancia de precisión</h2>
+<p>Estime el total de volumen con un MAS y con las asignaciones proporcional y de Neyman. Complete el estimador por estratos y la muestra dentro de cada estrato.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: total y varianza por estrato (usar N_h, n_h y var(z)).</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>estimar_st <span class="ot">&lt;-</span> <span class="cf">function</span>(datos, variable, Nh, nh) {</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  por_h <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">names</span>(nh), <span class="cf">function</span>(h) {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    z <span class="ot">&lt;-</span> datos[<span class="fu">as.character</span>(datos<span class="sc">$</span>estrato) <span class="sc">==</span> h, variable]</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    N_h <span class="ot">&lt;-</span> <span class="fu">unname</span>(Nh[h]); n_h <span class="ot">&lt;-</span> <span class="fu">unname</span>(nh[h])</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="at">total =</span> ____,                 <span class="co"># N_h * mean(z)</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">var_total =</span> ____)             <span class="co"># N_h^2 * (1 - n_h/N_h) * var(z) / n_h</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  por_h <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, por_h)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">total =</span> <span class="fu">sum</span>(por_h[, <span class="st">"total"</span>]),</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">var_total =</span> <span class="fu">sum</span>(por_h[, <span class="st">"var_total"</span>]))</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: guarde el error estándar del MAS (columna se) calculado con la misma</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># muestra que la estimación, y la "var_total" dentro de una_st(). Con est y se de</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># la misma réplica se decide si el intervalo cubre la verdad y se suma la</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># cobertura, que las métricas de solo puntos no reportan.</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>una_mas_ic <span class="ot">&lt;-</span> <span class="cf">function</span>() {</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> U[<span class="fu">sample.int</span>(N, <span class="dv">10</span>), ]</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">est =</span> N <span class="sc">*</span> <span class="fu">mean</span>(z<span class="sc">$</span>Volume),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">se =</span> N <span class="sc">*</span> <span class="fu">sqrt</span>((<span class="dv">1</span> <span class="sc">-</span> <span class="dv">10</span> <span class="sc">/</span> N) <span class="sc">*</span> <span class="fu">var</span>(z<span class="sc">$</span>Volume) <span class="sc">/</span> <span class="dv">10</span>))</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>una_st <span class="ot">&lt;-</span> <span class="cf">function</span>(nh_local) {</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  ids <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">names</span>(nh_local), <span class="cf">function</span>(h)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sample</span>(____, ____)))            <span class="co"># U$id[U$estrato == h], tamaño nh_local[h]</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> U[<span class="fu">match</span>(ids, U<span class="sc">$</span>id), ]</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  v <span class="ot">&lt;-</span> <span class="fu">estimar_st</span>(z, <span class="st">"Volume"</span>, Nh, nh_local)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">est =</span> <span class="fu">unname</span>(v[<span class="st">"total"</span>]),</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">se =</span> <span class="fu">sqrt</span>(<span class="fu">unname</span>(v[<span class="st">"____"</span>])))   <span class="co"># componente de varianza del total</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2211</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>rep_estrat <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">MAS =</span> <span class="fu">t</span>(<span class="fu">replicate</span>(B, <span class="fu">una_mas_ic</span>())),</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">Proporcional =</span> <span class="fu">t</span>(<span class="fu">replicate</span>(B, <span class="fu">una_st</span>(nh))),</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">Neyman =</span> <span class="fu">t</span>(<span class="fu">replicate</span>(B, <span class="fu">una_st</span>(nh_neyman)))</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: defina las cinco métricas. Las cuatro primeras son, en orden, el</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co"># sesgo (promedio de la desviación frente a la verdad), la DE empírica</span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co"># (desviación estándar de las estimaciones), el SE medio (promedio del error</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co"># estándar predicho por la fórmula) y el RMSE (raíz del error cuadrático medio).</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co"># La quinta cuenta la fracción de réplicas en las que el intervalo</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co"># [est ± t·se] con t de Student (gl grados de libertad) contiene la verdad.</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>metricas_ic <span class="ot">&lt;-</span> <span class="cf">function</span>(est, se, verdad, gl) <span class="fu">c</span>(</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  <span class="at">sesgo =</span> ____,</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">DE_empirica =</span> ____,</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">SE_medio =</span> ____,</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">RMSE =</span> ____,</span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">cobertura =</span> ____)</span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="co"># gl = n - 1 para el MAS (se estima solo la media) y n - 3 para los</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="co"># estratificados (se estima la media de cada uno de los tres estratos).</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>gl_por_diseno <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">MAS =</span> <span class="dv">9</span>, <span class="at">Proporcional =</span> <span class="dv">7</span>, <span class="at">Neyman =</span> <span class="dv">7</span>)</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>metricas_estrat <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(<span class="fu">names</span>(rep_estrat), <span class="cf">function</span>(md)</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">metricas_ic</span>(rep_estrat[[md]][, <span class="st">"est"</span>], rep_estrat[[md]][, <span class="st">"se"</span>],</span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>              verdad_arboles[<span class="st">"total"</span>], gl_por_diseno[md])))</span>
+<span id="cb7-46"><a href="#cb7-46" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(metricas_estrat, <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Gráficas.</strong> Escriba (a) la distribución del total bajo los tres esquemas y (b) la descomposición dentro/entre de los estratos.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: (a) cajas con las estimaciones (columna "est") de los tres diseños,</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># un color por método, línea discontinua en el total verdadero y etiquetas;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># (b) la descomposición de la varianza poblacional, donde debe cumplirse</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Dentro + Entre = var(U$Volume) * (N - 1) / N.</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">lapply</span>(rep_estrat, <span class="cf">function</span>(r) r[, ____]), <span class="at">col =</span> <span class="fu">c</span>(____),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Total estimado de volumen"</span>, <span class="at">las =</span> <span class="dv">2</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> ____, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>var_total <span class="ot">&lt;-</span> <span class="fu">var</span>(U<span class="sc">$</span>Volume) <span class="sc">*</span> (N <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> N</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>mu_total <span class="ot">&lt;-</span> <span class="fu">mean</span>(U<span class="sc">$</span>Volume)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>var_entre <span class="ot">&lt;-</span> <span class="fu">sum</span>((<span class="fu">as.numeric</span>(Nh) <span class="sc">/</span> N) <span class="sc">*</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>                 (<span class="fu">tapply</span>(U<span class="sc">$</span>Volume, U<span class="sc">$</span>estrato, mean) <span class="sc">-</span> ____)<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>var_dentro <span class="ot">&lt;-</span> var_total <span class="sc">-</span> ____</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">Dentro =</span> <span class="fu">round</span>(var_dentro, <span class="dv">1</span>), <span class="at">Entre =</span> <span class="fu">round</span>(var_entre, <span class="dv">1</span>))</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">c</span>(<span class="at">Dentro =</span> var_dentro, <span class="at">Entre =</span> var_entre), <span class="at">col =</span> <span class="fu">c</span>(____),</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Componente de varianza"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Preguntas de análisis.</strong></p>
+<ol type="1">
+<li>Compare el RMSE del MAS con el del proporcional: ¿de dónde proviene la reducción de incertidumbre? Relaciónelo con las componentes dentro y entre de los estratos.</li>
+<li>¿Por qué la asignación de Neyman mejora todavía el RMSE? ¿Qué información previa exigiría en un estudio real y por qué no debería usarse la <span class="math inline">\(S_h\)</span> censal como si fuera un dato de marco?</li>
+<li>En el boxplot, ¿los tres esquemas parecen insesgados? Apoye su respuesta con la columna de sesgo de <code>metricas_estrat</code>.</li>
+<li>Compare la cobertura observada con el nivel nominal del 95 %. ¿Por qué los estratificados usan un valor crítico con menos grados de libertad que el MAS, y cómo se refleja eso en el SE medio frente a la DE empírica?</li>
+</ol>
+<p><strong>Tarea de exploración.</strong> Repita la repetición con <code>n_total = 12</code> (recalcule <code>nh</code> y <code>nh_neyman</code> con <code>asignar_enteros(as.numeric(Nh), 12)</code>). ¿Cómo cambia la ventaja relativa del proporcional frente al MAS? Además, estime <code>S_h</code> con una mini-muestra de tres unidades por estrato (un “piloto”) y construya la asignación de Neyman con esas DE; compare con la de Neyman “censal” y explique la diferencia.</p>
+</section>
+<section id="bloque-3.-sistemático-arranques-y-sensibilidad-al-orden" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="bloque-3.-sistemático-arranques-y-sensibilidad-al-orden"><span class="header-section-number">13.5</span> Bloque 3. Sistemático: arranques y sensibilidad al orden</h2>
+<p>En el marco ordenado de las 31 unidades, enumere los 31 arranques del estimador sistemático del total en tres órdenes. Complete la función de selección.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: desplazamientos = floor((0:(n_k - 1)) * N_k / n_k) y los órdenes.</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>seleccion_sistematica <span class="ot">&lt;-</span> <span class="cf">function</span>(arranque, <span class="at">n_k =</span> <span class="dv">10</span>, <span class="at">N_k =</span> N) {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  desplazamientos <span class="ot">&lt;-</span> ____</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  ((arranque <span class="sc">-</span> <span class="dv">1</span> <span class="sc">+</span> desplazamientos) <span class="sc">%%</span> N_k) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2212</span>)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>permutacion <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">seq_len</span>(N), N)</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>ordenes <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">diametro =</span> ____,    <span class="co"># marco ordenado por diámetro (desempate por id)</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">volumen =</span> ____,     <span class="co"># orden por volumen (solo diagnóstico retrospectivo)</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">aleatorio =</span> ____)   <span class="co"># la permutación generada arriba</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>totales_orden <span class="ot">&lt;-</span> <span class="fu">lapply</span>(ordenes, <span class="cf">function</span>(ord) {</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> U[ord, ]</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vapply</span>(<span class="fu">seq_len</span>(N), <span class="cf">function</span>(a)</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    ____, <span class="fl">0.0</span>)        <span class="co"># total sistemático: N * media del subconjunto de arranque a</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>sensibilidad <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">vapply</span>(totales_orden, <span class="cf">function</span>(totales) {</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">media =</span> ____,</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">DE_diseno =</span> ____,              <span class="co"># sqrt(mean((totales - mean(totales))^2))</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">RMSE =</span> ____)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>}, <span class="fu">numeric</span>(<span class="dv">3</span>)))</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(sensibilidad, <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Gráfica.</strong> Escriba los totales por arranque (tipo <code>h</code>) para el orden más eficiente (volumen) y para el menos eficiente (aleatorio).</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: gráfica de totales_orden[["volumen"]] y de totales_orden[["aleatorio"]]</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># con línea horizontal en la verdad.</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">seq_len</span>(N), ____, <span class="at">type =</span> <span class="st">"h"</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> ____,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Arranque"</span>, <span class="at">ylab =</span> <span class="st">"Total estimado"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> ____, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Preguntas de análisis.</strong></p>
+<ol type="1">
+<li>En los tres órdenes, la media de los 31 totales coincide con el total verdadero: ¿qué propiedad del diseño sistemático revela eso?</li>
+<li>Compare la DE de diseño entre el orden por diámetro, por volumen y la permutación aleatoria. ¿Qué le dice la permutación sobre el papel del gradiente?</li>
+<li>¿Por qué el orden por volumen es solo un diagnóstico retrospectivo y no una estrategia para fijar el orden de campo?</li>
+</ol>
+<p><strong>Tarea de exploración.</strong> Añada un cuarto orden por <code>Height</code> y comente dónde cae en el ranking de DE de diseño. Después, genere la realización sistemática con arranque 31 (la sorteada en el capítulo) sobre el orden por diámetro y estime el total con un MAS de diez unidades por repetición (1000 veces); compare la DE empírica de ambos con la DE de diseño sistemática.</p>
+</section>
+<section id="bloque-4.-conglomerados-orientación-de-las-unidades-primarias" class="level2" data-number="13.6">
+<h2 data-number="13.6" class="anchored" data-anchor-id="bloque-4.-conglomerados-orientación-de-las-unidades-primarias"><span class="header-section-number">13.6</span> Bloque 4. Conglomerados: orientación de las unidades primarias</h2>
+<p>Sobre el censo de Barro Colorado, compare dos particiones que observan 20 hectáreas: (a) diez columnas de cinco hectáreas, seleccionando cuatro columnas; (b) cinco filas de diez hectáreas, seleccionando dos filas. Complete la ICC y la enumeración del diseño.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: la variable continua para la ICC, rho y DEFF (MS_entre y MS_dentro</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ya se definen), y en de_exacta_media() complete el total estimado de cada</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># combinación (el promedio pesado de los totales por conglomerado sobre N_bci).</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>icc_deff <span class="ot">&lt;-</span> <span class="cf">function</span>(grupo) {</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  medias <span class="ot">&lt;-</span> <span class="fu">tapply</span>(____, grupo, mean)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  L_g <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">table</span>(grupo)[<span class="dv">1</span>])</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  MS_entre <span class="ot">&lt;-</span> L_g <span class="sc">*</span> <span class="fu">var</span>(medias)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  MS_dentro <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">tapply</span>(____, grupo, var))</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  rho <span class="ot">&lt;-</span> ____                      <span class="co"># (MS_entre-MS_dentro)/(MS_entre+(L_g-1)*MS_dentro)</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">ICC =</span> rho, <span class="at">DEFF =</span> ____)        <span class="co"># 1 + (L_g - 1) * rho</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>de_exacta_media <span class="ot">&lt;-</span> <span class="cf">function</span>(totales, m_sel) {</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  M_g <span class="ot">&lt;-</span> <span class="fu">length</span>(totales)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  comb <span class="ot">&lt;-</span> ____                     <span class="co"># todas las combinaciones de m_sel entre M_g</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  est <span class="ot">&lt;-</span> <span class="fu">apply</span>(comb, <span class="dv">2</span>, <span class="cf">function</span>(idx)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    ____)                          <span class="co"># M_g/m_sel * suma de totales[idx] / N_bci</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">DE_exacta =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((est <span class="sc">-</span> <span class="fu">mean</span>(est))<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">media_estimador =</span> <span class="fu">mean</span>(est))</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>totales_col <span class="ot">&lt;-</span> <span class="fu">tapply</span>(____, ____, sum)   <span class="co"># tallos por columna</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>totales_fila <span class="ot">&lt;-</span> <span class="fu">tapply</span>(____, ____, sum)  <span class="co"># tallos por fila</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">columnas =</span> <span class="fu">c</span>(<span class="fu">icc_deff</span>(____), <span class="fu">de_exacta_media</span>(____, <span class="dv">4</span>)),</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">filas =</span> <span class="fu">c</span>(<span class="fu">icc_deff</span>(____), <span class="fu">de_exacta_media</span>(____, <span class="dv">2</span>))</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a><span class="co"># DEFF empírico por repetición: cuántas veces más varía la media del diseño que</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="co"># la de un MAS del mismo esfuerzo (20 hectáreas). Complete el MAS y las</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="co"># combinaciones sorteadas.</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2216</span>)</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>MAS_20 <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, <span class="fu">mean</span>(____))           <span class="co"># sample(marco_bci$tallos, 20)</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>rep_columnas <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, {</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>  idx <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">seq_len</span>(<span class="dv">10</span>), <span class="dv">4</span>)</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">10</span> <span class="sc">/</span> <span class="dv">4</span>) <span class="sc">*</span> <span class="fu">sum</span>(totales_col[idx]) <span class="sc">/</span> N_bci</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>rep_filas <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">1000</span>, {</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>  idx <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">seq_len</span>(<span class="dv">5</span>), <span class="dv">2</span>)</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">5</span> <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">*</span> <span class="fu">sum</span>(totales_fila[idx]) <span class="sc">/</span> N_bci</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">DEFF_empirico_columnas =</span> <span class="fu">var</span>(rep_columnas) <span class="sc">/</span> <span class="fu">var</span>(MAS_20),</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>  <span class="at">DEFF_empirico_filas =</span> <span class="fu">var</span>(rep_filas) <span class="sc">/</span> <span class="fu">var</span>(MAS_20))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Gráficas.</strong> Escriba (a) los mapas de las dos particiones con un ejemplo de selección y (b) el boxplot de tallos por hectárea dentro de cada conglomerado.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: dos paneles (par(mfrow = c(1, 2))). Panel (a): el grid de 10 x 5</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># hectáreas a partir de marco_bci$x y marco_bci$y, con rect() por hectárea,</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># resaltando en cada partición una selección de ejemplo (4 columnas en la de</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># columnas, 2 filas en la de filas), ejes Este/Norte y leyenda. Panel (b): el</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co"># boxplot(tallos ~ conglomerado) de la partición en columnas.</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Preguntas de análisis.</strong></p>
+<ol type="1">
+<li>Ambas orientaciones observan 20 hectáreas. ¿Por qué cambia la DE exacta del estimador aunque el área sea la misma? Relacione la respuesta con la ICC y el DEFF.</li>
+<li>¿Qué orientación es más eficiente en esta población y qué implica para el diseño del trabajo de campo?</li>
+<li>¿Por qué el DEFF y la ICC calculados son un diagnóstico de esta partición concreta y no una constante de BCI?</li>
+</ol>
+<p><strong>Tarea de exploración.</strong> En la orientación de columnas, submuestree solo <span class="math inline">\(l=3\)</span> de las cinco hectáreas de cada columna seleccionada (dos etapas) y compare la DE empírica de la media con la de una etapa que censa las cinco. Reporte qué componente de varianza añade la segunda etapa y en qué condición desaparece.</p>
+</section>
+<section id="bloque-5.-auxiliar-razón-frente-a-regresión" class="level2" data-number="13.7">
+<h2 data-number="13.7" class="anchored" data-anchor-id="bloque-5.-auxiliar-razón-frente-a-regresión"><span class="header-section-number">13.7</span> Bloque 5. Auxiliar: razón frente a regresión</h2>
+<p>Compare los estimadores de razón y de regresión del total de volumen. Complete las pendientes y las métricas.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: la razón muestral Rhat (cociente de los totales muestrales), su</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># pendiente b de la regresión de Volume sobre el auxiliar, y ambos estimadores</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># del total: la razón escala Rhat por el auxiliar poblacional X_aux, y la</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># regresión multiplica por N la media muestral corregida con la diferencia de</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co"># medias del auxiliar.</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2213</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>rep_r5 <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(B, {</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> U[<span class="fu">sample.int</span>(N, <span class="dv">10</span>), ]</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  Rhat <span class="ot">&lt;-</span> ____</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  b <span class="ot">&lt;-</span> ____</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">razon =</span> ____, <span class="at">regresion =</span> ____)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">t</span>(<span class="fu">vapply</span>(<span class="fu">as.data.frame</span>(rep_r5), <span class="cf">function</span>(x) {</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">sesgo =</span> ____, <span class="at">DE_empirica =</span> ____, <span class="at">RMSE =</span> ____)</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>}, <span class="fu">numeric</span>(<span class="dv">3</span>))), <span class="dv">3</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Gráficas.</strong> Escriba (a) la nube auxiliar-volumen con las dos rectas ajustadas en una muestra y (b) los residuos de la razón con su suavizado.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: sobre una muestra fija sf &lt;- U[sample.int(N, 10), ] (set.seed(2214))</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co"># calcule su razón Rhat0 y su pendiente b0. Panel (a): la nube</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># plot(U$x_aux, U$Volume) con los puntos de la muestra resaltados y las dos</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># rectas — la de razón (sólida, forzada al origen con pendiente Rhat0) y la de</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="co"># regresión (discontinua, con intercepto) — y leyenda. Panel (b): los residuos</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="co"># de razón e_r = sf$Volume - Rhat0 * sf$x_aux frente al auxiliar, con línea</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># horizontal en cero y una curva lowess que no debe apartarse de ella.</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Preguntas de análisis.</strong></p>
+<ol type="1">
+<li>Compare RMSE de razón y regresión y explique por qué la razón lo logra pese a imponer proporcionalidad al origen.</li>
+<li>En la nube de residuos, ¿hay una tendencia que aconsejara un modelo con intercepto o una transformación del auxiliar? Justifíquelo.</li>
+<li>¿En qué situación operativa preferiría un estimador de regresión y qué condición del marco exigiría?</li>
+</ol>
+<p><strong>Tarea de exploración.</strong> Repita el bloque usando como auxiliar solo el diámetro (<code>x_G = Girth</code>) y compare el RMSE con el del auxiliar completo <code>x_aux</code>. ¿Qué le dice la diferencia sobre la calidad del auxiliar?</p>
+</section>
+<section id="síntesis-y-comprobación" class="level2" data-number="13.8">
+<h2 data-number="13.8" class="anchored" data-anchor-id="síntesis-y-comprobación"><span class="header-section-number">13.8</span> Síntesis y comprobación</h2>
+<p>Reúna los RMSE de los métodos evaluados sobre <code>trees</code> (el mismo estimando: el total de volumen), calculándolos desde los objetos de los bloques anteriores, sin escribir números.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: ensamble la tabla desde metricas_estrat, sensibilidad y rep_r5.</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>rmse_r5 <span class="ot">&lt;-</span> <span class="fu">apply</span>(rep_r5, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">sqrt</span>(<span class="fu">mean</span>((x <span class="sc">-</span> verdad_arboles[<span class="st">"total"</span>])<span class="sc">^</span><span class="dv">2</span>)))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>tabla_sintesis <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">metodo =</span> <span class="fu">c</span>(<span class="st">"MAS"</span>, <span class="st">"Proporcional"</span>, <span class="st">"Neyman"</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>             <span class="st">"Sistemático (diámetro)"</span>, <span class="st">"Sistemático (volumen)"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>             <span class="st">"Sistemático (aleatorio)"</span>, <span class="st">"Razón"</span>, <span class="st">"Regresión"</span>),</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">RMSE =</span> <span class="fu">c</span>(metricas_estrat[<span class="st">"MAS"</span>, <span class="st">"RMSE"</span>],</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>           metricas_estrat[____, <span class="st">"RMSE"</span>],</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>           metricas_estrat[____, <span class="st">"RMSE"</span>],</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>           sensibilidad[____, <span class="st">"RMSE"</span>],</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>           sensibilidad[____, <span class="st">"RMSE"</span>],</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>           sensibilidad[____, <span class="st">"RMSE"</span>],</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>           rmse_r5[____], rmse_r5[____]))</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>tabla_sintesis</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">setNames</span>(tabla_sintesis<span class="sc">$</span>RMSE, tabla_sintesis<span class="sc">$</span>metodo),</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">las =</span> <span class="dv">2</span>, <span class="at">cex.names =</span> <span class="fl">0.8</span>, <span class="at">col =</span> <span class="st">"#386641"</span>,</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"RMSE del total de volumen"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>Conclusión.</strong> Escriba tres o cuatro frases que ordenen los diseños por precisión, expliquen qué estructura del marco aprovecha cada ganancia y señalen los límites de la comparación (dos censos observados, no generalizable a otro bosque). Mencione además que la cobertura de los intervalos declarados se mantuvo en torno al nivel nominal —ligeramente por debajo en el MAS y por encima en los estratificados— y qué dice eso de la fiabilidad de los intervalos. Recuerde que las DE exactas del bloque de conglomerados corresponden a la media de tallos por hectárea y no usan el mismo estimando.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Resultados breves de comprobación
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Bloque 0.</strong> <code>verdad_arboles</code>: media 30.17, total 935.3, proporción 0.39, DE 16.44. Asignaciones proporcional <span class="math inline">\((4,3,3)\)</span> y Neyman <span class="math inline">\((3,3,4)\)</span> con <span class="math inline">\(S_h\approx(4.9,5.4,13.2)\)</span>. BCI: 50 hectáreas, 10 conglomerados de 5, verdad media 429.14.</p>
+<p><strong>Bloque 1.</strong> RMSE del total: MAS 186.94, 134.77 y 94.98 para <span class="math inline">\(n=6,10,15\)</span>; razón 28.54, 20.25 y 13.90.</p>
+<p><strong>Bloque 2.</strong> RMSE: MAS 130.29, proporcional 74.76, Neyman 62.69. Sesgos: MAS -5.8, proporcional -0.7, Neyman 4.1. SE medio: MAS 127.2, proporcional 67.7, Neyman 62.6. Cobertura del 95 %: MAS 0.92, proporcional 0.93, Neyman 0.96. Descomposición (varianza total 261.5): dentro 67.0 y entre 194.5.</p>
+<p><strong>Bloque 3.</strong> DE de diseño: diámetro 67.06, volumen 61.68, aleatorio 77.90. Media de los 31 arranques = 935.3 en los tres órdenes.</p>
+<p><strong>Bloque 4.</strong> Columnas: ICC 0.2140, DEFF 1.8562, DE exacta 10.13 tallos/ha. Filas: ICC 0.3109, DEFF 3.7982, DE exacta 14.79 tallos/ha. DEFF empírico por repetición: columnas ≈1.90, filas ≈3.93.</p>
+<p><strong>Bloque 5.</strong> RMSE: razón 20.51, regresión 23.02.</p>
+</div>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/chapter12.html" class="pagination-link" aria-label="Proyecto completo de muestreo ecológico">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/practica03.html" class="pagination-link" aria-label="Práctica 3: Parcelas, cuadrantes e intercepción">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Práctica 3: Parcelas, cuadrantes e intercepción</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Muestreo ecológico con R</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Jonathan Florez Giraldo</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

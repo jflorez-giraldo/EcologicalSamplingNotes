@@ -1,0 +1,534 @@
+---
+title: "Práctica 2: Diseños probabilísticos en R"
+subtitle: "Estimación por repetición, gráficas y análisis de resultados"
+execute:
+  enabled: true
+  warning: false
+  message: false
+---
+
+## Presentación
+
+Esta práctica trabaja con los dos censos usados en el capítulo 2: los 31 árboles
+de `datasets::trees` y las 50 hectáreas del censo de Barro Colorado
+(`vegan::BCI`). El documento es autocontenido: construye todos los objetos que
+necesita, por lo que se resuelve en una sesión nueva de R sin depender del
+resto del capítulo.
+
+**Materiales.** Una instalación de R con el paquete `vegan`. No se requieren
+otros paquetes.
+
+**Cómo trabajar.** La práctica es de construcción guiada: el código de cada
+bloque está incompleto. Los huecos están marcados con `# COMPLETAR` y, en el
+texto, con `____` dentro del código. Debe reemplazarlos por la expresión
+correcta, ejecutar el bloque y comprobar contra el cuadro de comprobación
+(colapsado, al final). Después trace las gráficas pedidas (escríbalas usted
+mismo), responda las preguntas de análisis y resuelva la tarea de exploración
+de cada bloque, que exige modificar y volver a ejecutar. En la entrega incluya
+el código completado, las gráficas y las respuestas.
+
+**Convención del texto.** Se usa `#> ` para la salida de R. Las semillas están
+fijadas para que sus resultados coincidan con la comprobación.
+
+## Bloque 0. Arranque autocontenido
+
+Construya los marcos y las verdades poblacionales. Este bloque está completo;
+ejecútelo y verifique los valores.
+
+```{r}
+data(trees, package = "datasets")
+U <- transform(
+  trees,
+  id = seq_len(nrow(trees)),
+  grande = as.integer(Volume >= 30),
+  x_aux = Girth^2 * Height
+)
+N <- nrow(U)
+verdad_arboles <- c(
+  media = mean(U$Volume), total = sum(U$Volume),
+  proporcion = mean(U$grande), DE = sd(U$Volume)
+)
+X_aux <- sum(U$x_aux)
+cbind(verdad_arboles)
+```
+
+```{r}
+U$estrato <- cut(U$Girth, c(8.3, 11.3, 14.0, 20.6),
+                 include.lowest = TRUE,
+                 labels = c("pequeno", "medio", "grande"))
+Nh <- table(U$estrato)
+
+asignar_enteros <- function(pesos, n_total, minimo = 2) {
+  a <- rep(minimo, length(pesos)); names(a) <- names(pesos)
+  faltan <- n_total - sum(a)
+  if (faltan > 0) {
+    cuota <- faltan * pesos / sum(pesos)
+    a <- a + floor(cuota)
+    resto <- n_total - sum(a)
+    if (resto > 0) {
+      fraccion <- cuota - floor(cuota)
+      idx <- order(fraccion, decreasing = TRUE)[seq_len(resto)]
+      a[idx] <- a[idx] + 1
+    }
+  }
+  a
+}
+
+nh <- asignar_enteros(as.numeric(Nh), 10)
+names(nh) <- names(Nh)
+S_h <- tapply(U$Volume, U$estrato, sd)
+nh_neyman <- asignar_enteros(as.numeric(Nh) * S_h, 10)
+names(nh_neyman) <- names(Nh)
+
+rbind(
+  poblacion = Nh,
+  proporcional = nh,
+  Neyman = nh_neyman,
+  S_h = round(S_h, 1)
+)
+```
+
+```{r}
+data(BCI, BCI.env, package = "vegan")
+marco_bci <- BCI.env
+marco_bci$id <- seq_len(nrow(marco_bci))
+marco_bci$x <- as.integer((marco_bci$UTM.EW - min(marco_bci$UTM.EW)) / 100 + 1)
+marco_bci$y <- as.integer((marco_bci$UTM.NS - min(marco_bci$UTM.NS)) / 100 + 1)
+marco_bci$conglomerado <- marco_bci$x
+marco_bci$fila <- marco_bci$y
+marco_bci$tallos <- rowSums(BCI)
+marco_bci$riqueza_alta <- as.integer(vegan::specnumber(BCI) >= 95)
+N_bci <- nrow(marco_bci)
+verdad_bci <- mean(marco_bci$tallos)
+
+c(N_bci = N_bci,
+  conglomerados = length(unique(marco_bci$conglomerado)),
+  hectareas_por_conglomerado = as.integer(table(marco_bci$conglomerado)[1]),
+  verdad_media = verdad_bci)
+```
+
+## Bloque 1. Auxiliar y tamaño de muestra
+
+Compare, por repetición, el error del estimador MAS y del estimador de razón
+para tres tamaños de muestra ($n = 6, 10, 15$). La razón usa el auxiliar
+$x = \mathrm{DAP}^2\cdot\mathrm{altura}$, conocido para las 31 unidades.
+Complete los RMSE dentro de la repetición.
+
+```{r}
+#| eval: false
+# COMPLETAR: en cada repetición "MAS" y "razon" son filas de rep_k con las B
+# réplicas de cada método. Para cada una calcule su RMSE: la raíz del promedio
+# del error cuadrático frente a verdad_arboles["total"] (sección de evaluación
+# por repetición del capítulo 2).
+B <- 1000
+set.seed(2210)
+resultados_tam <- t(sapply(c(6, 10, 15), function(k) {
+  rep_k <- replicate(B, {
+    z <- U[sample.int(N, k), ]
+    c(MAS = N * mean(z$Volume),
+      razon = sum(z$Volume) / sum(z$x_aux) * X_aux)
+  })
+  c(n = k, MAS = ____, razon = ____)
+}))
+resultados_tam
+```
+
+**Gráfica.** Escriba la gráfica del RMSE frente al tamaño de muestra.
+
+```{r}
+#| eval: false
+# COMPLETAR: complete argumentos (lty, col) y leyenda.
+matplot(resultados_tam[, "n"], resultados_tam[, c("MAS", "razon")],
+        type = "b", pch = 19, lty = ____, lwd = 2, col = ____,
+        xlab = "Tamaño de muestra (n)", ylab = "RMSE del total")
+legend("topright", c("MAS", "Razón"), col = ____, lty = ____, bty = "n")
+```
+
+**Preguntas de análisis.**
+
+1. ¿La ventaja relativa del auxiliar se mantiene, crece o desaparece al pasar de
+   $n=6$ a $n=15$? Use la relación entre los RMSE.
+2. ¿Qué implicación tiene ese resultado para planear el esfuerzo de muestreo
+   cuando existe un buen auxiliar?
+3. ¿Por qué el resultado (y sus RMSE) está limitado a estas 31 filas y no debe
+   extrapolarse como una regla general?
+
+**Tarea de exploración.** Repita con `c(6, 8, 10, 15, 20)` y calcule también
+el sesgo de cada método (promedio de la desviación respecto de la verdad).
+¿Qué le dice el cociente entre RMSE sobre el papel del auxiliar a medida que
+crece $n$?
+
+## Bloque 2. Estratificación: asignación y ganancia de precisión
+
+Estime el total de volumen con un MAS y con las asignaciones proporcional y de
+Neyman. Complete el estimador por estratos y la muestra dentro de cada estrato.
+
+```{r}
+#| eval: false
+# COMPLETAR: total y varianza por estrato (usar N_h, n_h y var(z)).
+estimar_st <- function(datos, variable, Nh, nh) {
+  por_h <- lapply(names(nh), function(h) {
+    z <- datos[as.character(datos$estrato) == h, variable]
+    N_h <- unname(Nh[h]); n_h <- unname(nh[h])
+    c(total = ____,                 # N_h * mean(z)
+      var_total = ____)             # N_h^2 * (1 - n_h/N_h) * var(z) / n_h
+  })
+  por_h <- do.call(rbind, por_h)
+  c(total = sum(por_h[, "total"]),
+    var_total = sum(por_h[, "var_total"]))
+}
+```
+
+```{r}
+#| eval: false
+# COMPLETAR: guarde el error estándar del MAS (columna se) calculado con la misma
+# muestra que la estimación, y la "var_total" dentro de una_st(). Con est y se de
+# la misma réplica se decide si el intervalo cubre la verdad y se suma la
+# cobertura, que las métricas de solo puntos no reportan.
+una_mas_ic <- function() {
+  z <- U[sample.int(N, 10), ]
+  c(est = N * mean(z$Volume),
+    se = N * sqrt((1 - 10 / N) * var(z$Volume) / 10))
+}
+
+una_st <- function(nh_local) {
+  ids <- unlist(lapply(names(nh_local), function(h)
+    sample(____, ____)))            # U$id[U$estrato == h], tamaño nh_local[h]
+  z <- U[match(ids, U$id), ]
+  v <- estimar_st(z, "Volume", Nh, nh_local)
+  c(est = unname(v["total"]),
+    se = sqrt(unname(v["____"])))   # componente de varianza del total
+}
+
+set.seed(2211)
+rep_estrat <- list(
+  MAS = t(replicate(B, una_mas_ic())),
+  Proporcional = t(replicate(B, una_st(nh))),
+  Neyman = t(replicate(B, una_st(nh_neyman)))
+)
+
+# COMPLETAR: defina las cinco métricas. Las cuatro primeras son, en orden, el
+# sesgo (promedio de la desviación frente a la verdad), la DE empírica
+# (desviación estándar de las estimaciones), el SE medio (promedio del error
+# estándar predicho por la fórmula) y el RMSE (raíz del error cuadrático medio).
+# La quinta cuenta la fracción de réplicas en las que el intervalo
+# [est ± t·se] con t de Student (gl grados de libertad) contiene la verdad.
+metricas_ic <- function(est, se, verdad, gl) c(
+  sesgo = ____,
+  DE_empirica = ____,
+  SE_medio = ____,
+  RMSE = ____,
+  cobertura = ____)
+
+# gl = n - 1 para el MAS (se estima solo la media) y n - 3 para los
+# estratificados (se estima la media de cada uno de los tres estratos).
+gl_por_diseno <- c(MAS = 9, Proporcional = 7, Neyman = 7)
+metricas_estrat <- t(sapply(names(rep_estrat), function(md)
+  metricas_ic(rep_estrat[[md]][, "est"], rep_estrat[[md]][, "se"],
+              verdad_arboles["total"], gl_por_diseno[md])))
+round(metricas_estrat, 3)
+```
+
+**Gráficas.** Escriba (a) la distribución del total bajo los tres esquemas y
+(b) la descomposición dentro/entre de los estratos.
+
+```{r}
+#| eval: false
+# COMPLETAR: (a) cajas con las estimaciones (columna "est") de los tres diseños,
+# un color por método, línea discontinua en el total verdadero y etiquetas;
+# (b) la descomposición de la varianza poblacional, donde debe cumplirse
+# Dentro + Entre = var(U$Volume) * (N - 1) / N.
+boxplot(lapply(rep_estrat, function(r) r[, ____]), col = c(____),
+        ylab = "Total estimado de volumen", las = 2)
+abline(h = ____, lty = 2)
+
+var_total <- var(U$Volume) * (N - 1) / N
+mu_total <- mean(U$Volume)
+var_entre <- sum((as.numeric(Nh) / N) *
+                 (tapply(U$Volume, U$estrato, mean) - ____)^2)
+var_dentro <- var_total - ____
+c(Dentro = round(var_dentro, 1), Entre = round(var_entre, 1))
+barplot(c(Dentro = var_dentro, Entre = var_entre), col = c(____),
+        ylab = "Componente de varianza")
+```
+
+**Preguntas de análisis.**
+
+1. Compare el RMSE del MAS con el del proporcional: ¿de dónde proviene la
+   reducción de incertidumbre? Relaciónelo con las componentes dentro y entre
+   de los estratos.
+2. ¿Por qué la asignación de Neyman mejora todavía el RMSE? ¿Qué información
+   previa exigiría en un estudio real y por qué no debería usarse la $S_h$
+   censal como si fuera un dato de marco?
+3. En el boxplot, ¿los tres esquemas parecen insesgados? Apoye su respuesta con
+   la columna de sesgo de `metricas_estrat`.
+4. Compare la cobertura observada con el nivel nominal del 95 %. ¿Por qué los
+   estratificados usan un valor crítico con menos grados de libertad que el MAS,
+   y cómo se refleja eso en el SE medio frente a la DE empírica?
+
+**Tarea de exploración.** Repita la repetición con `n_total = 12` (recalcule
+`nh` y `nh_neyman` con `asignar_enteros(as.numeric(Nh), 12)`). ¿Cómo cambia la
+ventaja relativa del proporcional frente al MAS? Además, estime `S_h` con una
+mini-muestra de tres unidades por estrato (un “piloto”) y construya la
+asignación de Neyman con esas DE; compare con la de Neyman “censal” y explique
+la diferencia.
+
+## Bloque 3. Sistemático: arranques y sensibilidad al orden
+
+En el marco ordenado de las 31 unidades, enumere los 31 arranques del estimador
+sistemático del total en tres órdenes. Complete la función de selección.
+
+```{r}
+#| eval: false
+# COMPLETAR: desplazamientos = floor((0:(n_k - 1)) * N_k / n_k) y los órdenes.
+seleccion_sistematica <- function(arranque, n_k = 10, N_k = N) {
+  desplazamientos <- ____
+  ((arranque - 1 + desplazamientos) %% N_k) + 1
+}
+
+set.seed(2212)
+permutacion <- sample(seq_len(N), N)
+ordenes <- list(
+  diametro = ____,    # marco ordenado por diámetro (desempate por id)
+  volumen = ____,     # orden por volumen (solo diagnóstico retrospectivo)
+  aleatorio = ____)   # la permutación generada arriba
+
+totales_orden <- lapply(ordenes, function(ord) {
+  z <- U[ord, ]
+  vapply(seq_len(N), function(a)
+    ____, 0.0)        # total sistemático: N * media del subconjunto de arranque a
+})
+
+sensibilidad <- t(vapply(totales_orden, function(totales) {
+  c(media = ____,
+    DE_diseno = ____,              # sqrt(mean((totales - mean(totales))^2))
+    RMSE = ____)
+}, numeric(3)))
+round(sensibilidad, 3)
+```
+
+**Gráfica.** Escriba los totales por arranque (tipo `h`) para el orden más
+eficiente (volumen) y para el menos eficiente (aleatorio).
+
+```{r}
+#| eval: false
+# COMPLETAR: gráfica de totales_orden[["volumen"]] y de totales_orden[["aleatorio"]]
+# con línea horizontal en la verdad.
+plot(seq_len(N), ____, type = "h", lwd = 3, col = ____,
+     xlab = "Arranque", ylab = "Total estimado")
+abline(h = ____, lty = 2)
+```
+
+**Preguntas de análisis.**
+
+1. En los tres órdenes, la media de los 31 totales coincide con el total
+   verdadero: ¿qué propiedad del diseño sistemático revela eso?
+2. Compare la DE de diseño entre el orden por diámetro, por volumen y la
+   permutación aleatoria. ¿Qué le dice la permutación sobre el papel del
+   gradiente?
+3. ¿Por qué el orden por volumen es solo un diagnóstico retrospectivo y no una
+   estrategia para fijar el orden de campo?
+
+**Tarea de exploración.** Añada un cuarto orden por `Height` y comente dónde cae
+en el ranking de DE de diseño. Después, genere la realización sistemática con
+arranque 31 (la sorteada en el capítulo) sobre el orden por diámetro y estime el
+total con un MAS de diez unidades por repetición (1000 veces); compare la DE
+empírica de ambos con la DE de diseño sistemática.
+
+## Bloque 4. Conglomerados: orientación de las unidades primarias
+
+Sobre el censo de Barro Colorado, compare dos particiones que observan
+20 hectáreas: (a) diez columnas de cinco hectáreas, seleccionando cuatro
+columnas; (b) cinco filas de diez hectáreas, seleccionando dos filas. Complete
+la ICC y la enumeración del diseño.
+
+```{r}
+#| eval: false
+# COMPLETAR: la variable continua para la ICC, rho y DEFF (MS_entre y MS_dentro
+# ya se definen), y en de_exacta_media() complete el total estimado de cada
+# combinación (el promedio pesado de los totales por conglomerado sobre N_bci).
+icc_deff <- function(grupo) {
+  medias <- tapply(____, grupo, mean)
+  L_g <- as.integer(table(grupo)[1])
+  MS_entre <- L_g * var(medias)
+  MS_dentro <- mean(tapply(____, grupo, var))
+  rho <- ____                      # (MS_entre-MS_dentro)/(MS_entre+(L_g-1)*MS_dentro)
+  c(ICC = rho, DEFF = ____)        # 1 + (L_g - 1) * rho
+}
+
+de_exacta_media <- function(totales, m_sel) {
+  M_g <- length(totales)
+  comb <- ____                     # todas las combinaciones de m_sel entre M_g
+  est <- apply(comb, 2, function(idx)
+    ____)                          # M_g/m_sel * suma de totales[idx] / N_bci
+  c(DE_exacta = sqrt(mean((est - mean(est))^2)),
+    media_estimador = mean(est))
+}
+
+totales_col <- tapply(____, ____, sum)   # tallos por columna
+totales_fila <- tapply(____, ____, sum)  # tallos por fila
+rbind(
+  columnas = c(icc_deff(____), de_exacta_media(____, 4)),
+  filas = c(icc_deff(____), de_exacta_media(____, 2))
+)
+
+# DEFF empírico por repetición: cuántas veces más varía la media del diseño que
+# la de un MAS del mismo esfuerzo (20 hectáreas). Complete el MAS y las
+# combinaciones sorteadas.
+set.seed(2216)
+MAS_20 <- replicate(1000, mean(____))           # sample(marco_bci$tallos, 20)
+rep_columnas <- replicate(1000, {
+  idx <- sample(seq_len(10), 4)
+  (10 / 4) * sum(totales_col[idx]) / N_bci
+})
+rep_filas <- replicate(1000, {
+  idx <- sample(seq_len(5), 2)
+  (5 / 2) * sum(totales_fila[idx]) / N_bci
+})
+c(DEFF_empirico_columnas = var(rep_columnas) / var(MAS_20),
+  DEFF_empirico_filas = var(rep_filas) / var(MAS_20))
+```
+
+**Gráficas.** Escriba (a) los mapas de las dos particiones con un ejemplo de
+selección y (b) el boxplot de tallos por hectárea dentro de cada conglomerado.
+
+```{r}
+#| eval: false
+# COMPLETAR: dos paneles (par(mfrow = c(1, 2))). Panel (a): el grid de 10 x 5
+# hectáreas a partir de marco_bci$x y marco_bci$y, con rect() por hectárea,
+# resaltando en cada partición una selección de ejemplo (4 columnas en la de
+# columnas, 2 filas en la de filas), ejes Este/Norte y leyenda. Panel (b): el
+# boxplot(tallos ~ conglomerado) de la partición en columnas.
+par(mfrow = c(1, 2), mar = c(4, 4, 2, 1))
+```
+
+**Preguntas de análisis.**
+
+1. Ambas orientaciones observan 20 hectáreas. ¿Por qué cambia la DE exacta del
+   estimador aunque el área sea la misma? Relacione la respuesta con la ICC y
+   el DEFF.
+2. ¿Qué orientación es más eficiente en esta población y qué implica para el
+   diseño del trabajo de campo?
+3. ¿Por qué el DEFF y la ICC calculados son un diagnóstico de esta partición
+   concreta y no una constante de BCI?
+
+**Tarea de exploración.** En la orientación de columnas, submuestree solo
+$l=3$ de las cinco hectáreas de cada columna seleccionada (dos etapas) y
+compare la DE empírica de la media con la de una etapa que censa las cinco.
+Reporte qué componente de varianza añade la segunda etapa y en qué condición
+desaparece.
+
+## Bloque 5. Auxiliar: razón frente a regresión
+
+Compare los estimadores de razón y de regresión del total de volumen. Complete
+las pendientes y las métricas.
+
+```{r}
+#| eval: false
+# COMPLETAR: la razón muestral Rhat (cociente de los totales muestrales), su
+# pendiente b de la regresión de Volume sobre el auxiliar, y ambos estimadores
+# del total: la razón escala Rhat por el auxiliar poblacional X_aux, y la
+# regresión multiplica por N la media muestral corregida con la diferencia de
+# medias del auxiliar.
+set.seed(2213)
+rep_r5 <- t(replicate(B, {
+  z <- U[sample.int(N, 10), ]
+  Rhat <- ____
+  b <- ____
+  c(razon = ____, regresion = ____)
+}))
+
+round(t(vapply(as.data.frame(rep_r5), function(x) {
+  c(sesgo = ____, DE_empirica = ____, RMSE = ____)
+}, numeric(3))), 3)
+```
+
+**Gráficas.** Escriba (a) la nube auxiliar-volumen con las dos rectas ajustadas
+en una muestra y (b) los residuos de la razón con su suavizado.
+
+```{r}
+#| eval: false
+# COMPLETAR: sobre una muestra fija sf <- U[sample.int(N, 10), ] (set.seed(2214))
+# calcule su razón Rhat0 y su pendiente b0. Panel (a): la nube
+# plot(U$x_aux, U$Volume) con los puntos de la muestra resaltados y las dos
+# rectas — la de razón (sólida, forzada al origen con pendiente Rhat0) y la de
+# regresión (discontinua, con intercepto) — y leyenda. Panel (b): los residuos
+# de razón e_r = sf$Volume - Rhat0 * sf$x_aux frente al auxiliar, con línea
+# horizontal en cero y una curva lowess que no debe apartarse de ella.
+```
+
+**Preguntas de análisis.**
+
+1. Compare RMSE de razón y regresión y explique por qué la razón lo logra pese
+   a imponer proporcionalidad al origen.
+2. En la nube de residuos, ¿hay una tendencia que aconsejara un modelo con
+   intercepto o una transformación del auxiliar? Justifíquelo.
+3. ¿En qué situación operativa preferiría un estimador de regresión y qué
+   condición del marco exigiría?
+
+**Tarea de exploración.** Repita el bloque usando como auxiliar solo el
+diámetro (`x_G = Girth`) y compare el RMSE con el del auxiliar completo
+`x_aux`. ¿Qué le dice la diferencia sobre la calidad del auxiliar?
+
+## Síntesis y comprobación
+
+Reúna los RMSE de los métodos evaluados sobre `trees` (el mismo estimando: el
+total de volumen), calculándolos desde los objetos de los bloques anteriores,
+sin escribir números.
+
+```{r}
+#| eval: false
+# COMPLETAR: ensamble la tabla desde metricas_estrat, sensibilidad y rep_r5.
+rmse_r5 <- apply(rep_r5, 2, function(x) sqrt(mean((x - verdad_arboles["total"])^2)))
+tabla_sintesis <- data.frame(
+  metodo = c("MAS", "Proporcional", "Neyman",
+             "Sistemático (diámetro)", "Sistemático (volumen)",
+             "Sistemático (aleatorio)", "Razón", "Regresión"),
+  RMSE = c(metricas_estrat["MAS", "RMSE"],
+           metricas_estrat[____, "RMSE"],
+           metricas_estrat[____, "RMSE"],
+           sensibilidad[____, "RMSE"],
+           sensibilidad[____, "RMSE"],
+           sensibilidad[____, "RMSE"],
+           rmse_r5[____], rmse_r5[____]))
+tabla_sintesis
+
+barplot(setNames(tabla_sintesis$RMSE, tabla_sintesis$metodo),
+        las = 2, cex.names = 0.8, col = "#386641",
+        ylab = "RMSE del total de volumen")
+```
+
+**Conclusión.** Escriba tres o cuatro frases que ordenen los diseños por
+precisión, expliquen qué estructura del marco aprovecha cada ganancia y señalen
+los límites de la comparación (dos censos observados, no generalizable a otro
+bosque). Mencione además que la cobertura de los intervalos declarados se
+mantuvo en torno al nivel nominal —ligeramente por debajo en el MAS y por encima
+en los estratificados— y qué dice eso de la fiabilidad de los intervalos.
+Recuerde que las DE exactas del bloque de conglomerados corresponden a la media
+de tallos por hectárea y no usan el mismo estimando.
+
+::: {.callout-note collapse="true"}
+## Resultados breves de comprobación
+
+**Bloque 0.** `verdad_arboles`: media 30.17, total 935.3, proporción 0.39,
+DE 16.44. Asignaciones proporcional $(4,3,3)$ y Neyman $(3,3,4)$ con
+$S_h\approx(4.9,5.4,13.2)$. BCI: 50 hectáreas, 10 conglomerados de 5,
+verdad media 429.14.
+
+**Bloque 1.** RMSE del total: MAS 186.94, 134.77 y 94.98 para $n=6,10,15$;
+razón 28.54, 20.25 y 13.90.
+
+**Bloque 2.** RMSE: MAS 130.29, proporcional 74.76, Neyman 62.69. Sesgos: MAS
+-5.8, proporcional -0.7, Neyman 4.1. SE medio: MAS 127.2, proporcional 67.7,
+Neyman 62.6. Cobertura del 95 %: MAS 0.92, proporcional 0.93, Neyman 0.96.
+Descomposición (varianza total 261.5): dentro 67.0 y entre 194.5.
+
+**Bloque 3.** DE de diseño: diámetro 67.06, volumen 61.68, aleatorio 77.90.
+Media de los 31 arranques = 935.3 en los tres órdenes.
+
+**Bloque 4.** Columnas: ICC 0.2140, DEFF 1.8562, DE exacta 10.13 tallos/ha.
+Filas: ICC 0.3109, DEFF 3.7982, DE exacta 14.79 tallos/ha. DEFF empírico por
+repetición: columnas ≈1.90, filas ≈3.93.
+
+**Bloque 5.** RMSE: razón 20.51, regresión 23.02.
+:::

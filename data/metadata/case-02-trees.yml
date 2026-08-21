@@ -1,0 +1,29 @@
+dataset:
+  title: "Diameter, Height and Volume for Black Cherry Trees"
+  version: "R 4.5.2"
+  source_url: "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/trees.html"
+  accessed: "2026-08-16"
+  license: "R distribution license (GPL-2 | GPL-3)"
+  citation: "datasets::trees"
+  raw_files: ["package:datasets/trees"]
+study:
+  purpose: "Relacionar diámetro, altura y volumen de cerezos negros talados."
+  target_population: "Los 31 árboles documentados, tratados como población finita didáctica."
+  sampling_frame: "No documentado para inferencia forestal externa."
+  sampling_unit: "Árbol."
+  observation_unit: "Árbol."
+  selection_mechanism: "No documentado."
+  observation_process: "Diámetro, altura y volumen."
+  geographic_scope: "No especificado en el objeto."
+  temporal_scope: "No especificado en el objeto."
+processing:
+  script: "chapters/chapter02.qmd"
+  output_files: []
+  exclusions: []
+  transformations:
+    - "Indicador previo de volumen mayor o igual a 30 pies cúbicos"
+    - "Estratos didácticos derivados del diámetro"
+    - "Ordenamientos del marco para muestreo sistemático"
+    - "Auxiliar geométrico Girth^2 por Height"
+    - "Repetición de diseños sobre la población finita observada"
+  missing_data: "El objeto no contiene valores faltantes."

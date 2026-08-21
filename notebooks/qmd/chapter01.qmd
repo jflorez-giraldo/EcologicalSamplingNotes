@@ -1,0 +1,299 @@
+---
+title: "Del problema ecológico al diseño"
+execute:
+  enabled: true
+---
+
+{{< chapter-actions >}}
+
+## Diseñar antes de observar
+
+Una investigación ecológica comienza por decidir **qué cantidad**, **en qué
+población**, **durante qué período** y **con qué unidad** se quiere estimar. El
+diseño conecta pregunta, marco, selección, medición y análisis. Un intervalo
+estrecho no compensa una población mal delimitada ni una medición que responde a
+otra pregunta [@sutherland2006census; @manly2015ecological].
+
+Una declaración operativa útil tiene esta forma:
+
+> Estimar el parámetro de una variable en unidades elegibles, durante un período
+> y dentro de una extensión definidos, mediante un procedimiento de selección y
+> un protocolo de medición documentados.
+
+## Población, unidades y estimando
+
+Sea $U=\{1,\ldots,N\}$ una población finita y $y_i$ el valor de la unidad $i$.
+Tres estimandos habituales son
+
+$$
+Y=\sum_{i\in U}y_i,\qquad
+\bar Y=\frac{1}{N}\sum_{i\in U}y_i,\qquad
+P=\frac{1}{N}\sum_{i\in U}I(y_i\in A).
+$$
+
+El denominador pertenece a la definición. Densidad de individuos por hectárea,
+biomasa por árbol y frecuencia por parcela no son versiones intercambiables de
+una misma cantidad.
+
+- **Población objetivo:** conjunto al que se desea referir la conclusión.
+- **Población accesible:** parte que el protocolo puede alcanzar.
+- **Marco:** lista, mapa o red desde la cual se seleccionan unidades.
+- **Unidad de muestreo:** elemento que recibe probabilidad de selección.
+- **Unidad de observación:** elemento sobre el que se mide.
+- **Unidad de análisis:** elemento que aporta una observación independiente.
+- **Estimando:** cantidad poblacional definida antes de analizar.
+
+Una parcela seleccionada puede contener muchos árboles observados. Si la
+selección ocurrió entre parcelas, los árboles internos son submuestras y no
+parcelas independientes. Esta separación evita pseudorreplicación.
+
+## Selección e incertidumbre
+
+Un diseño probabilístico asigna probabilidades conocidas y positivas
+$\pi_i=P(i\in s)$. El estimador de Horvitz--Thompson para el total es
+
+$$
+\widehat Y_{HT}=\sum_{i\in s}\frac{y_i}{\pi_i}.
+$$
+
+En muestreo aleatorio simple sin reemplazo (MAS), $\pi_i=n/N$ y la media se
+estima con $\bar y_s$. Su varianza estimada es
+
+$$
+\widehat V_p(\bar y_s)=\left(1-\frac nN\right)\frac{s_y^2}{n}.
+$$
+
+El factor $1-n/N$ reconoce que no se reemplazan unidades de una población
+finita. No corrige cobertura incompleta, no respuesta, no detección ni error de
+medición [@lohr2022sampling]. Un intervalo basado en el diseño es
+$\bar y_s\pm t_{n-1,0.975}\widehat{SE}$.
+
+El error cuadrático medio separa variabilidad y sesgo:
+
+$$
+MSE(\widehat\theta)=V(\widehat\theta)+
+\{E(\widehat\theta)-\theta\}^2.
+$$
+
+Una muestra de conveniencia grande puede ser estable y, al mismo tiempo, estar
+centrada lejos del parámetro. La aleatorización protege contra preferencias de
+selección; la auditoría del protocolo protege contra errores de observación.
+
+## Arquitectura de un estudio defendible
+
+1. Formular una pregunta y un estimando primario.
+2. Delimitar población, extensión, período, elegibilidad y dominios.
+3. Auditar vacíos, duplicados e inaccesibilidad del marco.
+4. Identificar unidad de muestreo, observación y análisis.
+5. Escribir reglas de selección, reemplazo y medición.
+6. Vincular el estimando con su estimador y su incertidumbre.
+7. Anticipar heterogeneidad, dependencia y detectabilidad.
+8. Registrar control de calidad, desviaciones y límites de inferencia.
+
+## Aplicación reproducible: flores de `iris`
+
+`datasets::iris` contiene 150 registros morfológicos de flores, 50 por cada una
+de tres especies. Es un conjunto real histórico incorporado en R. Se desconoce
+un marco probabilístico que permita representar todas las poblaciones naturales,
+las filas no incluyen sitio, fecha, individuo ni incertidumbre instrumental, y
+algunas observaciones de *Iris versicolor* y *I. virginica* proceden del mismo
+origen. Por ello lo tratamos solo como **población finita de registros**, no como
+una muestra representativa de las especies.
+
+El estimando primario es la longitud media de sépalo de los 150 registros. La
+unidad de muestreo, observación y análisis es una fila. La especie es información
+auxiliar y define dominios.
+
+### Procedencia, carga y auditoría
+
+```{r}
+data(iris, package = "datasets")
+U <- transform(iris, id = seq_len(nrow(iris)))
+
+auditoria <- data.frame(
+  filas = nrow(U),
+  ids_unicos = length(unique(U$id)),
+  duplicados_completos = sum(duplicated(iris)),
+  faltantes = sum(is.na(U)),
+  longitudes_no_positivas = sum(U$Sepal.Length <= 0)
+)
+auditoria
+table(U$Species, useNA = "ifany")
+```
+
+Los duplicados completos no se eliminan: pueden corresponder a flores distintas
+con las mismas medidas redondeadas. Sin identificadores originales no es posible
+distinguir repetición biológica de duplicación administrativa; excluirlos
+cambiaría la población definida.
+
+### Exploración orientada al diseño
+
+```{r}
+resumen <- aggregate(
+  cbind(Sepal.Length, Sepal.Width, Petal.Length, Petal.Width) ~ Species,
+  data = U,
+  FUN = function(x) c(n = length(x), media = mean(x), de = sd(x),
+                      minimo = min(x), maximo = max(x))
+)
+resumen
+
+op <- par(mfrow = c(1, 2), mar = c(4, 4, 2, 1))
+boxplot(Sepal.Length ~ Species, data = U, col = "grey85",
+        xlab = "Especie", ylab = "Longitud de sépalo (cm)")
+plot(U$Petal.Length, U$Sepal.Length, pch = 19,
+     col = as.integer(U$Species), xlab = "Longitud de pétalo (cm)",
+     ylab = "Longitud de sépalo (cm)")
+legend("topleft", levels(U$Species), col = 1:3, pch = 19, bty = "n")
+par(op)
+```
+
+La separación entre especies muestra que el orden o una selección concentrada en
+un dominio puede alterar la estimación. La relación con longitud de pétalo
+sugiere un auxiliar, pero no reemplaza la selección probabilística.
+
+### Selección y estimación por MAS
+
+```{r}
+set.seed(1101)
+N <- nrow(U)
+n <- 30
+ids_mas <- sample(U$id, n, replace = FALSE)
+s_mas <- U[match(ids_mas, U$id), ]
+
+ybar <- mean(s_mas$Sepal.Length)
+se_mas <- sqrt((1 - n / N) * var(s_mas$Sepal.Length) / n)
+ic_mas <- ybar + qt(c(0.025, 0.975), n - 1) * se_mas
+resultado_mas <- data.frame(
+  estimando = "media de longitud de sépalo en 150 registros",
+  estimacion = ybar, SE = se_mas, LI = ic_mas[1], LS = ic_mas[2]
+)
+round(resultado_mas[-1], 3)
+```
+
+Cada fila seleccionada representa $N/n=5$ filas del marco. El intervalo describe
+la variación que produciría repetir este MAS. No incluye incertidumbre sobre la
+procedencia, representatividad externa, redondeo o identificación taxonómica.
+
+### Dominios y modelo descriptivo
+
+```{r}
+por_especie <- do.call(rbind, lapply(split(s_mas, s_mas$Species), function(z) {
+  Nh <- sum(U$Species == z$Species[1])
+  nh <- nrow(z)
+  data.frame(especie = z$Species[1], Nh = Nh, nh = nh,
+             media = mean(z$Sepal.Length),
+             SE = if (nh > 1)
+               sqrt((1 - nh / Nh) * var(z$Sepal.Length) / nh) else NA)
+}))
+por_especie
+
+modelo <- lm(Sepal.Length ~ Species + Petal.Length, data = s_mas)
+coef(summary(modelo))
+par(mfrow = c(1, 2))
+plot(fitted(modelo), residuals(modelo), pch = 19,
+     xlab = "Valor ajustado", ylab = "Residuo")
+abline(h = 0, lty = 2)
+qqnorm(residuals(modelo), pch = 19)
+qqline(residuals(modelo))
+par(mfrow = c(1, 1))
+```
+
+El modelo describe asociaciones dentro de la muestra: a longitud de pétalo fija,
+los coeficientes de especie son diferencias condicionales. No identifican causas
+ni amplían la población de inferencia. Los gráficos permiten detectar curvatura,
+varianza desigual y observaciones influyentes; con solo 30 filas, cualquier
+patrón debe interpretarse con cautela.
+
+### Evaluación del diseño y diagnóstico del intervalo
+
+Como se conoce el marco completo, se puede repetir el mecanismo de selección sin
+inventar datos biológicos. Esta repetición evalúa el diseño sobre valores reales.
+
+```{r}
+set.seed(1102)
+B <- 2000
+verdad <- mean(U$Sepal.Length)
+evaluar_mas <- function() {
+  z <- U$Sepal.Length[sample.int(N, n)]
+  est <- mean(z)
+  se <- sqrt((1 - n / N) * var(z) / n)
+  c(est = est, se = se,
+    cubre = abs(est - verdad) <= qt(0.975, n - 1) * se)
+}
+rep_mas <- t(replicate(B, evaluar_mas()))
+c(sesgo = mean(rep_mas[, "est"] - verdad),
+  DE = sd(rep_mas[, "est"]),
+  SE_medio = mean(rep_mas[, "se"]),
+  cobertura = mean(rep_mas[, "cubre"]),
+  RMSE = sqrt(mean((rep_mas[, "est"] - verdad)^2)))
+```
+
+El sesgo cercano a cero es consecuencia del MAS sobre este marco. La cercanía
+entre la desviación de estimaciones y el SE medio valida la fórmula para este
+mecanismo; la cobertura diagnostica la aproximación $t$, no la calidad externa
+del archivo.
+
+### Sensibilidad a selección y esfuerzo
+
+```{r}
+set.seed(1103)
+comparar <- replicate(B, {
+  mas <- mean(U$Sepal.Length[sample.int(N, n)])
+  inicio <- sample.int(N - n + 1, 1)
+  bloque <- mean(U$Sepal.Length[inicio:(inicio + n - 1)])
+  c(MAS = mas, bloque_contiguo = bloque)
+})
+
+t(apply(comparar, 1, function(x)
+  c(sesgo = mean(x - verdad), DE = sd(x),
+    RMSE = sqrt(mean((x - verdad)^2)))))
+
+n_grid <- c(10, 20, 30, 50, 80, 120)
+S2 <- var(U$Sepal.Length)
+data.frame(
+  n = n_grid,
+  fraccion = n_grid / N,
+  SE_esperado = sqrt((1 - n_grid / N) * S2 / n_grid),
+  semiamplitud = qnorm(0.975) *
+    sqrt((1 - n_grid / N) * S2 / n_grid)
+)
+```
+
+El bloque contiguo es sensible al orden histórico por especie y no tiene la
+protección del MAS. Aumentar $n$ reduce incertidumbre, con ganancias marginales
+decrecientes. Ninguna de las dos sensibilidades resuelve la falta de sitio,
+fecha, sexo, etapa vital o marco de selección original.
+
+## Interpretación y reproducibilidad
+
+La estimación principal caracteriza exclusivamente los 150 registros. Las
+diferencias por especie y el modelo ayudan a entender heterogeneidad, pero no
+convierten el archivo en una muestra de poblaciones silvestres. Una conclusión
+reproducible debe conservar semilla, versión de R, definición de variables,
+identificadores seleccionados y reglas de exclusión.
+
+```{r}
+list(
+  archivo = "datasets::iris",
+  version_R = R.version.string,
+  semilla_MAS = 1101,
+  ids_seleccionados = sort(ids_mas),
+  N = N,
+  n = n,
+  estimando = "media de Sepal.Length en las 150 filas"
+)
+sessionInfo()
+```
+
+## Actividad propuesta para el lector
+
+Use el conjunto real `datasets::ToothGrowth` para estimar la longitud media de
+odontoblastos en el marco completo y por suplemento. Documente procedencia y
+limitaciones experimentales, audite tipos, faltantes, duplicados y balance,
+defina unidad y estimando, explore distribuciones, extraiga un MAS reproducible
+y estime media, SE e intervalo con corrección finita. Compare MAS con muestreo
+estratificado por suplemento mediante repetición sobre los datos observados,
+diagnostique cobertura y RMSE, ajuste un modelo descriptivo con dosis y
+suplemento, revise residuos y observaciones influyentes, y evalúe sensibilidad al
+tamaño de muestra. Interprete qué incertidumbre pertenece al nuevo mecanismo de
+selección y cuál no puede recuperarse del archivo histórico.

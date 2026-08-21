@@ -1,0 +1,24 @@
+dataset:
+  title: "Occupancy Data for Coyote, Red Fox and Bobcat"
+  version: "unmarked 1.5.1"
+  source_url: "https://rbchan.github.io/unmarked/reference/MesoCarnivores.html"
+  accessed: "2026-08-16"
+  license: "GPL-3, package unmarked; datos usados con permiso de sus responsables"
+  citation: "unmarked::MesoCarnivores; Rota et al. (2016)"
+  raw_files: ["package:unmarked/MesoCarnivores"]
+study:
+  purpose: "Modelar uso y detección de mesocarnívoros en cámaras."
+  target_population: "Sitios incluidos durante la ventana de tres semanas."
+  sampling_frame: "1 437 sitios de cámara."
+  sampling_unit: "Sitio de cámara."
+  observation_unit: "Detección semanal de una especie."
+  selection_mechanism: "No asumido probabilístico para una región mayor."
+  observation_process: "Tres periodos de una semana."
+  geographic_scope: "Conjunto simplificado del estudio de Rota et al. (2016)."
+  temporal_scope: "Tres visitas semanales."
+processing:
+  script: "chapters/chapter07.qmd"
+  output_files: []
+  exclusions: []
+  transformations: ["Estandarización de covariables", "Modelo de ocupación para zorro rojo"]
+  missing_data: "No hay visitas faltantes en la matriz utilizada."

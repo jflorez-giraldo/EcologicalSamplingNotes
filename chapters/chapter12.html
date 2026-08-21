@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Fundamentos estadísticos, métodos de campo y proyectos reproducibles para el estudio de poblaciones, comunidades e interacciones biológicas.">
+
+<title>12&nbsp; Proyecto completo de muestreo ecológico – Muestreo ecológico</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/practica02.html" rel="next">
+<link href="../chapters/chapter11.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-3fee61de2b36a07911a09d94e160f21d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-7cffdf8bbe0ff56ccfce34d1b7d2026d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter12.html">Parte VI — Síntesis</a></li><li class="breadcrumb-item"><a href="../chapters/chapter12.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Muestreo ecológico</a> 
+        <div class="sidebar-tools-main">
+    <a href="../ecological-sampling.pdf" title="Descargar PDF" class="quarto-navigation-tool px-1" aria-label="Descargar PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Presentación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reading-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cómo usar este libro</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../literature-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Marco bibliográfico</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-catalog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Catálogo de datos reales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte I — Fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Del problema ecológico al diseño</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Diseños probabilísticos para poblaciones biológicas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte II — Métodos de campo</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transectos y muestreo por distancias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Métodos de censo por organismos y hábitats</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte III — Estimación de poblaciones</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Remoción, captura-recaptura e índices de abundancia</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ocupación y detección imperfecta</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte IV — Comparación y seguimiento</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Estudios comparativos, intervenciones y sesgos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Monitoreo ecológico y análisis de tendencias</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte V — Poblaciones y comunidades</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte VI — Síntesis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter12.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Prácticas</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Práctica 3: Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Material complementario</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Material complementario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referencias</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contenido</h2>
+   
+  <ul>
+  <li><a href="#la-cadena-de-inferencia" id="toc-la-cadena-de-inferencia" class="nav-link active" data-scroll-target="#la-cadena-de-inferencia"><span class="header-section-number">12.1</span> La cadena de inferencia</a></li>
+  <li><a href="#plan-previo-al-análisis" id="toc-plan-previo-al-análisis" class="nav-link" data-scroll-target="#plan-previo-al-análisis"><span class="header-section-number">12.2</span> Plan previo al análisis</a></li>
+  <li><a href="#aplicación-completa-con-veganmite" id="toc-aplicación-completa-con-veganmite" class="nav-link" data-scroll-target="#aplicación-completa-con-veganmite"><span class="header-section-number">12.3</span> Aplicación completa con <code>vegan::mite</code></a>
+  <ul class="collapse">
+  <li><a href="#pregunta-y-límites-del-diseño" id="toc-pregunta-y-límites-del-diseño" class="nav-link" data-scroll-target="#pregunta-y-límites-del-diseño"><span class="header-section-number">12.3.1</span> Pregunta y límites del diseño</a></li>
+  <li><a href="#importación-y-auditoría" id="toc-importación-y-auditoría" class="nav-link" data-scroll-target="#importación-y-auditoría"><span class="header-section-number">12.3.2</span> Importación y auditoría</a></li>
+  <li><a href="#construcción-de-variables" id="toc-construcción-de-variables" class="nav-link" data-scroll-target="#construcción-de-variables"><span class="header-section-number">12.3.3</span> Construcción de variables</a></li>
+  <li><a href="#estimación-e-incertidumbre" id="toc-estimación-e-incertidumbre" class="nav-link" data-scroll-target="#estimación-e-incertidumbre"><span class="header-section-number">12.3.4</span> Estimación e incertidumbre</a></li>
+  <li><a href="#diagnósticos" id="toc-diagnósticos" class="nav-link" data-scroll-target="#diagnósticos"><span class="header-section-number">12.3.5</span> Diagnósticos</a></li>
+  <li><a href="#composición-como-diagnóstico-complementario" id="toc-composición-como-diagnóstico-complementario" class="nav-link" data-scroll-target="#composición-como-diagnóstico-complementario"><span class="header-section-number">12.3.6</span> Composición como diagnóstico complementario</a></li>
+  <li><a href="#sensibilidad" id="toc-sensibilidad" class="nav-link" data-scroll-target="#sensibilidad"><span class="header-section-number">12.3.7</span> Sensibilidad</a></li>
+  <li><a href="#interpretación-y-comunicación" id="toc-interpretación-y-comunicación" class="nav-link" data-scroll-target="#interpretación-y-comunicación"><span class="header-section-number">12.3.8</span> Interpretación y comunicación</a></li>
+  <li><a href="#reproducibilidad" id="toc-reproducibilidad" class="nav-link" data-scroll-target="#reproducibilidad"><span class="header-section-number">12.3.9</span> Reproducibilidad</a></li>
+  </ul></li>
+  <li><a href="#supuestos-y-limitaciones" id="toc-supuestos-y-limitaciones" class="nav-link" data-scroll-target="#supuestos-y-limitaciones"><span class="header-section-number">12.4</span> Supuestos y limitaciones</a></li>
+  <li><a href="#errores-comunes" id="toc-errores-comunes" class="nav-link" data-scroll-target="#errores-comunes"><span class="header-section-number">12.5</span> Errores comunes</a></li>
+  <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis"><span class="header-section-number">12.6</span> Síntesis</a></li>
+  <li><a href="#actividad-propuesta-para-el-lector" id="toc-actividad-propuesta-para-el-lector" class="nav-link" data-scroll-target="#actividad-propuesta-para-el-lector"><span class="header-section-number">12.7</span> Actividad propuesta para el lector</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter12.html">Parte VI — Síntesis</a></li><li class="breadcrumb-item"><a href="../chapters/chapter12.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></h1>
+<p class="subtitle lead">De la pregunta a una comunicación reproducible con datos reales</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="chapter-actions" aria-label="Recursos del capítulo">
+  <a class="chapter-action" href="../notebooks/qmd/chapter12.qmd" download="">
+    <i class="bi bi-file-earmark-code" aria-hidden="true"></i>
+    <span>Descargar QMD</span>
+  </a>
+  <a class="chapter-action" href="../notebooks/ipynb/chapter12.ipynb" download="">
+    <i class="bi bi-journal-code" aria-hidden="true"></i>
+    <span>Descargar IPYNB</span>
+  </a>
+  <a class="chapter-action chapter-action-pdf" href="../ecological-sampling.pdf" download="">
+    <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
+    <span>Descargar libro en PDF</span>
+  </a>
+</div>
+
+<p>Un proyecto de muestreo es una cadena de decisiones: la pregunta delimita la población; el marco hace posible seleccionar unidades; el protocolo produce observaciones; el estimador resume la muestra; y la incertidumbre, los diagnósticos y la sensibilidad delimitan la interpretación. Este flujo integra los principios de diseño, trabajo de campo y análisis de <span class="citation" data-cites="henderson2016ecological">Henderson y Southwood (<a href="../references.html#ref-henderson2016ecological" role="doc-biblioref">2016</a>)</span>, <span class="citation" data-cites="sutherland2006census">Sutherland (<a href="../references.html#ref-sutherland2006census" role="doc-biblioref">2006</a>)</span>, <span class="citation" data-cites="manly2015ecological">Manly y Navarro Alberto (<a href="../references.html#ref-manly2015ecological" role="doc-biblioref">2015</a>)</span> y <span class="citation" data-cites="lohr2022sampling">Lohr (<a href="../references.html#ref-lohr2022sampling" role="doc-biblioref">2022</a>)</span>. Ningún análisis posterior repara un marco que excluyó sistemáticamente parte de la población.</p>
+<section id="la-cadena-de-inferencia" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="la-cadena-de-inferencia"><span class="header-section-number">12.1</span> La cadena de inferencia</h2>
+<p><span class="math display">\[
+\text{pregunta}\rightarrow\text{población y marco}\rightarrow
+\text{selección}\rightarrow\text{observación}\rightarrow
+\text{estimación}\rightarrow\text{interpretación}.
+\]</span></p>
+<p>Antes del campo se escriben la respuesta, la población objetivo, el periodo, la unidad de muestreo, el contraste y el <strong>estimando</strong>. También se separan:</p>
+<ul>
+<li>población objetivo: conjunto sobre el que se desea concluir;</li>
+<li>población accesible: conjunto que puede visitarse;</li>
+<li>marco: lista o mapa desde el cual se selecciona;</li>
+<li>muestra prevista: unidades seleccionadas por el diseño;</li>
+<li>muestra realizada: unidades con observación utilizable.</li>
+</ul>
+<p>El diseño determina qué inferencia es defendible. En muestreo aleatorio simple sin reemplazo, la media y su varianza estimada son</p>
+<p><span class="math display">\[
+\bar y=\frac{1}{n}\sum_{i\in s}y_i,\qquad
+\widehat{\operatorname{Var}}(\bar y)=
+\left(1-\frac{n}{N}\right)\frac{s^2}{n}.
+\]</span></p>
+<p>La corrección finita requiere conocer <span class="math inline">\(N\)</span>. Si la selección no fue probabilística, la fórmula no transforma una muestra conveniente en una muestra representativa <span class="citation" data-cites="lohr2022sampling">(<a href="../references.html#ref-lohr2022sampling" role="doc-biblioref">Lohr 2022</a>)</span>.</p>
+</section>
+<section id="plan-previo-al-análisis" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="plan-previo-al-análisis"><span class="header-section-number">12.2</span> Plan previo al análisis</h2>
+<p>Un plan breve y auditable contiene:</p>
+<ol type="1">
+<li>pregunta y estimando;</li>
+<li>población, marco y exclusiones;</li>
+<li>unidad primaria, submuestras y réplicas temporales;</li>
+<li>mecanismo de selección y probabilidades de inclusión;</li>
+<li>protocolo, esfuerzo, instrumentos y reglas para cero y faltante;</li>
+<li>estimador y método de incertidumbre compatibles con el diseño;</li>
+<li>diagnósticos y decisiones de sensibilidad definidos de antemano;</li>
+<li>alcance de la comunicación y archivos necesarios para reproducirla.</li>
+</ol>
+<p>En campo, identificadores estables, fechas, coordenadas, observador, esfuerzo, unidades y cambios de protocolo son datos, no notas opcionales <span class="citation" data-cites="gregg2008field">(<a href="../references.html#ref-gregg2008field" role="doc-biblioref">Gregg 2008</a>)</span>. Las submuestras mejoran la medición dentro de un sitio, pero no aumentan el número de sitios independientes.</p>
+</section>
+<section id="aplicación-completa-con-veganmite" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="aplicación-completa-con-veganmite"><span class="header-section-number">12.3</span> Aplicación completa con <code>vegan::mite</code></h2>
+<section id="pregunta-y-límites-del-diseño" class="level3" data-number="12.3.1">
+<h3 data-number="12.3.1" class="anchored" data-anchor-id="pregunta-y-límites-del-diseño"><span class="header-section-number">12.3.1</span> Pregunta y límites del diseño</h3>
+<p><code>vegan::mite</code> contiene conteos de 35 taxones de ácaros oribátidos en 70 sitios; <code>mite.env</code> contiene densidad y contenido de agua del sustrato, tipo de sustrato, arbustos y topografía <span class="citation" data-cites="oksanen2024vegan">(<a href="../references.html#ref-oksanen2024vegan" role="doc-biblioref">Oksanen et&nbsp;al. 2024</a>)</span>. La pregunta es:</p>
+<blockquote class="blockquote">
+<p>En los 70 sitios registrados, ¿cuáles son la abundancia total, la riqueza y la diversidad media, y cómo difieren descriptivamente entre topografías <code>Blanket</code> y <code>Hummock</code>?</p>
+</blockquote>
+<p>La fila, no cada ácaro, es la unidad analítica. El estimando primario es la media finita de cada atributo en los 70 sitios observados. Como el objeto no documenta un marco completo, probabilidades de inclusión, fechas, esfuerzo ni selección aleatoria, no se estiman parámetros de todo el humedal ni efectos causales de la topografía. Los intervalos que se mostrarán son intervalos <span class="math inline">\(t\)</span> descriptivos bajo un modelo de sitios independientes; no son intervalos basados en el diseño.</p>
+</section>
+<section id="importación-y-auditoría" class="level3" data-number="12.3.2">
+<h3 data-number="12.3.2" class="anchored" data-anchor-id="importación-y-auditoría"><span class="header-section-number">12.3.2</span> Importación y auditoría</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"vegan"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Este capítulo requiere el paquete 'vegan'."</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"mite"</span>, <span class="at">package =</span> <span class="st">"vegan"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"mite.env"</span>, <span class="at">package =</span> <span class="st">"vegan"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>comm <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(mite)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>env <span class="ot">&lt;-</span> mite.env</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>site_id <span class="ot">&lt;-</span> <span class="fu">rownames</span>(comm)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>audit <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">sites =</span> <span class="fu">nrow</span>(comm),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">taxa =</span> <span class="fu">ncol</span>(comm),</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">duplicated_site_ids =</span> <span class="fu">sum</span>(<span class="fu">duplicated</span>(site_id)),</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing_counts =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(comm)),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">negative_counts =</span> <span class="fu">sum</span>(comm <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">noninteger_counts =</span> <span class="fu">sum</span>(comm <span class="sc">!=</span> <span class="fu">floor</span>(comm), <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">empty_sites =</span> <span class="fu">sum</span>(<span class="fu">rowSums</span>(comm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">==</span> <span class="dv">0</span>),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing_metadata =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(env)),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">row_mismatch =</span> <span class="fu">as.integer</span>(<span class="fu">nrow</span>(comm) <span class="sc">!=</span> <span class="fu">nrow</span>(env))</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>audit</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               sites                taxa duplicated_site_ids      missing_counts </span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  70                  35                   0                   0 </span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     negative_counts   noninteger_counts         empty_sites    missing_metadata </span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   0                   0                   0                   0 </span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        row_mismatch </span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                   0</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(audit[<span class="fu">c</span>(<span class="st">"duplicated_site_ids"</span>, <span class="st">"missing_counts"</span>, <span class="st">"negative_counts"</span>,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"noninteger_counts"</span>, <span class="st">"empty_sites"</span>, <span class="st">"missing_metadata"</span>,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"row_mismatch"</span>)] <span class="sc">==</span> <span class="dv">0</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La auditoría verifica estructura, no autenticidad de campo. Sin hojas originales no puede confirmar coordenadas, esfuerzo, identificación taxonómica ni si un cero es una no detección válida. La correspondencia por posición se acepta solo porque ambos objetos provienen juntos del paquete; datos propios deben enlazarse por una clave explícita.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>frame_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">item =</span> <span class="fu">c</span>(<span class="st">"Unidades observadas"</span>, <span class="st">"Taxones en columnas"</span>, <span class="st">"Blanket"</span>, <span class="st">"Hummock"</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>           <span class="st">"Contenido de agua mínimo"</span>, <span class="st">"Contenido de agua máximo"</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">value =</span> <span class="fu">c</span>(<span class="fu">nrow</span>(comm), <span class="fu">ncol</span>(comm), <span class="fu">table</span>(env<span class="sc">$</span>Topo)[<span class="st">"Blanket"</span>],</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>            <span class="fu">table</span>(env<span class="sc">$</span>Topo)[<span class="st">"Hummock"</span>], <span class="fu">min</span>(env<span class="sc">$</span>WatrCont), <span class="fu">max</span>(env<span class="sc">$</span>WatrCont))</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>frame_summary</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                       item  value</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1      Unidades observadas  70.00</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2      Taxones en columnas  35.00</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3                  Blanket  44.00</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4                  Hummock  26.00</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 Contenido de agua mínimo 134.13</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 Contenido de agua máximo 826.96</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="construcción-de-variables" class="level3" data-number="12.3.3">
+<h3 data-number="12.3.3" class="anchored" data-anchor-id="construcción-de-variables"><span class="header-section-number">12.3.3</span> Construcción de variables</h3>
+<p>Se conservan los conteos originales y se crea una tabla por sitio. Shannon y Simpson se usan en sus formas clásicas <span class="citation" data-cites="henderson2016ecological">(<a href="../references.html#ref-henderson2016ecological" role="doc-biblioref">Henderson y Southwood 2016</a>)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>site_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">site =</span> site_id,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Topo =</span> env<span class="sc">$</span>Topo,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">WatrCont =</span> env<span class="sc">$</span>WatrCont,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">SubsDens =</span> env<span class="sc">$</span>SubsDens,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">total_abundance =</span> <span class="fu">rowSums</span>(comm),</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">richness =</span> vegan<span class="sc">::</span><span class="fu">specnumber</span>(comm),</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">shannon =</span> vegan<span class="sc">::</span><span class="fu">diversity</span>(comm, <span class="at">index =</span> <span class="st">"shannon"</span>),</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">simpson_1_D =</span> vegan<span class="sc">::</span><span class="fu">diversity</span>(comm, <span class="at">index =</span> <span class="st">"simpson"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>site_data<span class="sc">$</span>evenness <span class="ot">&lt;-</span> <span class="fu">with</span>(site_data,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ifelse</span>(richness <span class="sc">&gt;</span> <span class="dv">1</span>, shannon <span class="sc">/</span> <span class="fu">log</span>(richness), <span class="cn">NA_real_</span>))</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="sc">!</span><span class="fu">anyNA</span>(site_data), <span class="fu">all</span>(site_data<span class="sc">$</span>richness <span class="sc">&gt;</span> <span class="dv">1</span>))</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>site_data[<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>, ]</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   site    Topo WatrCont SubsDens total_abundance richness  shannon simpson_1_D</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1    1 Hummock   350.15    39.18             140       20 2.285775   0.8287755</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2    2 Hummock   434.81    54.99             268       23 1.930428   0.7093451</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3    3 Hummock   371.72    46.07             186       19 1.995647   0.7412996</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4    4 Hummock   360.50    48.19             286       23 2.199309   0.8097462</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5    5 Hummock   204.13    23.55             199       19 2.454142   0.8856342</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6    6 Hummock   311.55    57.32             209       21 2.557505   0.8958586</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7    7 Hummock   378.93    36.95             162       16 2.281889   0.8687700</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8    8 Blanket   266.78    80.59             126       21 2.539871   0.8877551</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    evenness</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 0.7630105</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 0.6156696</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 0.6777680</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 0.7014233</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 0.8334836</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 0.8400348</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7 0.8230173</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8 0.8342430</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Esta transformación supone que todos los sitios tuvieron esfuerzo comparable y que los conteos son abundancias comparables. La información disponible no basta para comprobar esos supuestos; se mantienen como limitaciones sustantivas.</p>
+</section>
+<section id="estimación-e-incertidumbre" class="level3" data-number="12.3.4">
+<h3 data-number="12.3.4" class="anchored" data-anchor-id="estimación-e-incertidumbre"><span class="header-section-number">12.3.4</span> Estimación e incertidumbre</h3>
+<p>Para cada respuesta se informa media, desviación estándar, error estándar e intervalo <span class="math inline">\(t\)</span> del 95 %. Como los 70 sitios constituyen el conjunto descrito, la media es exacta para ese conjunto. El intervalo expresa variación entre sitios bajo una repetición hipotética de sitios independientes y comparables.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>mean_ci <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">level =</span> <span class="fl">0.95</span>) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(x)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  estimate <span class="ot">&lt;-</span> <span class="fu">mean</span>(x)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  se <span class="ot">&lt;-</span> <span class="fu">sd</span>(x) <span class="sc">/</span> <span class="fu">sqrt</span>(n)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  critical <span class="ot">&lt;-</span> <span class="fu">qt</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> level) <span class="sc">/</span> <span class="dv">2</span>, <span class="at">df =</span> n <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">n =</span> n, <span class="at">estimate =</span> estimate, <span class="at">sd =</span> <span class="fu">sd</span>(x), <span class="at">se =</span> se,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower =</span> estimate <span class="sc">-</span> critical <span class="sc">*</span> se, <span class="at">upper =</span> estimate <span class="sc">+</span> critical <span class="sc">*</span> se)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>responses <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"total_abundance"</span>, <span class="st">"richness"</span>, <span class="st">"shannon"</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>               <span class="st">"simpson_1_D"</span>, <span class="st">"evenness"</span>)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>overall_estimates <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">vapply</span>(site_data[responses], mean_ci, <span class="fu">numeric</span>(<span class="dv">6</span>)))</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(overall_estimates, <span class="dv">3</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                  n estimate     sd     se   lower   upper</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; total_abundance 70  140.000 94.161 11.254 117.548 162.452</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; richness        70   15.114  4.642  0.555  14.007  16.221</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; shannon         70    2.016  0.408  0.049   1.919   2.113</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; simpson_1_D     70    0.794  0.112  0.013   0.767   0.821</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; evenness        70    0.755  0.109  0.013   0.729   0.781</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La comparación topográfica usa la diferencia de medias <span class="math inline">\(\Delta=\bar y_{Hummock}-\bar y_{Blanket}\)</span> y el intervalo de Welch, que no obliga a suponer varianzas iguales. Es una descripción asociativa de estos sitios.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>difference_ci <span class="ot">&lt;-</span> <span class="cf">function</span>(y, group) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  x0 <span class="ot">&lt;-</span> y[group <span class="sc">==</span> <span class="st">"Blanket"</span>]</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  x1 <span class="ot">&lt;-</span> y[group <span class="sc">==</span> <span class="st">"Hummock"</span>]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">t.test</span>(x1, x0, <span class="at">var.equal =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">mean_Blanket =</span> <span class="fu">mean</span>(x0), <span class="at">mean_Hummock =</span> <span class="fu">mean</span>(x1),</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">difference =</span> <span class="fu">unname</span>(<span class="fu">diff</span>(<span class="fu">rev</span>(fit<span class="sc">$</span>estimate))),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">lower =</span> fit<span class="sc">$</span>conf.int[<span class="dv">1</span>], <span class="at">upper =</span> fit<span class="sc">$</span>conf.int[<span class="dv">2</span>])</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>topography_contrasts <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">vapply</span>(site_data[responses],</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  difference_ci, <span class="fu">numeric</span>(<span class="dv">5</span>), <span class="at">group =</span> site_data<span class="sc">$</span>Topo))</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(topography_contrasts, <span class="dv">3</span>)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 mean_Blanket mean_Hummock difference   lower  upper</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; total_abundance      131.659      154.115     22.456 -17.083 61.996</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; richness              13.818       17.308      3.490   1.534  5.445</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; shannon                1.926        2.168      0.241   0.075  0.407</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; simpson_1_D            0.775        0.826      0.051   0.006  0.095</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; evenness               0.748        0.766      0.019  -0.028  0.065</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>El orden pasado a <code>t.test()</code> hace que el intervalo corresponda a Hummock menos Blanket. Se comprueba para evitar un error frecuente de signo.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>observed_difference <span class="ot">&lt;-</span> <span class="fu">with</span>(site_data,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>(richness[Topo <span class="sc">==</span> <span class="st">"Hummock"</span>]) <span class="sc">-</span> <span class="fu">mean</span>(richness[Topo <span class="sc">==</span> <span class="st">"Blanket"</span>]))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unname</span>(topography_contrasts[<span class="st">"richness"</span>, <span class="st">"difference"</span>]),</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  observed_difference</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>)))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="diagnósticos" class="level3" data-number="12.3.5">
+<h3 data-number="12.3.5" class="anchored" data-anchor-id="diagnósticos"><span class="header-section-number">12.3.5</span> Diagnósticos</h3>
+<p>Los intervalos de medias son más defendibles si los sitios son independientes, la selección no concentra zonas particulares y unas pocas observaciones no dominan el resumen. Estas condiciones no se diagnostican solo con histogramas; se requiere el mapa y el protocolo. Con lo disponible se revisan asimetría, dispersión por grupo y observaciones influyentes.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>diagnostics <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">response =</span> responses,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">skewness =</span> <span class="fu">vapply</span>(site_data[responses], <span class="cf">function</span>(x) {</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    z <span class="ot">&lt;-</span> (x <span class="sc">-</span> <span class="fu">mean</span>(x)) <span class="sc">/</span> <span class="fu">sd</span>(x)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(z<span class="sc">^</span><span class="dv">3</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  }, <span class="fu">numeric</span>(<span class="dv">1</span>)),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">minimum =</span> <span class="fu">vapply</span>(site_data[responses], min, <span class="fu">numeric</span>(<span class="dv">1</span>)),</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">maximum =</span> <span class="fu">vapply</span>(site_data[responses], max, <span class="fu">numeric</span>(<span class="dv">1</span>)),</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">max_abs_standardized =</span> <span class="fu">vapply</span>(site_data[responses], <span class="cf">function</span>(x)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">max</span>(<span class="fu">abs</span>((x <span class="sc">-</span> <span class="fu">mean</span>(x)) <span class="sc">/</span> <span class="fu">sd</span>(x))), <span class="fu">numeric</span>(<span class="dv">1</span>))</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>diagnostics[<span class="sc">-</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(diagnostics[<span class="sc">-</span><span class="dv">1</span>], round, <span class="at">digits =</span> <span class="dv">3</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>diagnostics</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                        response skewness minimum maximum max_abs_standardized</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; total_abundance total_abundance    4.511   8.000 781.000                6.808</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; richness               richness   -0.195   5.000  25.000                2.179</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; shannon                 shannon   -1.251   0.356   2.655                4.073</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; simpson_1_D         simpson_1_D   -3.093   0.141   0.911                5.824</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; evenness               evenness   -1.934   0.199   0.969                5.110</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(total_abundance <span class="sc">~</span> Topo, <span class="at">data =</span> site_data,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Topografía"</span>, <span class="at">ylab =</span> <span class="st">"Abundancia total"</span>, <span class="at">col =</span> <span class="st">"#b7b7a4"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(richness <span class="sc">~</span> Topo, <span class="at">data =</span> site_data,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Topografía"</span>, <span class="at">ylab =</span> <span class="st">"Riqueza"</span>, <span class="at">col =</span> <span class="st">"#a5a58d"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter12_files/figure-html/ch12-diagnosticos-figura-1.png" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption>Distribución de abundancia y riqueza por topografía en los 70 sitios.</figcaption>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(op)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>z_abundance <span class="ot">&lt;-</span> <span class="fu">with</span>(site_data,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  (total_abundance <span class="sc">-</span> <span class="fu">mean</span>(total_abundance)) <span class="sc">/</span> <span class="fu">sd</span>(total_abundance))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>influential_sites <span class="ot">&lt;-</span> site_data[<span class="fu">abs</span>(z_abundance) <span class="sc">&gt;</span> <span class="fl">2.5</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="st">"site"</span>, <span class="st">"Topo"</span>, <span class="st">"WatrCont"</span>, <span class="st">"total_abundance"</span>, <span class="st">"richness"</span>)]</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>influential_sites</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    site    Topo WatrCont total_abundance richness</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 67   67 Blanket   826.96             781        6</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Una observación extrema no se elimina por ser extrema. Primero se contrasta con la fuente y el protocolo; si es válida, representa heterogeneidad ecológica que el resultado debe conservar.</p>
+</section>
+<section id="composición-como-diagnóstico-complementario" class="level3" data-number="12.3.6">
+<h3 data-number="12.3.6" class="anchored" data-anchor-id="composición-como-diagnóstico-complementario"><span class="header-section-number">12.3.6</span> Composición como diagnóstico complementario</h3>
+<p>Bray-Curtis resume diferencias de abundancia y una ordenación clásica permite examinar si unos pocos sitios dominan el patrón. No se realiza un contraste inferencial ni se atribuye la configuración a la topografía.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>bray <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">vegdist</span>(comm, <span class="at">method =</span> <span class="st">"bray"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>pcoa <span class="ot">&lt;-</span> <span class="fu">cmdscale</span>(bray, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">eig =</span> <span class="cn">TRUE</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>topo_cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Blanket =</span> <span class="st">"#588157"</span>, <span class="at">Hummock =</span> <span class="st">"#bc6c25"</span>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(pcoa<span class="sc">$</span>points, <span class="at">asp =</span> <span class="dv">1</span>, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">cex =</span> <span class="fl">1.1</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">bg =</span> topo_cols[site_data<span class="sc">$</span>Topo],</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Coordenada 1"</span>, <span class="at">ylab =</span> <span class="st">"Coordenada 2"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="at">legend =</span> <span class="fu">names</span>(topo_cols), <span class="at">pt.bg =</span> topo_cols,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter12_files/figure-html/ch12-ordenacion-1.png" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption>Coordenadas principales de Bray-Curtis para la comunidad de ácaros.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La ordenación es descriptiva. Una aparente separación puede reflejar abundancia, contenido de agua, sustrato, cobertura espacial o selección de sitios. Los ejes no identifican cuál explicación es correcta.</p>
+</section>
+<section id="sensibilidad" class="level3" data-number="12.3.7">
+<h3 data-number="12.3.7" class="anchored" data-anchor-id="sensibilidad"><span class="header-section-number">12.3.7</span> Sensibilidad</h3>
+<p>Se evalúan dos decisiones razonables sin buscar significación: retirar de uno en uno cada sitio para medir influencia sobre la diferencia de riqueza y reducir la dominancia con raíz cuadrada para examinar estabilidad de la ordenación.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>leave_one_out_difference <span class="ot">&lt;-</span> <span class="fu">vapply</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(site_data)), <span class="cf">function</span>(i) {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> site_data[<span class="sc">-</span>i, ]</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">with</span>(z, <span class="fu">mean</span>(richness[Topo <span class="sc">==</span> <span class="st">"Hummock"</span>]) <span class="sc">-</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>           <span class="fu">mean</span>(richness[Topo <span class="sc">==</span> <span class="st">"Blanket"</span>]))</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>}, <span class="fu">numeric</span>(<span class="dv">1</span>))</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>influence_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">primary_difference =</span> observed_difference,</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">minimum_leave_one_out =</span> <span class="fu">min</span>(leave_one_out_difference),</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">maximum_leave_one_out =</span> <span class="fu">max</span>(leave_one_out_difference),</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">most_influential_site =</span> site_data<span class="sc">$</span>site[</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">which.max</span>(<span class="fu">abs</span>(leave_one_out_difference <span class="sc">-</span> observed_difference))]</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>influence_summary</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   primary_difference minimum_leave_one_out maximum_leave_one_out</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1            3.48951              3.261818              3.821818</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   most_influential_site</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                    29</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>bray_sqrt <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">vegdist</span>(<span class="fu">sqrt</span>(comm), <span class="at">method =</span> <span class="st">"bray"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>pcoa_sqrt <span class="ot">&lt;-</span> <span class="fu">cmdscale</span>(bray_sqrt, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)<span class="sc">$</span>points</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>ordination_sensitivity <span class="ot">&lt;-</span> <span class="fu">cor</span>(<span class="fu">dist</span>(pcoa<span class="sc">$</span>points), <span class="fu">dist</span>(pcoa_sqrt))</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>ordination_sensitivity</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.8576013</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Una diferencia de riqueza estable al retirar un sitio es menos dependiente de una observación individual, pero continúa limitada por el marco desconocido. Una correlación baja entre configuraciones indicaría que la lectura composicional depende de cuánto pesan los taxones dominantes.</p>
+</section>
+<section id="interpretación-y-comunicación" class="level3" data-number="12.3.8">
+<h3 data-number="12.3.8" class="anchored" data-anchor-id="interpretación-y-comunicación"><span class="header-section-number">12.3.8</span> Interpretación y comunicación</h3>
+<p>Las cifras del texto deben generarse desde los objetos para evitar errores de transcripción.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>richness_result <span class="ot">&lt;-</span> overall_estimates[<span class="st">"richness"</span>, ]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>richness_contrast <span class="ot">&lt;-</span> topography_contrasts[<span class="st">"richness"</span>, ]</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>report_text <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste0</span>(<span class="st">"En los 70 sitios observados, la riqueza media fue %.1f especies por "</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>         <span class="st">"sitio (intervalo t descriptivo del 95%%: %.1f a %.1f). La diferencia "</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>         <span class="st">"media Hummock menos Blanket fue %.1f especies (%.1f a %.1f)."</span>),</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  richness_result[<span class="st">"estimate"</span>], richness_result[<span class="st">"lower"</span>],</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  richness_result[<span class="st">"upper"</span>], richness_contrast[<span class="st">"difference"</span>],</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  richness_contrast[<span class="st">"lower"</span>], richness_contrast[<span class="st">"upper"</span>]</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>report_text</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "En los 70 sitios observados, la riqueza media fue 15.1 especies por sitio (intervalo t descriptivo del 95%: 14.0 a 16.2). La diferencia media Hummock menos Blanket fue 3.5 especies (1.5 a 5.4)."</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Una comunicación completa añade que el marco, la selección, el esfuerzo y la dependencia espacial no están documentados. En consecuencia, el intervalo no cuantifica sesgo de cobertura, detección imperfecta ni error taxonómico; tampoco convierte la asociación topográfica en efecto causal. Magnitud, unidad, incertidumbre, sensibilidad y alcance deben aparecer juntos.</p>
+</section>
+<section id="reproducibilidad" class="level3" data-number="12.3.9">
+<h3 data-number="12.3.9" class="anchored" data-anchor-id="reproducibilidad"><span class="header-section-number">12.3.9</span> Reproducibilidad</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>reproducibility_record <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> <span class="fu">c</span>(<span class="st">"vegan::mite"</span>, <span class="st">"vegan::mite.env"</span>),</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">package_version =</span> <span class="fu">as.character</span>(utils<span class="sc">::</span><span class="fu">packageVersion</span>(<span class="st">"vegan"</span>)),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">R_version =</span> R.version.string,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">analysis_date =</span> <span class="fu">as.character</span>(<span class="fu">Sys.Date</span>()),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">responses =</span> responses,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">contrast =</span> <span class="st">"Hummock - Blanket"</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing_rule =</span> <span class="st">"No convertir faltantes en ceros"</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>reproducibility_record</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $data</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "vegan::mite"     "vegan::mite.env"</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $package_version</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2.7.5"</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $R_version</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "R version 4.5.2 (2025-10-31)"</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $analysis_date</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2026-08-21"</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $responses</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "total_abundance" "richness"        "shannon"         "simpson_1_D"    </span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [5] "evenness"       </span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $contrast</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "Hummock - Blanket"</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $missing_rule</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "No convertir faltantes en ceros"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>En un proyecto real, los datos crudos permanecen inmutables, las transformaciones se ejecutan por código, las rutas son relativas, las semillas se fijan cuando hay azar y el diccionario define cada variable y código. Un archivo de sesión o un entorno bloqueado registra versiones. Tablas, figuras y frases numéricas se regeneran desde una sesión limpia.</p>
+</section>
+</section>
+<section id="supuestos-y-limitaciones" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="supuestos-y-limitaciones"><span class="header-section-number">12.4</span> Supuestos y limitaciones</h2>
+<ul>
+<li>Los 70 sitios y los conteos representan correctamente los registros originales.</li>
+<li>Las filas son sitios independientes; sin coordenadas no puede evaluarse dependencia espacial.</li>
+<li>Método, esfuerzo, periodo y resolución taxonómica son comparables entre sitios.</li>
+<li>Los ceros son no detecciones bajo un protocolo válido, no visitas fallidas.</li>
+<li>Los intervalos <span class="math inline">\(t\)</span> describen variación bajo sitios comparables, pero no reparan selección no probabilística.</li>
+<li>La topografía no fue asignada; sus contrastes son asociaciones descriptivas.</li>
+<li>Riqueza e índices observados están afectados por detección y esfuerzo.</li>
+<li>La aplicación se limita a los 70 sitios porque el paquete no aporta un marco de muestreo completo.</li>
+</ul>
+</section>
+<section id="errores-comunes" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="errores-comunes"><span class="header-section-number">12.5</span> Errores comunes</h2>
+<ul>
+<li>Formular la pregunta después de buscar el resultado más llamativo.</li>
+<li>Confundir población objetivo, marco y muestra realizada.</li>
+<li>Tratar organismos o submuestras como unidades independientes.</li>
+<li>Reemplazar una unidad inaccesible por la más cercana sin registrar el cambio.</li>
+<li>Convertir faltantes en ceros o borrar extremos sin consultar la fuente.</li>
+<li>Aplicar una fórmula de muestreo aleatorio a una muestra conveniente.</li>
+<li>Informar solo medias sin variación, diagnóstico ni unidad.</li>
+<li>Interpretar un intervalo estrecho como ausencia de sesgo.</li>
+<li>Confundir asociación observacional con efecto de topografía o manejo.</li>
+<li>Ocultar que una conclusión cambia al retirar una unidad o transformar datos.</li>
+<li>Transcribir resultados manualmente y modificar figuras fuera del código.</li>
+<li>Generalizar más allá del marco, periodo, taxones y protocolo observados.</li>
+</ul>
+</section>
+<section id="síntesis" class="level2" data-number="12.6">
+<h2 data-number="12.6" class="anchored" data-anchor-id="síntesis"><span class="header-section-number">12.6</span> Síntesis</h2>
+<ul>
+<li>Pregunta, población, marco, unidad y estimando deben concordar antes de observar los resultados.</li>
+<li>El mecanismo de selección y la unidad independiente determinan el alcance de la inferencia y de la incertidumbre.</li>
+<li>La auditoría distingue errores estructurales de limitaciones que solo pueden resolverse con metadatos y trabajo de campo.</li>
+<li>Estimación, intervalos, diagnósticos y sensibilidad responden preguntas diferentes y deben comunicarse en conjunto.</li>
+<li>Un análisis reproducible conserva procedencia y genera por código tablas, figuras y texto.</li>
+<li>Con <code>mite</code> pueden describirse rigurosamente 70 sitios, pero no inventarse un marco probabilístico ni una conclusión causal que los datos no documentan.</li>
+</ul>
+</section>
+<section id="actividad-propuesta-para-el-lector" class="level2" data-number="12.7">
+<h2 data-number="12.7" class="anchored" data-anchor-id="actividad-propuesta-para-el-lector"><span class="header-section-number">12.7</span> Actividad propuesta para el lector</h2>
+<ol type="1">
+<li>Reescriba una pregunta ecológica indicando población, periodo, unidad, contraste y estimando.</li>
+<li>Dibuje la relación entre población objetivo, población accesible, marco, muestra prevista y muestra realizada; anote una fuente de error en cada paso.</li>
+<li>Extienda la auditoría de <code>mite</code> con rangos admisibles para <code>WatrCont</code> y <code>SubsDens</code>, sin eliminar observaciones automáticamente.</li>
+<li>Repita la estimación para Shannon y explique por qué su escala no equivale a número de especies.</li>
+<li>Compare la diferencia de riqueza primaria con todos los resultados de retirar un sitio. Describa estabilidad sin convertirla en una prueba de hipótesis.</li>
+<li>Redacte una conclusión de cuatro frases que separe resultado observado, incertidumbre, limitación del diseño y alcance ecológico.</li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-gregg2008field" class="csl-entry" role="listitem">
+Gregg, Michael B., ed. 2008. <em>Field Epidemiology</em>. 3.ª ed. Oxford University Press.
+</div>
+<div id="ref-henderson2016ecological" class="csl-entry" role="listitem">
+Henderson, Peter A., y T. R. E. Southwood. 2016. <em>Ecological Methods</em>. 4.ª ed. Wiley-Blackwell.
+</div>
+<div id="ref-lohr2022sampling" class="csl-entry" role="listitem">
+Lohr, Sharon L. 2022. <em>Sampling: Design and Analysis</em>. 3.ª ed. CRC Press. <a href="https://doi.org/10.1201/9780429298899">https://doi.org/10.1201/9780429298899</a>.
+</div>
+<div id="ref-manly2015ecological" class="csl-entry" role="listitem">
+Manly, Bryan F. J., y Jorge A. Navarro Alberto. 2015. <em>Introduction to Ecological Sampling</em>. Chapman; Hall/CRC.
+</div>
+<div id="ref-oksanen2024vegan" class="csl-entry" role="listitem">
+Oksanen, Jari, Gavin L. Simpson, F. Guillaume Blanchet, et&nbsp;al. 2024. <em>vegan: Community Ecology Package</em>. <a href="https://CRAN.R-project.org/package=vegan">https://CRAN.R-project.org/package=vegan</a>.
+</div>
+<div id="ref-sutherland2006census" class="csl-entry" role="listitem">
+Sutherland, William J., ed. 2006. <em>Ecological Census Techniques: A Handbook</em>. 2.ª ed. Cambridge University Press.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/chapter11.html" class="pagination-link" aria-label="Riqueza, diversidad y composición de comunidades">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/practica02.html" class="pagination-link" aria-label="Práctica 2: Diseños probabilísticos en R">
+        <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Muestreo ecológico con R</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Jonathan Florez Giraldo</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

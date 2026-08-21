@@ -1,0 +1,62 @@
+---
+title: "Proyecto de muestreo ecológico"
+subtitle: "Informe reproducible"
+author: ""
+date: today
+lang: es
+format:
+  html:
+    toc: true
+    code-fold: true
+  pdf:
+    toc: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+# Resumen ejecutivo
+
+# Pregunta integradora
+
+# Caso de muestreo o campo
+
+## Diseño del dato
+
+## Reanálisis y cambios
+
+## Resultado y límites
+
+# Caso comparativo o de monitoreo
+
+## Diseño del dato
+
+## Reanálisis y cambios
+
+## Resultado y límites
+
+# Caso poblacional o comunitario
+
+## Diseño del dato
+
+## Reanálisis y cambios
+
+## Resultado y límites
+
+# Comparación transversal
+
+Compare representatividad, incertidumbre, supuestos, sesgos y alcance de las
+afirmaciones. No organice esta sección como tres resúmenes independientes.
+
+# Recomendaciones para estudios futuros
+
+# Reflexión metodológica
+
+# Registro de cambios
+
+| Caso | Retroalimentación recibida | Cambio realizado | Efecto en la conclusión |
+|---|---|---|---|
+| | | | |
+
+# Referencias

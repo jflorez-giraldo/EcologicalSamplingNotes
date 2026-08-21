@@ -1,0 +1,24 @@
+dataset:
+  title: "Steve Buckland's Winter Wren Line-Transect Surveys"
+  version: "Distance 2.0.1"
+  source_url: "https://distancesampling.org/Distance/reference/wren.html"
+  accessed: "2026-08-16"
+  license: "GPL (>= 2), package Distance"
+  citation: "Distance::wren_lt"
+  raw_files: ["package:Distance/wren_lt"]
+study:
+  purpose: "Estimar densidad de chochines mediante transectos de línea."
+  target_population: "Chochines disponibles en el área de Montrave durante el levantamiento."
+  sampling_frame: "Líneas de transecto documentadas en el conjunto."
+  sampling_unit: "Línea recorrida."
+  observation_unit: "Detección de chochín con distancia perpendicular."
+  selection_mechanism: "No se asume selección probabilística fuera del área estudiada."
+  observation_process: "Transecto de línea y distancia."
+  geographic_scope: "Montrave, Escocia."
+  temporal_scope: "Levantamiento histórico documentado por el paquete."
+processing:
+  script: "chapters/chapter04.qmd"
+  output_files: []
+  exclusions: ["Truncamientos evaluados explícitamente"]
+  transformations: ["Ajuste de funciones de detección"]
+  missing_data: "Se conservan líneas y esfuerzo según el objeto."

@@ -1,0 +1,24 @@
+dataset:
+  title: "Oribatid Mite Data with Explanatory Variables"
+  version: "vegan 2.7-5"
+  source_url: "https://vegandevs.github.io/vegan/reference/mite.html"
+  accessed: "2026-08-16"
+  license: "GPL-2 (package vegan); verificar términos de los datos fuente"
+  citation: "vegan::mite; vegan::mite.env"
+  raw_files: ["package:vegan/mite", "package:vegan/mite.env"]
+study:
+  purpose: "Describir comunidades de ácaros oribátidos y su ambiente."
+  target_population: "Los setenta sitios observados; extensión externa no documentada."
+  sampling_frame: "Setenta sitios del estudio."
+  sampling_unit: "Sitio."
+  observation_unit: "Conteo de un taxón en un sitio."
+  selection_mechanism: "No documentado como probabilístico."
+  observation_process: "Conteos de 35 taxones y variables ambientales."
+  geographic_scope: "Área de estudio documentada por vegan."
+  temporal_scope: "No especificado en el objeto."
+processing:
+  script: "chapters/chapter12.qmd"
+  output_files: []
+  exclusions: []
+  transformations: ["Riqueza y diversidad", "Comparación descriptiva", "Bray-Curtis"]
+  missing_data: "Se audita en el capítulo."

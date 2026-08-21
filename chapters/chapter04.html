@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Fundamentos estadísticos, métodos de campo y proyectos reproducibles para el estudio de poblaciones, comunidades e interacciones biológicas.">
+
+<title>4&nbsp; Transectos y muestreo por distancias – Muestreo ecológico</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/chapter05.html" rel="next">
+<link href="../chapters/chapter03.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-3fee61de2b36a07911a09d94e160f21d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-7cffdf8bbe0ff56ccfce34d1b7d2026d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter03.html">Parte II — Métodos de campo</a></li><li class="breadcrumb-item"><a href="../chapters/chapter04.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transectos y muestreo por distancias</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Muestreo ecológico</a> 
+        <div class="sidebar-tools-main">
+    <a href="../ecological-sampling.pdf" title="Descargar PDF" class="quarto-navigation-tool px-1" aria-label="Descargar PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Presentación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reading-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cómo usar este libro</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../literature-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Marco bibliográfico</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-catalog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Catálogo de datos reales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte I — Fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Del problema ecológico al diseño</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Diseños probabilísticos para poblaciones biológicas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte II — Métodos de campo</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter04.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transectos y muestreo por distancias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Métodos de censo por organismos y hábitats</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte III — Estimación de poblaciones</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Remoción, captura-recaptura e índices de abundancia</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ocupación y detección imperfecta</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte IV — Comparación y seguimiento</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Estudios comparativos, intervenciones y sesgos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Monitoreo ecológico y análisis de tendencias</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte V — Poblaciones y comunidades</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte VI — Síntesis</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Prácticas</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Práctica 3: Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Material complementario</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Material complementario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referencias</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contenido</h2>
+   
+  <ul>
+  <li><a href="#del-encuentro-a-la-densidad" id="toc-del-encuentro-a-la-densidad" class="nav-link active" data-scroll-target="#del-encuentro-a-la-densidad"><span class="header-section-number">4.1</span> Del encuentro a la densidad</a></li>
+  <li><a href="#población-unidades-y-estimando" id="toc-población-unidades-y-estimando" class="nav-link" data-scroll-target="#población-unidades-y-estimando"><span class="header-section-number">4.2</span> Población, unidades y estimando</a></li>
+  <li><a href="#geometría-y-función-de-detección" id="toc-geometría-y-función-de-detección" class="nav-link" data-scroll-target="#geometría-y-función-de-detección"><span class="header-section-number">4.3</span> Geometría y función de detección</a></li>
+  <li><a href="#supuestos-y-fuentes-de-incertidumbre" id="toc-supuestos-y-fuentes-de-incertidumbre" class="nav-link" data-scroll-target="#supuestos-y-fuentes-de-incertidumbre"><span class="header-section-number">4.4</span> Supuestos y fuentes de incertidumbre</a></li>
+  <li><a href="#truncamiento-y-calidad-de-datos" id="toc-truncamiento-y-calidad-de-datos" class="nav-link" data-scroll-target="#truncamiento-y-calidad-de-datos"><span class="header-section-number">4.5</span> Truncamiento y calidad de datos</a></li>
+  <li><a href="#aplicación-reproducible-chochín-de-montrave" id="toc-aplicación-reproducible-chochín-de-montrave" class="nav-link" data-scroll-target="#aplicación-reproducible-chochín-de-montrave"><span class="header-section-number">4.6</span> Aplicación reproducible: chochín de Montrave</a>
+  <ul class="collapse">
+  <li><a href="#carga-y-auditoría-de-tablas" id="toc-carga-y-auditoría-de-tablas" class="nav-link" data-scroll-target="#carga-y-auditoría-de-tablas"><span class="header-section-number">4.6.1</span> Carga y auditoría de tablas</a></li>
+  <li><a href="#esfuerzo-y-tasa-de-encuentro" id="toc-esfuerzo-y-tasa-de-encuentro" class="nav-link" data-scroll-target="#esfuerzo-y-tasa-de-encuentro"><span class="header-section-number">4.6.2</span> Esfuerzo y tasa de encuentro</a></li>
+  <li><a href="#distribución-y-precisión-de-distancias" id="toc-distribución-y-precisión-de-distancias" class="nav-link" data-scroll-target="#distribución-y-precisión-de-distancias"><span class="header-section-number">4.6.3</span> Distribución y precisión de distancias</a></li>
+  <li><a href="#modelos-candidatos-con-unidades-compatibles" id="toc-modelos-candidatos-con-unidades-compatibles" class="nav-link" data-scroll-target="#modelos-candidatos-con-unidades-compatibles"><span class="header-section-number">4.6.4</span> Modelos candidatos con unidades compatibles</a></li>
+  <li><a href="#diagnósticos-del-modelo-elegido" id="toc-diagnósticos-del-modelo-elegido" class="nav-link" data-scroll-target="#diagnósticos-del-modelo-elegido"><span class="header-section-number">4.6.5</span> Diagnósticos del modelo elegido</a></li>
+  <li><a href="#densidad-abundancia-e-incertidumbre" id="toc-densidad-abundancia-e-incertidumbre" class="nav-link" data-scroll-target="#densidad-abundancia-e-incertidumbre"><span class="header-section-number">4.6.6</span> Densidad, abundancia e incertidumbre</a></li>
+  <li><a href="#diagnóstico-de-líneas-influyentes" id="toc-diagnóstico-de-líneas-influyentes" class="nav-link" data-scroll-target="#diagnóstico-de-líneas-influyentes"><span class="header-section-number">4.6.7</span> Diagnóstico de líneas influyentes</a></li>
+  <li><a href="#sensibilidad-a-función-y-truncamiento" id="toc-sensibilidad-a-función-y-truncamiento" class="nav-link" data-scroll-target="#sensibilidad-a-función-y-truncamiento"><span class="header-section-number">4.6.8</span> Sensibilidad a función y truncamiento</a></li>
+  <li><a href="#sensibilidad-a-líneas-no-documentadas-con-cero" id="toc-sensibilidad-a-líneas-no-documentadas-con-cero" class="nav-link" data-scroll-target="#sensibilidad-a-líneas-no-documentadas-con-cero"><span class="header-section-number">4.6.9</span> Sensibilidad a líneas no documentadas con cero</a></li>
+  </ul></li>
+  <li><a href="#interpretación-y-reproducibilidad" id="toc-interpretación-y-reproducibilidad" class="nav-link" data-scroll-target="#interpretación-y-reproducibilidad"><span class="header-section-number">4.7</span> Interpretación y reproducibilidad</a></li>
+  <li><a href="#actividad-propuesta-para-el-lector" id="toc-actividad-propuesta-para-el-lector" class="nav-link" data-scroll-target="#actividad-propuesta-para-el-lector"><span class="header-section-number">4.8</span> Actividad propuesta para el lector</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter03.html">Parte II — Métodos de campo</a></li><li class="breadcrumb-item"><a href="../chapters/chapter04.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transectos y muestreo por distancias</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transectos y muestreo por distancias</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="chapter-actions" aria-label="Recursos del capítulo">
+  <a class="chapter-action" href="../notebooks/qmd/chapter04.qmd" download="">
+    <i class="bi bi-file-earmark-code" aria-hidden="true"></i>
+    <span>Descargar QMD</span>
+  </a>
+  <a class="chapter-action" href="../notebooks/ipynb/chapter04.ipynb" download="">
+    <i class="bi bi-journal-code" aria-hidden="true"></i>
+    <span>Descargar IPYNB</span>
+  </a>
+  <a class="chapter-action chapter-action-pdf" href="../ecological-sampling.pdf" download="">
+    <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
+    <span>Descargar libro en PDF</span>
+  </a>
+</div>
+
+<section id="del-encuentro-a-la-densidad" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="del-encuentro-a-la-densidad"><span class="header-section-number">4.1</span> Del encuentro a la densidad</h2>
+<p>El número observado combina distribución, esfuerzo y detección. Esta suele disminuir con distancia, vegetación, conducta y observador. El muestreo por distancias modela esa pérdida para estimar un área efectiva de búsqueda <span class="citation" data-cites="sutherland2006census henderson2016ecological">(<a href="../references.html#ref-sutherland2006census" role="doc-biblioref">Sutherland 2006</a>; <a href="../references.html#ref-henderson2016ecological" role="doc-biblioref">Henderson y Southwood 2016</a>)</span>.</p>
+<p>El <strong>diseño espacial</strong> determina dónde buscar; el <strong>proceso ecológico</strong>, dónde se encuentran los objetos; y el <strong>proceso de observación</strong>, cuáles se detectan. Una buena curva de detección no corrige líneas ubicadas solo en hábitat accesible.</p>
+</section>
+<section id="población-unidades-y-estimando" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="población-unidades-y-estimando"><span class="header-section-number">4.2</span> Población, unidades y estimando</h2>
+<p>Un protocolo debe declarar población objetivo y disponible, región y período, unidad de muestreo, objeto detectado, esfuerzo y estimando. En transectos lineales, la línea o segmento es unidad de muestreo, y el individuo o grupo es unidad de observación.</p>
+<p>La disponibilidad y la percepción son distintas. Un ave que no vocaliza puede no estar disponible; una que vocaliza puede no ser percibida. El modelo convencional supone detección segura sobre la línea, <span class="math inline">\(g(0)=1\)</span>. Si falla, la estimación describe objetos disponibles y perceptibles bajo el protocolo.</p>
+</section>
+<section id="geometría-y-función-de-detección" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="geometría-y-función-de-detección"><span class="header-section-number">4.3</span> Geometría y función de detección</h2>
+<p>Para líneas de longitud total <span class="math inline">\(L\)</span>, truncadas a distancia perpendicular <span class="math inline">\(w\)</span> a cada lado, el área geométrica es <span class="math inline">\(2wL\)</span>. Con función de detección <span class="math inline">\(g(x)\)</span>,</p>
+<p><span class="math display">\[
+P_a=\frac1w\int_0^w g(x)\,dx,\qquad
+\mu=\int_0^w g(x)\,dx,
+\]</span></p>
+<p>y para <span class="math inline">\(n\)</span> detecciones,</p>
+<p><span class="math display">\[
+\widehat D=\frac{n}{2wL\widehat P_a}
+=\frac{n}{2L\widehat\mu}.
+\]</span></p>
+<p><span class="math inline">\(2\mu\)</span> es el ancho efectivo total. La corrección reemplaza área geométrica por área efectivamente cubierta; no crea objetos ni corrige un marco sesgado.</p>
+<p>Dos funciones clave son media normal y tasa de riesgo:</p>
+<p><span class="math display">\[
+g_{HN}(x)=\exp\{-x^2/(2\sigma^2)\},
+\]</span></p>
+<p><span class="math display">\[
+g_{HR}(x)=1-\exp\{-(x/\sigma)^{-b}\}.
+\]</span></p>
+<p>La primera produce un hombro suave. La segunda puede sostener detección alta cerca de la línea y caer con mayor flexibilidad. Complejidad adicional requiere datos suficientes y una mejora diagnóstica, no solo un AIC menor.</p>
+</section>
+<section id="supuestos-y-fuentes-de-incertidumbre" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="supuestos-y-fuentes-de-incertidumbre"><span class="header-section-number">4.4</span> Supuestos y fuentes de incertidumbre</h2>
+<ol type="1">
+<li>Las líneas representan la región respecto de los objetos.</li>
+<li>Los objetos sobre la línea se detectan: <span class="math inline">\(g(0)=1\)</span>.</li>
+<li>Se registran en su posición inicial.</li>
+<li>Las distancias perpendiculares se miden sin error importante.</li>
+<li>Cada objeto se registra una vez y se clasifica correctamente.</li>
+<li>Esfuerzo, área y unidades son compatibles.</li>
+<li>Las líneas aportan replicación de la tasa de encuentro.</li>
+</ol>
+<p>El histograma y una prueba de ajuste examinan la distribución condicionada de distancias observadas. No verifican representatividad, movimiento ni <span class="math inline">\(g(0)=1\)</span>. La incertidumbre combina tasa de encuentro y función de detección. Remuestrear líneas conserva mejor la unidad de diseño que remuestrear detecciones.</p>
+</section>
+<section id="truncamiento-y-calidad-de-datos" class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="truncamiento-y-calidad-de-datos"><span class="header-section-number">4.5</span> Truncamiento y calidad de datos</h2>
+<p>Detecciones lejanas suelen ser escasas y difíciles de medir. Truncar puede estabilizar el ajuste, pero cambia <span class="math inline">\(n\)</span>, el área geométrica y <span class="math inline">\(P_a\)</span>. Deben declararse la regla y la sensibilidad. Acumulaciones en distancias preferidas pueden indicar redondeo; agrupar intervalos puede ser más honesto que tratar las medidas como exactas <span class="citation" data-cites="manly2015ecological">(<a href="../references.html#ref-manly2015ecological" role="doc-biblioref">Manly y Navarro Alberto 2015</a>)</span>.</p>
+<p>Las líneas sin detecciones deben conservarse. Excluirlas reduce esfuerzo sin reducir encuentros e infla la tasa. Igualmente, sumar <code>Effort</code> en cada fila de detección cuenta varias veces una misma línea.</p>
+</section>
+<section id="aplicación-reproducible-chochín-de-montrave" class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="aplicación-reproducible-chochín-de-montrave"><span class="header-section-number">4.6</span> Aplicación reproducible: chochín de Montrave</h2>
+<p><code>Distance::wren_lt</code> contiene observaciones reales de chochín (<em>Troglodytes troglodytes</em>) recolectadas por Steve Buckland en bosque y parque de Montrave Estate, cerca de Leven, Fife, Escocia. Son datos de transecto lineal: esfuerzo en km, distancia perpendicular en m y área de 33.2 ha. El conjunto se distribuye con el paquete <code>Distance</code> <span class="citation" data-cites="miller2019distance">(<a href="../references.html#ref-miller2019distance" role="doc-biblioref">Miller et&nbsp;al. 2019</a>)</span>.</p>
+<p>La documentación no aporta fecha por registro, geometría de las líneas, covariables de observación, tamaño de grupo ni filas de transectos sin detección. Por ello el estimando será densidad de <strong>objetos detectables</strong> por hectárea en el área y protocolo representados, no densidad contemporánea de toda la especie.</p>
+<section id="carga-y-auditoría-de-tablas" class="level3" data-number="4.6.1">
+<h3 data-number="4.6.1" class="anchored" data-anchor-id="carga-y-auditoría-de-tablas"><span class="header-section-number">4.6.1</span> Carga y auditoría de tablas</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>(<span class="fu">library</span>(Distance))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(wren_lt, <span class="at">package =</span> <span class="st">"Distance"</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>regiones <span class="ot">&lt;-</span> <span class="fu">unique</span>(wren_lt[<span class="fu">c</span>(<span class="st">"Region.Label"</span>, <span class="st">"Area"</span>, <span class="st">"Study.Area"</span>)])</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>lineas <span class="ot">&lt;-</span> <span class="fu">unique</span>(wren_lt[<span class="fu">c</span>(<span class="st">"Region.Label"</span>, <span class="st">"Sample.Label"</span>, <span class="st">"Effort"</span>)])</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>obs <span class="ot">&lt;-</span> wren_lt[<span class="fu">c</span>(<span class="st">"Region.Label"</span>, <span class="st">"Sample.Label"</span>, <span class="st">"object"</span>, <span class="st">"distance"</span>)]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>encuentros <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(object <span class="sc">~</span> Region.Label <span class="sc">+</span> Sample.Label, obs, length)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(encuentros)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">"n"</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>lineas <span class="ot">&lt;-</span> <span class="fu">merge</span>(lineas, encuentros,</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Region.Label"</span>, <span class="st">"Sample.Label"</span>), <span class="at">all.x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>lineas<span class="sc">$</span>n[<span class="fu">is.na</span>(lineas<span class="sc">$</span>n)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>lineas<span class="sc">$</span>tasa <span class="ot">&lt;-</span> lineas<span class="sc">$</span>n <span class="sc">/</span> lineas<span class="sc">$</span>Effort</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">regiones =</span> <span class="fu">nrow</span>(regiones), <span class="at">lineas_documentadas =</span> <span class="fu">nrow</span>(lineas),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">detecciones =</span> <span class="fu">nrow</span>(obs), <span class="at">objetos_duplicados =</span> <span class="fu">sum</span>(<span class="fu">duplicated</span>(obs<span class="sc">$</span>object)),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">distancias_faltantes =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(obs<span class="sc">$</span>distance)),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">distancias_negativas =</span> <span class="fu">sum</span>(obs<span class="sc">$</span>distance <span class="sc">&lt;</span> <span class="dv">0</span>),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">esfuerzo_no_positivo =</span> <span class="fu">sum</span>(lineas<span class="sc">$</span>Effort <span class="sc">&lt;=</span> <span class="dv">0</span>),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">lineas_con_cero =</span> <span class="fu">sum</span>(lineas<span class="sc">$</span>n <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   regiones lineas_documentadas detecciones objetos_duplicados</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1        1                  19         156                  0</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   distancias_faltantes distancias_negativas esfuerzo_no_positivo</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                    0                    0                    0</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   lineas_con_cero</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1               0</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Los 19 identificadores de línea tienen encuentros. Esto puede significar que no hubo líneas con cero o que el archivo no las conserva; sin el registro de campo no se puede decidir. La inferencia de tasa de encuentro queda condicionada al esfuerzo documentado y esta limitación debe acompañarse al resultado.</p>
+</section>
+<section id="esfuerzo-y-tasa-de-encuentro" class="level3" data-number="4.6.2">
+<h3 data-number="4.6.2" class="anchored" data-anchor-id="esfuerzo-y-tasa-de-encuentro"><span class="header-section-number">4.6.2</span> Esfuerzo y tasa de encuentro</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">area_ha =</span> <span class="fu">unique</span>(wren_lt<span class="sc">$</span>Area),</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">esfuerzo_km =</span> <span class="fu">sum</span>(lineas<span class="sc">$</span>Effort),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">detecciones =</span> <span class="fu">sum</span>(lineas<span class="sc">$</span>n),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">tasa_global_por_km =</span> <span class="fu">sum</span>(lineas<span class="sc">$</span>n) <span class="sc">/</span> <span class="fu">sum</span>(lineas<span class="sc">$</span>Effort))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            area_ha        esfuerzo_km        detecciones tasa_global_por_km </span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           33.20000            9.66000          156.00000           16.14907</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lineas<span class="sc">$</span>Effort, lineas<span class="sc">$</span>n, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Longitud de línea (km)"</span>, <span class="at">ylab =</span> <span class="st">"Detecciones"</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">stripchart</span>(lineas<span class="sc">$</span>tasa, <span class="at">method =</span> <span class="st">"jitter"</span>, <span class="at">vertical =</span> <span class="cn">TRUE</span>, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>           <span class="at">ylab =</span> <span class="st">"Detecciones por km"</span>, <span class="at">xlab =</span> <span class="st">"Líneas"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter04_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(op)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lineas[<span class="fu">c</span>(<span class="st">"Effort"</span>, <span class="st">"n"</span>, <span class="st">"tasa"</span>)])</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      Effort             n               tasa       </span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Min.   :0.0400   Min.   : 1.000   Min.   : 5.291  </span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  1st Qu.:0.3890   1st Qu.: 5.000   1st Qu.:13.648  </span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Median :0.4720   Median : 9.000   Median :16.539  </span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Mean   :0.5084   Mean   : 8.211   Mean   :20.265  </span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  3rd Qu.:0.7780   3rd Qu.:11.500   3rd Qu.:21.029  </span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  Max.   :0.8100   Max.   :14.000   Max.   :75.000</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La variación entre tasas muestra por qué 156 encuentros no equivalen a 156 réplicas. Las 19 líneas sostienen la variación de encuentro; las detecciones internas sostienen la forma de la función de detección.</p>
+</section>
+<section id="distribución-y-precisión-de-distancias" class="level3" data-number="4.6.3">
+<h3 data-number="4.6.3" class="anchored" data-anchor-id="distribución-y-precisión-de-distancias"><span class="header-section-number">4.6.3</span> Distribución y precisión de distancias</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(obs<span class="sc">$</span>distance, <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">5</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"grey80"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Distancia perpendicular (m)"</span>, <span class="at">main =</span> <span class="st">"Distancias observadas"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">ecdf</span>(obs<span class="sc">$</span>distance), <span class="at">verticals =</span> <span class="cn">TRUE</span>, <span class="at">do.points =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Distancia perpendicular (m)"</span>, <span class="at">ylab =</span> <span class="st">"Proporción acumulada"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter04_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(op)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(<span class="fu">table</span>(obs<span class="sc">$</span>distance), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 35 40 30 60 10 25 70 20 55 75 </span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15 12 10 10  9  9  9  8  8  8</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">minimo =</span> <span class="fu">min</span>(obs<span class="sc">$</span>distance), <span class="at">maximo =</span> <span class="fu">max</span>(obs<span class="sc">$</span>distance),</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">multiplos_de_5 =</span> <span class="fu">mean</span>(obs<span class="sc">$</span>distance <span class="sc">%%</span> <span class="dv">5</span> <span class="sc">==</span> <span class="dv">0</span>))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         minimo         maximo multiplos_de_5 </span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      0.0000000    100.0000000      0.8910256</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La acumulación en múltiplos de cinco sugiere redondeo. La disminución hacia el límite superior aporta información sobre detección, pero también hace sensibles los modelos al truncamiento.</p>
+</section>
+<section id="modelos-candidatos-con-unidades-compatibles" class="level3" data-number="4.6.4">
+<h3 data-number="4.6.4" class="anchored" data-anchor-id="modelos-candidatos-con-unidades-compatibles"><span class="header-section-number">4.6.4</span> Modelos candidatos con unidades compatibles</h3>
+<p>Usamos inicialmente <span class="math inline">\(w=100\)</span> m para conservar las 156 detecciones. Como esfuerzo está en km y área en ha, <code>convert_units = 0.1</code> convierte el producto m por km a hectáreas. Comparamos media normal y tasa de riesgo sin ajustes adicionales.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ajustar <span class="ot">&lt;-</span> <span class="cf">function</span>(w, key) {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  Distance<span class="sc">::</span><span class="fu">ds</span>(wren_lt, <span class="at">truncation =</span> w, <span class="at">key =</span> key,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">adjustment =</span> <span class="cn">NULL</span>, <span class="at">convert_units =</span> <span class="fl">0.1</span>, <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>modelos <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Media normal</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ajustar</span>(<span class="dv">100</span>, <span class="st">"hn"</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Tasa de riesgo</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">ajustar</span>(<span class="dv">100</span>, <span class="st">"hr"</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Fitting half-normal key function</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AIC= 1418.188</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Fitting hazard-rate key function</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AIC= 1412.133</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>tabla_modelos <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">names</span>(modelos), <span class="cf">function</span>(nombre) {</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> modelos[[nombre]]</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  sm <span class="ot">&lt;-</span> <span class="fu">summary</span>(fit<span class="sc">$</span>ddf)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">modelo =</span> nombre, <span class="at">n =</span> sm<span class="sc">$</span>n,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>             <span class="at">parametros =</span> <span class="fu">length</span>(fit<span class="sc">$</span>ddf<span class="sc">$</span>par),</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>             <span class="at">AIC =</span> fit<span class="sc">$</span>ddf<span class="sc">$</span>criterion,</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">p_deteccion =</span> sm<span class="sc">$</span>average.p,</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>             <span class="at">densidad_ha =</span> fit<span class="sc">$</span>dht<span class="sc">$</span>individuals<span class="sc">$</span>D<span class="sc">$</span>Estimate[<span class="dv">1</span>])</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>tabla_modelos[<span class="sc">-</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(tabla_modelos[<span class="sc">-</span><span class="dv">1</span>], round, <span class="dv">4</span>)</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>tabla_modelos</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           modelo   n parametros      AIC p_deteccion densidad_ha</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   Media normal 156          1 1418.188       0.685      1.1787</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 Tasa de riesgo 156          2 1412.133       0.844      0.9567</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Con el mismo truncamiento, el AIC compara ajuste y complejidad. La tasa de riesgo es defendible si mejora claramente el criterio, conserva monotonicidad y supera los diagnósticos. La diferencia en probabilidad media muestra que la forma de la curva tiene una consecuencia directa sobre densidad.</p>
+</section>
+<section id="diagnósticos-del-modelo-elegido" class="level3" data-number="4.6.5">
+<h3 data-number="4.6.5" class="anchored" data-anchor-id="diagnósticos-del-modelo-elegido"><span class="header-section-number">4.6.5</span> Diagnósticos del modelo elegido</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fit_final <span class="ot">&lt;-</span> modelos[[<span class="st">"Tasa de riesgo"</span>]]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>gof <span class="ot">&lt;-</span> Distance<span class="sc">::</span><span class="fu">gof_ds</span>(fit_final, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">CvM =</span> gof<span class="sc">$</span>dsgof<span class="sc">$</span>CvM<span class="sc">$</span>W, <span class="at">p_CvM =</span> gof<span class="sc">$</span>dsgof<span class="sc">$</span>CvM<span class="sc">$</span>p,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">p_deteccion =</span> <span class="fu">summary</span>(fit_final<span class="sc">$</span>ddf)<span class="sc">$</span>average.p)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         CvM       p_CvM p_deteccion </span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.2498974   0.1885013   0.8440264</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_final, <span class="at">pdf =</span> <span class="cn">TRUE</span>, <span class="at">main =</span> <span class="st">"Tasa de riesgo, w = 100 m"</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in plot.ds(x$ddf, pl.den = pl.den, ...): Ignoring pdf=TRUE for line</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; transect data</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>Distance<span class="sc">::</span><span class="fu">gof_ds</span>(fit_final, <span class="at">plot =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter04_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+<pre><code>#&gt; 
+#&gt; Goodness of fit results for ddf object
+#&gt; 
+#&gt; Distance sampling Cramer-von Mises test (unweighted)
+#&gt; Test statistic = 0.249897 p-value = 0.188501
+par(op)</code></pre>
+</div>
+<p>La curva debe tener hombro cerca de cero y descenso monótono. Cramer–von Mises evalúa compatibilidad acumulada entre distancias y modelo. Un resultado no extremo apoya la forma elegida, pero no verifica selección espacial, <span class="math inline">\(g(0)=1\)</span>, movimiento ni exactitud de las distancias.</p>
+</section>
+<section id="densidad-abundancia-e-incertidumbre" class="level3" data-number="4.6.6">
+<h3 data-number="4.6.6" class="anchored" data-anchor-id="densidad-abundancia-e-incertidumbre"><span class="header-section-number">4.6.6</span> Densidad, abundancia e incertidumbre</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>estimacion <span class="ot">&lt;-</span> <span class="fu">merge</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  fit_final<span class="sc">$</span>dht<span class="sc">$</span>individuals<span class="sc">$</span>D[<span class="fu">c</span>(<span class="st">"Label"</span>, <span class="st">"Estimate"</span>, <span class="st">"se"</span>, <span class="st">"cv"</span>, <span class="st">"lcl"</span>, <span class="st">"ucl"</span>)],</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  fit_final<span class="sc">$</span>dht<span class="sc">$</span>individuals<span class="sc">$</span>N[<span class="fu">c</span>(<span class="st">"Label"</span>, <span class="st">"Estimate"</span>, <span class="st">"se"</span>, <span class="st">"cv"</span>, <span class="st">"lcl"</span>, <span class="st">"ucl"</span>)],</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">"Label"</span>, <span class="at">suffixes =</span> <span class="fu">c</span>(<span class="st">"_D"</span>, <span class="st">"_N"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>estimacion[<span class="sc">-</span><span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(estimacion[<span class="sc">-</span><span class="dv">1</span>], round, <span class="dv">3</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>estimacion</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   Label Estimate_D  se_D  cv_D lcl_D ucl_D Estimate_N  se_N  cv_N  lcl_N  ucl_N</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 Total      0.957 0.078 0.081 0.809 1.131     31.761 2.584 0.081 26.857 37.562</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(estimacion, {</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="dv">1</span>, Estimate_D, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">xaxt =</span> <span class="st">"n"</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>       <span class="at">ylim =</span> <span class="fu">c</span>(lcl_D, ucl_D), <span class="at">xlab =</span> <span class="st">"Montrave"</span>, <span class="at">ylab =</span> <span class="st">"Objetos por ha"</span>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">axis</span>(<span class="dv">1</span>, <span class="dv">1</span>, Label)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrows</span>(<span class="dv">1</span>, lcl_D, <span class="dv">1</span>, ucl_D, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">code =</span> <span class="dv">3</span>, <span class="at">length =</span> <span class="fl">0.08</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter04_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><code>D</code> expresa objetos detectables por hectárea y <code>N</code> los expande a 33.2 ha. El intervalo incorpora variación estimada de encuentros y detección bajo las 19 líneas documentadas. Sin tamaño de grupo, disponibilidad o líneas ausentes, no debe reinterpretarse como número total de aves presentes.</p>
+</section>
+<section id="diagnóstico-de-líneas-influyentes" class="level3" data-number="4.6.7">
+<h3 data-number="4.6.7" class="anchored" data-anchor-id="diagnóstico-de-líneas-influyentes"><span class="header-section-number">4.6.7</span> Diagnóstico de líneas influyentes</h3>
+<p>Una línea corta con muchos encuentros puede dominar la tasa. Comparamos la tasa global al retirar una línea por vez; es un diagnóstico, no un método para excluir resultados incómodos.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>tasa_loo <span class="ot">&lt;-</span> <span class="fu">vapply</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(lineas)), <span class="cf">function</span>(i)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sum</span>(lineas<span class="sc">$</span>n[<span class="sc">-</span>i]) <span class="sc">/</span> <span class="fu">sum</span>(lineas<span class="sc">$</span>Effort[<span class="sc">-</span>i]), <span class="fl">0.0</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>influencia <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">linea_retirada =</span> lineas<span class="sc">$</span>Sample.Label,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">esfuerzo =</span> lineas<span class="sc">$</span>Effort,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">encuentros =</span> lineas<span class="sc">$</span>n,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">tasa_sin_linea =</span> tasa_loo,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">cambio =</span> tasa_loo <span class="sc">-</span> <span class="fu">sum</span>(lineas<span class="sc">$</span>n) <span class="sc">/</span> <span class="fu">sum</span>(lineas<span class="sc">$</span>Effort)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>influencia[<span class="fu">order</span>(<span class="fu">abs</span>(influencia<span class="sc">$</span>cambio), <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ][<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    linea_retirada esfuerzo encuentros tasa_sin_linea     cambio</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19              9    0.770          6       16.87289  0.7238226</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8              16    0.378          2       16.59125  0.4421836</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2              10    0.408          3       16.53696  0.3878967</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6              14    0.542         12       15.79294 -0.3561313</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1               1    0.416         10       15.79403 -0.3550398</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Cambios grandes identifican recorridos que merecen revisar en bitácoras. No son evidencia automática de error: también pueden reflejar heterogeneidad ecológica real.</p>
+</section>
+<section id="sensibilidad-a-función-y-truncamiento" class="level3" data-number="4.6.8">
+<h3 data-number="4.6.8" class="anchored" data-anchor-id="sensibilidad-a-función-y-truncamiento"><span class="header-section-number">4.6.8</span> Sensibilidad a función y truncamiento</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>w_grid <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">60</span>, <span class="dv">75</span>, <span class="dv">80</span>, <span class="dv">100</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>sensibilidad <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(w_grid, <span class="cf">function</span>(w) {</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">c</span>(<span class="at">HN =</span> <span class="st">"hn"</span>, <span class="at">HR =</span> <span class="st">"hr"</span>), <span class="cf">function</span>(key) {</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    fit <span class="ot">&lt;-</span> <span class="fu">ajustar</span>(w, key)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    sm <span class="ot">&lt;-</span> <span class="fu">summary</span>(fit<span class="sc">$</span>ddf)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">data.frame</span>(<span class="at">w =</span> w, <span class="at">clave =</span> key, <span class="at">n =</span> sm<span class="sc">$</span>n,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>               <span class="at">descartadas =</span> <span class="fu">nrow</span>(obs) <span class="sc">-</span> sm<span class="sc">$</span>n,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">AIC =</span> fit<span class="sc">$</span>ddf<span class="sc">$</span>criterion, <span class="at">p_deteccion =</span> sm<span class="sc">$</span>average.p,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">D =</span> fit<span class="sc">$</span>dht<span class="sc">$</span>individuals<span class="sc">$</span>D<span class="sc">$</span>Estimate[<span class="dv">1</span>],</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">N =</span> fit<span class="sc">$</span>dht<span class="sc">$</span>individuals<span class="sc">$</span>N<span class="sc">$</span>Estimate[<span class="dv">1</span>])</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  }))</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Fitting half-normal key function</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AIC= 992.831</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Fitting hazard-rate key function</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AIC= 994.425</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Fitting half-normal key function</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AIC= 1228.059</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Fitting hazard-rate key function</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AIC= 1229.689</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Fitting half-normal key function</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AIC= 1316.455</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Fitting hazard-rate key function</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AIC= 1318.104</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Fitting half-normal key function</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AIC= 1418.188</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Fitting hazard-rate key function</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; AIC= 1412.133</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>sensibilidad[<span class="sc">-</span><span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(sensibilidad[<span class="sc">-</span><span class="dv">2</span>], round, <span class="dv">4</span>)</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>sensibilidad</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       w clave   n descartadas       AIC p_deteccion      D       N</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HN   60    hn 121          35  992.8314      1.0000 1.0438 34.6549</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HR   60    hr 121          35  994.4247      0.9983 1.0456 34.7132</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HN1  75    hn 142          14 1228.0585      0.9698 1.0105 33.5482</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HR1  75    hr 142          14 1229.6894      0.9983 0.9816 32.5903</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HN2  80    hn 150           6 1316.4553      0.9652 1.0055 33.3819</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HR2  80    hr 150           6 1318.1039      0.9983 0.9721 32.2747</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HN3 100    hn 156           0 1418.1879      0.6850 1.1787 39.1329</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HR3 100    hr 156           0 1412.1329      0.8440 0.9567 31.7614</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(w_grid,</span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>        <span class="fu">cbind</span>(sensibilidad<span class="sc">$</span>D[sensibilidad<span class="sc">$</span>clave <span class="sc">==</span> <span class="st">"hn"</span>],</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>              sensibilidad<span class="sc">$</span>D[sensibilidad<span class="sc">$</span>clave <span class="sc">==</span> <span class="st">"hr"</span>]),</span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">19</span>, <span class="dv">17</span>), <span class="at">lty =</span> <span class="dv">1</span>,</span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Truncamiento (m)"</span>, <span class="at">ylab =</span> <span class="st">"Densidad (objetos/ha)"</span>)</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>, <span class="fu">c</span>(<span class="st">"Media normal"</span>, <span class="st">"Tasa de riesgo"</span>),</span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">19</span>, <span class="dv">17</span>), <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter04_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Los AIC solo se comparan entre funciones dentro del mismo <span class="math inline">\(w\)</span>, pues cambia el conjunto de observaciones. Truncamientos bajos eliminan la cola donde se aprecia la caída y pueden estimar detección casi perfecta; el análisis completo muestra que esa conclusión depende de ocultar las detecciones lejanas. La estabilidad de la densidad dentro de decisiones plausibles es tan importante como el mínimo AIC.</p>
+</section>
+<section id="sensibilidad-a-líneas-no-documentadas-con-cero" class="level3" data-number="4.6.9">
+<h3 data-number="4.6.9" class="anchored" data-anchor-id="sensibilidad-a-líneas-no-documentadas-con-cero"><span class="header-section-number">4.6.9</span> Sensibilidad a líneas no documentadas con cero</h3>
+<p>No sabemos si faltan ceros. El siguiente cálculo no inventa observaciones primarias: muestra algebraicamente cuánto cambiaría la tasa si el registro hubiera omitido líneas de esfuerzo mediano sin detecciones.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>esfuerzo_mediano <span class="ot">&lt;-</span> <span class="fu">median</span>(lineas<span class="sc">$</span>Effort)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>ceros_posibles <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">5</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>tasa_ceros <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">lineas_cero_adicionales =</span> ceros_posibles,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">tasa_por_km =</span> <span class="fu">sum</span>(lineas<span class="sc">$</span>n) <span class="sc">/</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    (<span class="fu">sum</span>(lineas<span class="sc">$</span>Effort) <span class="sc">+</span> ceros_posibles <span class="sc">*</span> esfuerzo_mediano)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>tasa_ceros<span class="sc">$</span>razon_frente_observada <span class="ot">&lt;-</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  tasa_ceros<span class="sc">$</span>tasa_por_km <span class="sc">/</span> tasa_ceros<span class="sc">$</span>tasa_por_km[<span class="dv">1</span>]</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(tasa_ceros, <span class="dv">3</span>)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   lineas_cero_adicionales tasa_por_km razon_frente_observada</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                       0      16.149                  1.000</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2                       1      15.397                  0.953</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3                       2      14.711                  0.911</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4                       3      14.085                  0.872</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5                       4      13.509                  0.837</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6                       5      12.978                  0.804</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Como la densidad es proporcional a la tasa si la función de detección se mantiene, líneas omitidas reducirían densidad en la misma razón. Este escenario no afirma que existan; cuantifica una limitación de procedencia que el ajuste no puede resolver.</p>
+</section>
+</section>
+<section id="interpretación-y-reproducibilidad" class="level2" data-number="4.7">
+<h2 data-number="4.7" class="anchored" data-anchor-id="interpretación-y-reproducibilidad"><span class="header-section-number">4.7</span> Interpretación y reproducibilidad</h2>
+<p>El modelo de tasa de riesgo con <span class="math inline">\(w=100\)</span> m usa todas las detecciones y representa mejor la caída en la cola que la media normal según el criterio y diagnósticos. La conclusión se limita a objetos detectables y al esfuerzo documentado. El redondeo, la ausencia de covariables, la imposibilidad de confirmar líneas con cero y los supuestos <span class="math inline">\(g(0)=1\)</span> y posición inicial son fuentes de incertidumbre no incluidas en el intervalo.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">archivo =</span> <span class="st">"Distance::wren_lt"</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">version_Distance =</span> <span class="fu">as.character</span>(<span class="fu">packageVersion</span>(<span class="st">"Distance"</span>)),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">version_R =</span> R.version.string,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">objeto =</span> <span class="st">"detección de chochín"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">area_ha =</span> <span class="fu">unique</span>(wren_lt<span class="sc">$</span>Area),</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">esfuerzo_km =</span> <span class="fu">sum</span>(lineas<span class="sc">$</span>Effort),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">truncamiento_m =</span> <span class="dv">100</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">funcion =</span> <span class="st">"tasa de riesgo sin ajustes"</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">conversion_m_km_a_ha =</span> <span class="fl">0.1</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $archivo</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "Distance::wren_lt"</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $version_Distance</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2.0.1"</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $version_R</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "R version 4.5.2 (2025-10-31)"</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $objeto</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "detección de chochín"</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $area_ha</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 33.2</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $esfuerzo_km</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 9.66</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $truncamiento_m</span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 100</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $funcion</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "tasa de riesgo sin ajustes"</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $conversion_m_km_a_ha</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.1</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R version 4.5.2 (2025-10-31)</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Platform: x86_64-pc-linux-gnu</span></span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running under: Ubuntu 24.04.4 LTS</span></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix products: default</span></span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0</span></span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; locale:</span></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       </span></span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   </span></span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          </span></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   </span></span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; time zone: UTC</span></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tzcode source: system (glibc)</span></span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; attached base packages:</span></span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] stats     graphics  grDevices datasets  utils     methods   base     </span></span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; other attached packages:</span></span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] Distance_2.0.1 mrds_3.0.1    </span></span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] Matrix_1.7-4        future.apply_1.20.2 jsonlite_2.0.0     </span></span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4] dplyr_1.2.1         compiler_4.5.2      renv_1.2.4         </span></span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] tidyselect_1.2.1    Rcpp_1.1.2          parallel_4.5.2     </span></span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10] Rsolnp_2.0.1        globals_0.19.1      splines_4.5.2      </span></span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] yaml_2.3.12         fastmap_1.2.0       lattice_0.22-7     </span></span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [16] R6_2.6.1            generics_0.1.4      knitr_1.51         </span></span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [19] rbibutils_2.4.1     tibble_3.3.1        future_1.75.0      </span></span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [22] nloptr_2.2.1        pillar_1.11.1       rlang_1.1.7        </span></span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] xfun_0.56           truncnorm_1.0-9     cli_3.6.5          </span></span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [28] magrittr_2.0.5      mgcv_1.9-3          Rdpack_2.6.6       </span></span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [31] digest_0.6.39       grid_4.5.2          lifecycle_1.0.5    </span></span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [34] nlme_3.1-168        vctrs_0.7.1         evaluate_1.0.5     </span></span>
+<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [37] pracma_2.4.6        glue_1.8.0          numDeriv_2016.8-1.1</span></span>
+<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [40] listenv_1.0.0       codetools_0.2-20    optimx_2025-4.9    </span></span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [43] parallelly_1.48.0   rmarkdown_2.30      pkgconfig_2.0.3    </span></span>
+<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [46] tools_4.5.2         htmltools_0.5.9</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="actividad-propuesta-para-el-lector" class="level2" data-number="4.8">
+<h2 data-number="4.8" class="anchored" data-anchor-id="actividad-propuesta-para-el-lector"><span class="header-section-number">4.8</span> Actividad propuesta para el lector</h2>
+<p>Use el conjunto real <code>Distance::amakihi</code> para construir un análisis de muestreo por distancias. Documente especie, lugar, unidades y limitaciones desde la ayuda del paquete; reconstruya tablas de región, muestra y detección; audite esfuerzo, ceros, duplicados, faltantes, rangos y redondeo; defina población disponible, unidad y estimando; explore tasas y distancias; ajuste dos funciones clave con truncamientos justificados; compare AIC solo sobre los mismos datos; revise curva, residuos cuantiles y ajuste acumulado; estime densidad, abundancia e intervalos; identifique unidades influyentes; y evalúe sensibilidad a truncamiento, función y posible omisión de esfuerzo sin encuentros. Interprete qué supuestos pueden examinarse con el archivo, cuáles dependen del protocolo y qué información adicional sería necesaria para hablar de individuos totales.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-henderson2016ecological" class="csl-entry" role="listitem">
+Henderson, Peter A., y T. R. E. Southwood. 2016. <em>Ecological Methods</em>. 4.ª ed. Wiley-Blackwell.
+</div>
+<div id="ref-manly2015ecological" class="csl-entry" role="listitem">
+Manly, Bryan F. J., y Jorge A. Navarro Alberto. 2015. <em>Introduction to Ecological Sampling</em>. Chapman; Hall/CRC.
+</div>
+<div id="ref-miller2019distance" class="csl-entry" role="listitem">
+Miller, David L., Eric Rexstad, Len Thomas, Laura Marshall, y Jeffrey L. Laake. 2019. <span>«Distance Sampling in R»</span>. <em>Journal of Statistical Software</em> 89 (1): 1-28. <a href="https://doi.org/10.18637/jss.v089.i01">https://doi.org/10.18637/jss.v089.i01</a>.
+</div>
+<div id="ref-sutherland2006census" class="csl-entry" role="listitem">
+Sutherland, William J., ed. 2006. <em>Ecological Census Techniques: A Handbook</em>. 2.ª ed. Cambridge University Press.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/chapter03.html" class="pagination-link" aria-label="Parcelas, cuadrantes e intercepción">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/chapter05.html" class="pagination-link" aria-label="Métodos de censo por organismos y hábitats">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Métodos de censo por organismos y hábitats</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Muestreo ecológico con R</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Jonathan Florez Giraldo</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

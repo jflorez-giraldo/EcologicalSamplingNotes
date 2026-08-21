@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Fundamentos estadísticos, métodos de campo y proyectos reproducibles para el estudio de poblaciones, comunidades e interacciones biológicas.">
+
+<title>3&nbsp; Parcelas, cuadrantes e intercepción – Muestreo ecológico</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/chapter04.html" rel="next">
+<link href="../chapters/chapter02.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-3fee61de2b36a07911a09d94e160f21d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-7cffdf8bbe0ff56ccfce34d1b7d2026d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter03.html">Parte II — Métodos de campo</a></li><li class="breadcrumb-item"><a href="../chapters/chapter03.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Muestreo ecológico</a> 
+        <div class="sidebar-tools-main">
+    <a href="../ecological-sampling.pdf" title="Descargar PDF" class="quarto-navigation-tool px-1" aria-label="Descargar PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Presentación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reading-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cómo usar este libro</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../literature-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Marco bibliográfico</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-catalog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Catálogo de datos reales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte I — Fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Del problema ecológico al diseño</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Diseños probabilísticos para poblaciones biológicas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte II — Métodos de campo</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter03.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transectos y muestreo por distancias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Métodos de censo por organismos y hábitats</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte III — Estimación de poblaciones</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Remoción, captura-recaptura e índices de abundancia</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ocupación y detección imperfecta</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte IV — Comparación y seguimiento</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Estudios comparativos, intervenciones y sesgos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Monitoreo ecológico y análisis de tendencias</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte V — Poblaciones y comunidades</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte VI — Síntesis</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Prácticas</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Práctica 3: Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Material complementario</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Material complementario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referencias</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contenido</h2>
+   
+  <ul>
+  <li><a href="#convertir-espacio-en-observaciones" id="toc-convertir-espacio-en-observaciones" class="nav-link active" data-scroll-target="#convertir-espacio-en-observaciones"><span class="header-section-number">3.1</span> Convertir espacio en observaciones</a></li>
+  <li><a href="#población-soporte-y-unidades" id="toc-población-soporte-y-unidades" class="nav-link" data-scroll-target="#población-soporte-y-unidades"><span class="header-section-number">3.2</span> Población, soporte y unidades</a></li>
+  <li><a href="#parcelas-de-área-fija" id="toc-parcelas-de-área-fija" class="nav-link" data-scroll-target="#parcelas-de-área-fija"><span class="header-section-number">3.3</span> Parcelas de área fija</a></li>
+  <li><a href="#frecuencia-cobertura-y-escala" id="toc-frecuencia-cobertura-y-escala" class="nav-link" data-scroll-target="#frecuencia-cobertura-y-escala"><span class="header-section-number">3.4</span> Frecuencia, cobertura y escala</a></li>
+  <li><a href="#tamaño-forma-borde-y-dependencia" id="toc-tamaño-forma-borde-y-dependencia" class="nav-link" data-scroll-target="#tamaño-forma-borde-y-dependencia"><span class="header-section-number">3.5</span> Tamaño, forma, borde y dependencia</a></li>
+  <li><a href="#aplicación-reproducible-parcelas-de-barro-colorado" id="toc-aplicación-reproducible-parcelas-de-barro-colorado" class="nav-link" data-scroll-target="#aplicación-reproducible-parcelas-de-barro-colorado"><span class="header-section-number">3.6</span> Aplicación reproducible: parcelas de Barro Colorado</a>
+  <ul class="collapse">
+  <li><a href="#carga-y-auditoría" id="toc-carga-y-auditoría" class="nav-link" data-scroll-target="#carga-y-auditoría"><span class="header-section-number">3.6.1</span> Carga y auditoría</a></li>
+  <li><a href="#exploración-comunitaria-y-espacial" id="toc-exploración-comunitaria-y-espacial" class="nav-link" data-scroll-target="#exploración-comunitaria-y-espacial"><span class="header-section-number">3.6.2</span> Exploración comunitaria y espacial</a></li>
+  <li><a href="#mas-de-hectáreas-y-estimación" id="toc-mas-de-hectáreas-y-estimación" class="nav-link" data-scroll-target="#mas-de-hectáreas-y-estimación"><span class="header-section-number">3.6.3</span> MAS de hectáreas y estimación</a></li>
+  <li><a href="#evaluación-por-repetición" id="toc-evaluación-por-repetición" class="nav-link" data-scroll-target="#evaluación-por-repetición"><span class="header-section-number">3.6.4</span> Evaluación por repetición</a></li>
+  <li><a href="#modelo-de-conteo-con-hábitat" id="toc-modelo-de-conteo-con-hábitat" class="nav-link" data-scroll-target="#modelo-de-conteo-con-hábitat"><span class="header-section-number">3.6.5</span> Modelo de conteo con hábitat</a></li>
+  <li><a href="#diagnóstico-de-dependencia-espacial" id="toc-diagnóstico-de-dependencia-espacial" class="nav-link" data-scroll-target="#diagnóstico-de-dependencia-espacial"><span class="header-section-number">3.6.6</span> Diagnóstico de dependencia espacial</a></li>
+  <li><a href="#cambio-de-soporte-con-datos-observados" id="toc-cambio-de-soporte-con-datos-observados" class="nav-link" data-scroll-target="#cambio-de-soporte-con-datos-observados"><span class="header-section-number">3.6.7</span> Cambio de soporte con datos observados</a></li>
+  <li><a href="#comparación-de-diseños-e-incertidumbre" id="toc-comparación-de-diseños-e-incertidumbre" class="nav-link" data-scroll-target="#comparación-de-diseños-e-incertidumbre"><span class="header-section-number">3.6.8</span> Comparación de diseños e incertidumbre</a></li>
+  <li><a href="#sensibilidad-al-origen-de-la-cuadrícula" id="toc-sensibilidad-al-origen-de-la-cuadrícula" class="nav-link" data-scroll-target="#sensibilidad-al-origen-de-la-cuadrícula"><span class="header-section-number">3.6.9</span> Sensibilidad al origen de la cuadrícula</a></li>
+  </ul></li>
+  <li><a href="#interpretación-y-reproducibilidad" id="toc-interpretación-y-reproducibilidad" class="nav-link" data-scroll-target="#interpretación-y-reproducibilidad"><span class="header-section-number">3.7</span> Interpretación y reproducibilidad</a></li>
+  <li><a href="#ejercicios-teóricos-y-numéricos" id="toc-ejercicios-teóricos-y-numéricos" class="nav-link" data-scroll-target="#ejercicios-teóricos-y-numéricos"><span class="header-section-number">3.8</span> Ejercicios teóricos y numéricos</a>
+  <ul class="collapse">
+  <li><a href="#ejercicios-teóricos" id="toc-ejercicios-teóricos" class="nav-link" data-scroll-target="#ejercicios-teóricos"><span class="header-section-number">3.8.1</span> Ejercicios teóricos</a></li>
+  <li><a href="#ejercicios-numéricos" id="toc-ejercicios-numéricos" class="nav-link" data-scroll-target="#ejercicios-numéricos"><span class="header-section-number">3.8.2</span> Ejercicios numéricos</a></li>
+  <li><a href="#ejercicios-guiados-en-r" id="toc-ejercicios-guiados-en-r" class="nav-link" data-scroll-target="#ejercicios-guiados-en-r"><span class="header-section-number">3.8.3</span> Ejercicios guiados en R</a></li>
+  </ul></li>
+  <li><a href="#actividad-propuesta-para-el-lector" id="toc-actividad-propuesta-para-el-lector" class="nav-link" data-scroll-target="#actividad-propuesta-para-el-lector"><span class="header-section-number">3.9</span> Actividad propuesta para el lector</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter03.html">Parte II — Métodos de campo</a></li><li class="breadcrumb-item"><a href="../chapters/chapter03.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></h1>
+<p class="subtitle lead">Densidad, frecuencia y cobertura en marcos espaciales</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="chapter-actions" aria-label="Recursos del capítulo">
+  <a class="chapter-action" href="../notebooks/qmd/chapter03.qmd" download="">
+    <i class="bi bi-file-earmark-code" aria-hidden="true"></i>
+    <span>Descargar QMD</span>
+  </a>
+  <a class="chapter-action" href="../notebooks/ipynb/chapter03.ipynb" download="">
+    <i class="bi bi-journal-code" aria-hidden="true"></i>
+    <span>Descargar IPYNB</span>
+  </a>
+  <a class="chapter-action chapter-action-pdf" href="../ecological-sampling.pdf" download="">
+    <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
+    <span>Descargar libro en PDF</span>
+  </a>
+</div>
+
+<section id="convertir-espacio-en-observaciones" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="convertir-espacio-en-observaciones"><span class="header-section-number">3.1</span> Convertir espacio en observaciones</h2>
+<p>Cuando los organismos no se mueven —plantas sésiles, corales, algas incrustantes, organismos bentónicos—, la población no se recorre individuos a individuos: se recorre un territorio. El diseño de muestreo decide entonces <em>dónde</em> observar, <em>cuánto espacio</em> incluir en cada observación y <em>qué regla</em> convierte individuos, contactos o biomasa en un número. Esas tres decisiones no son detalles técnicos: <strong>el soporte</strong> (el área o la longitud sobre la que se mide) forma parte del estimando, porque cambiar el soporte puede cambiar la pregunta, no solo la precisión <span class="citation" data-cites="sutherland2006census henderson2016ecological">(<a href="../references.html#ref-sutherland2006census" role="doc-biblioref">Sutherland 2006</a>; <a href="../references.html#ref-henderson2016ecological" role="doc-biblioref">Henderson y Southwood 2016</a>)</span>.</p>
+<p>Considere una misma especie en un mismo lugar bajo las tres medidas habituales. La <strong>densidad</strong> es la cantidad de individuos por unidad de área; la <strong>frecuencia</strong> es la fracción de unidades de muestreo que contienen al menos un individuo; la <strong>cobertura</strong> es la fracción de la superficie que la especie ocupa. Una especie con pocos individuos pero muy grandes (una palma dominante) puede tener densidad baja y cobertura alta; una hierba gregaria puede tener densidad alta pero ocupar poco sustrato. Cada medida responde a una pregunta distinta, y presentarlas como sinónimos es uno de los errores más frecuentes al leer o escribir investigación ecológica.</p>
+</section>
+<section id="población-soporte-y-unidades" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="población-soporte-y-unidades"><span class="header-section-number">3.2</span> Población, soporte y unidades</h2>
+<p>Del capítulo 1 conservamos el vocabulario con el que se declara un estimando: población objetivo, población accesible, marco y unidades. Para un marco espacial hace falta precisarlo con tres conceptos adicionales:</p>
+<ul>
+<li>El <strong>soporte</strong> es el área (o longitud) a la que pertenece cada medición.</li>
+<li>La <strong>extensión</strong> es el dominio que la muestra pretende cubrir.</li>
+<li>El <strong>grano</strong> es la resolución mínima a la que se observa.</li>
+</ul>
+<p>Consideremos un humedal de 12 ha donde queremos densidades de un helecho acuático. Podemos definir el marco como una lista de 300 cuadrantes de <span class="math inline">\(20\times
+20~\text{m}\)</span>: la extensión es todo el humedal, el grano es <span class="math inline">\(20\times20\)</span> m y el soporte de cada conteo es <span class="math inline">\(400~\text{m}^{2}\)</span>. Si la misma pregunta se plantea con cuadrantes de <span class="math inline">\(10\times10\)</span> m, el grano y el soporte cambian, y con ellos tanto la densidad esperada como la incertidumbre; la población objetivo, en cambio, sigue siendo el humedal.</p>
+<p>Una parcela puede contener cientos de puntos de observación, pero eso no convierte a cada punto en una réplica. Si la unidad que recibió probabilidad de inclusión fue la parcela, los puntos internos son <em>submuestras</em> de esa parcela: tratarlos como réplicas independientes subestima la incertidumbre. Del mismo modo, “individuo” debe definirse antes de medir: en gramíneas y bambúes un <strong>tallo</strong> no es una <strong>macolla</strong> ni un <strong>geneto</strong> (un individuo genético), y las tres definiciones producen densidades distintas. La unidad de muestreo y la unidad de observación deben anotarse en la declaración del estimando.</p>
+</section>
+<section id="parcelas-de-área-fija" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="parcelas-de-área-fija"><span class="header-section-number">3.3</span> Parcelas de área fija</h2>
+<p>La receta más simple es seleccionar parcelas del mismo tamaño y contar los individuos dentro de cada una. Si la parcela <span class="math inline">\(i\)</span> tiene área <span class="math inline">\(a\)</span> y conteo <span class="math inline">\(y_i\)</span>, bajo un MAS de <span class="math inline">\(n\)</span> parcelas entre <span class="math inline">\(N\)</span> parcelas iguales, la densidad estimada es</p>
+<p><span class="math display">\[
+\widehat D=\frac{\bar y}{a},\qquad
+\widehat V(\widehat D)=
+\left(1-\frac nN\right)\frac{s_y^2}{na^2}.
+\]</span></p>
+<p>¿Por qué aparece <span class="math inline">\(n\)</span>, y no <span class="math inline">\(N\)</span>, dividiendo? La variabilidad entre unidades se resume en <span class="math inline">\(s_y^2\)</span> (que divide entre <span class="math inline">\(n-1\)</span>); al promediar <span class="math inline">\(n\)</span> conteos, esa variabilidad se reduce en <span class="math inline">\(1/n\)</span>, y el factor <span class="math inline">\(1-n/N\)</span> (la corrección por población finita) la ajusta cuando la fracción muestreada es apreciable. Si se divide por <span class="math inline">\(N\)</span> se mezclaría una suma parcial de la muestra con el total de unidades del marco. Para un dominio de área <span class="math inline">\(A=Na\)</span>, el total estimado es <span class="math inline">\(\widehat Y=A\widehat D\)</span>: multiplique la densidad por el área, tal como en el capítulo anterior se extendía la media por <span class="math inline">\(N\)</span>. La expansión solo es válida si la selección representa el dominio y el área es conocida para todo el marco <span class="citation" data-cites="manly2015ecological">(<a href="../references.html#ref-manly2015ecological" role="doc-biblioref">Manly y Navarro Alberto 2015</a>)</span>.</p>
+<p>Cuando las parcelas no son iguales, ya no hay una única “densidad”. Suponga que <span class="math inline">\(y_i\)</span> es el conteo y <span class="math inline">\(a_i\)</span> el área de la parcela <span class="math inline">\(i\)</span>. Dos estimadores naturales responden a preguntas distintas:</p>
+<p><span class="math display">\[
+\widehat D_U=\frac1n\sum_{i\in s}\frac{y_i}{a_i},\qquad
+\widehat D_R=\frac{\sum_{i\in s}y_i}{\sum_{i\in s}a_i}.
+\]</span></p>
+<p>El primero da la misma influencia a cada parcela (una media de densidades); el segundo da más influencia a las parcelas grandes (el cociente de totales). Si la selección dependiera del área, ninguno de los dos es correcto sin probabilidades de inclusión explícitas: en ese caso conviene un estimador ponderado por <span class="math inline">\(\pi_i\)</span>, como el de Horvitz–Thompson del capítulo 1.</p>
+</section>
+<section id="frecuencia-cobertura-y-escala" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="frecuencia-cobertura-y-escala"><span class="header-section-number">3.4</span> Frecuencia, cobertura y escala</h2>
+<p>La <strong>frecuencia</strong> responde a una pregunta de presencia: para <span class="math inline">\(z_i=I(y_i&gt;0)\)</span>, la frecuencia estimada es <span class="math inline">\(\widehat F=\bar z\)</span>, con varianza la de cualquier proporción bajo el diseño que se haya usado. Su utilidad operativa es enorme —un conteo puede ser incierto, pero la presencia en una unidad es más robusta— y también su pluralidad: la frecuencia depende del tamaño, la forma, la época y el protocolo de la unidad. Al aumentar el soporte disminuyen los ceros y la frecuencia suele crecer, aunque la densidad media permanezca parecida. La razón es de probabilidad: si una especie está en una fracción <span class="math inline">\(p\)</span> del dominio y las unidades fueran independientes, un bloque de <span class="math inline">\(k\)</span> celdas tiene presencia con probabilidad <span class="math inline">\(1-(1-p)^k\)</span>. Por eso comparar frecuencias entre estudios que usan cuadrantes de distinto tamaño es comparar instrumentos distintos.</p>
+<p>La <strong>cobertura</strong> se mide de dos maneras. En la <em>intercepción lineal</em>, si <span class="math inline">\(l_{ij}\)</span> es la longitud de línea ocupada por la especie <span class="math inline">\(j\)</span> en la línea <span class="math inline">\(i\)</span> de longitud <span class="math inline">\(L_i\)</span>,</p>
+<p><span class="math display">\[
+\widehat C_j=\frac{\sum_i l_{ij}}{\sum_i L_i}.
+\]</span></p>
+<p>En la <em>intercepción por puntos</em>, se bajan <span class="math inline">\(M\)</span> puntos y se anota cuántos caen sobre la especie: <span class="math inline">\(\widehat C_j=x_j/M\)</span>. El error binomial <span class="math inline">\(\sqrt{C(1-C)/M}\)</span> supone puntos independientes; si los puntos están agrupados en líneas, la línea —no el punto— es la réplica, y la incertidumbre debe estimarse con líneas. La cobertura también debe declarar qué se mide: contacto superior del dosel, suma de capas o proyección sobre el suelo, porque la misma flora da números distintos para cada definición.</p>
+</section>
+<section id="tamaño-forma-borde-y-dependencia" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="tamaño-forma-borde-y-dependencia"><span class="header-section-number">3.5</span> Tamaño, forma, borde y dependencia</h2>
+<p>No existe un tamaño óptimo de parcela desligado del estimando, del patrón espacial y del costo. Muchas parcelas pequeñas reparten mejor la muestra, aportan más réplicas y permiten detectar parches: pocas parcelas grandes reducen los ceros y el borde relativo y son más baratas por unidad de área, pero suavizan la heterogeneidad y dan menos observaciones independientes. La decisión se toma conociendo la fenología, la agregación y el presupuesto.</p>
+<p>La forma importa por el borde. Para un rectángulo de lados <span class="math inline">\(u\)</span> y <span class="math inline">\(v\)</span>, el cociente perímetro–área es <span class="math inline">\(P/A=2(1/u+1/v)\)</span>: entre rectángulos de igual área, el cuadrado minimiza el perímetro expuesto, una banda larga cruza más gradiente pero expone más borde y más árboles “a medias”. Las reglas de inclusión —qué hacer con un individuo exactamente en el lindero— deben fijarse antes de observar, o se introduce un sesgo sutil que ninguna fórmula de varianza corrige.</p>
+<p>La dependencia espacial condiciona toda la lectura de estas medidas. El índice <span class="math inline">\(s^2/\bar y\)</span> es descriptivo: valores altos son compatibles con agregación biológica, con un gradiente ambiental o con una mezcla de hábitats, y no los distingue. Un semivariograma descriptivo, <span class="math inline">\(\gamma(h)=\tfrac12(y_i-y_j)^2\)</span> promediado por clases de distancia, examina si las unidades cercanas difieren menos que las lejanas. Es un diagnóstico de la estructura espacial —y un aviso sobre las réplicas—, pero no demuestra por sí solo un mecanismo biológico.</p>
+<p>En la aplicación que sigue veremos cómo estos conceptos se materializan en el censo de Barro Colorado: la hectárea como unidad de muestreo y soporte, la dependencia del soporte para una especie de presencia parcial, el semivariograma como lectura de la agregación, y la decisión del origen de la teselación.</p>
+</section>
+<section id="aplicación-reproducible-parcelas-de-barro-colorado" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="aplicación-reproducible-parcelas-de-barro-colorado"><span class="header-section-number">3.6</span> Aplicación reproducible: parcelas de Barro Colorado</h2>
+<p><code>vegan::BCI</code> contiene conteos de árboles con diámetro a la altura del pecho de al menos 10 cm en 50 parcelas contiguas de una hectárea de Barro Colorado, Panamá; sus 225 columnas son especies y <code>BCI.env</code> aporta coordenadas y variables del sitio. La parcela forestal de 1000×500 m es un bosque tropical estacional de tierras bajas, casi todo de crecimiento antiguo, con un pequeño parche de secundario y un mosaico de meseta alta, meseta baja y ladera, más un área de suelo anegado <span class="citation" data-cites="condit2002beta harms2001habitat pyke2001floristic oksanen2024vegan">(<a href="../references.html#ref-condit2002beta" role="doc-biblioref">Condit et&nbsp;al. 2002</a>; <a href="../references.html#ref-harms2001habitat" role="doc-biblioref">Harms et&nbsp;al. 2001</a>; <a href="../references.html#ref-pyke2001floristic" role="doc-biblioref">Pyke et&nbsp;al. 2001</a>; <a href="../references.html#ref-oksanen2024vegan" role="doc-biblioref">Oksanen et&nbsp;al. 2024</a>)</span>. El archivo distribuido por <code>vegan</code> procede de un censo histórico <span class="citation" data-cites="oksanen2024vegan">(<a href="../references.html#ref-oksanen2024vegan" role="doc-biblioref">Oksanen et&nbsp;al. 2024</a>)</span>.</p>
+<p>Las 50 hectáreas se tratan como población finita. El estimando primario es la densidad media de tallos con ese umbral (DAP ≥ 10 cm) por hectárea; resultados secundarios son la frecuencia de una especie focal y la riqueza por hectárea. La unidad de muestreo y de análisis es la hectárea; cada tallo es una unidad de observación. Este marco no es una muestra probabilística de los bosques tropicales: las conclusiones describen estas 50 hectáreas observadas.</p>
+<section id="carga-y-auditoría" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="carga-y-auditoría"><span class="header-section-number">3.6.1</span> Carga y auditoría</h3>
+<p>Cargamos, ensamblamos el marco y audítamos antes de cualquier estimación.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Carga de datos y construcción del marco espacial.</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># - "id": fila que identifica cada hectárea (unidad de muestreo).</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># - "x" y "y": columna y fila de la cuadrícula de 10 (este) x 5 (norte).</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># - "tallos": total de árboles con DAP &gt;= 10 cm en la hectárea (unidad de observación).</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(BCI, BCI.env, <span class="at">package =</span> <span class="st">"vegan"</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>Y <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(BCI)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>marco <span class="ot">&lt;-</span> BCI.env</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>marco<span class="sc">$</span>id <span class="ot">&lt;-</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(marco))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>marco<span class="sc">$</span>x <span class="ot">&lt;-</span> (marco<span class="sc">$</span>UTM.EW <span class="sc">-</span> <span class="fu">min</span>(marco<span class="sc">$</span>UTM.EW)) <span class="sc">/</span> <span class="dv">100</span> <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>marco<span class="sc">$</span>y <span class="ot">&lt;-</span> (marco<span class="sc">$</span>UTM.NS <span class="sc">-</span> <span class="fu">min</span>(marco<span class="sc">$</span>UTM.NS)) <span class="sc">/</span> <span class="dv">100</span> <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>marco<span class="sc">$</span>tallos <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(Y)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>marco<span class="sc">$</span>riqueza <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">specnumber</span>(Y)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Auditoría del marco: tamaño, especies, faltantes e incoherencias.</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">parcelas =</span> <span class="fu">nrow</span>(Y), <span class="at">especies =</span> <span class="fu">ncol</span>(Y),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">nombres_especie_unicos =</span> <span class="fu">length</span>(<span class="fu">unique</span>(<span class="fu">colnames</span>(Y))),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">faltantes_conteos =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(Y)),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">conteos_negativos =</span> <span class="fu">sum</span>(Y <span class="sc">&lt;</span> <span class="dv">0</span>),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">coordenadas_duplicadas =</span> <span class="fu">sum</span>(<span class="fu">duplicated</span>(marco[<span class="fu">c</span>(<span class="st">"UTM.EW"</span>, <span class="st">"UTM.NS"</span>)])),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">area_por_parcela_ha =</span> <span class="dv">1</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   parcelas especies nombres_especie_unicos faltantes_conteos conteos_negativos</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1       50      225                    225                 0                 0</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   coordenadas_duplicadas area_por_parcela_ha</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1                      0                   1</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(marco<span class="sc">$</span>Habitat, <span class="at">useNA =</span> <span class="st">"ifany"</span>)</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  OldHigh   OldLow OldSlope    Swamp    Young </span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        8       26       12        2        2</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>No aparecen faltantes, conteos negativos ni coordenadas duplicadas, y las 225 columnas son especies únicas. El factor <code>Habitat</code> resume la fisonomía del sitio con cinco clases geográficas: meseta y ladera de bosque antiguo (<code>OldHigh</code>, <code>OldLow</code>, <code>OldSlope</code>), área de suelo anegado (<code>Swamp</code>) y un parche de vegetación secundaria (<code>Young</code>). Las coordenadas representan los centros de las hectáreas, no la posición de cada árbol, así que el análisis espacial opera sobre la resolución de una hectárea.</p>
+</section>
+<section id="exploración-comunitaria-y-espacial" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="exploración-comunitaria-y-espacial"><span class="header-section-number">3.6.2</span> Exploración comunitaria y espacial</h3>
+<p>Antes de estimar, describimos el marco con la comunidad y el espacio. La vectorización (<code>colSums</code>, <code>colMeans</code>) evita bucles sobre las 225 especies.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Frecuencia de presencia (fracción de hectáreas con al menos un tallo) para</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># toda la comunidad, calculada una sola vez.</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>frecuencia_especie <span class="ot">&lt;-</span> <span class="fu">colMeans</span>(Y <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Las seis especies más abundantes y su frecuencia en 1 ha.</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>totales_sp <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">colSums</span>(Y), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>dominantes <span class="ot">&lt;-</span> <span class="fu">names</span>(totales_sp)[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">especie =</span> dominantes,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">tallos =</span> <span class="fu">unname</span>(totales_sp[dominantes]),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">frecuencia_1ha =</span> <span class="fu">round</span>(frecuencia_especie[dominantes], <span class="dv">3</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                                       especie tallos frecuencia_1ha</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Faramea.occidentalis     Faramea.occidentalis   1717           1.00</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Trichilia.tuberculata   Trichilia.tuberculata   1681           1.00</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Alseis.blackiana             Alseis.blackiana    983           1.00</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Oenocarpus.mapora           Oenocarpus.mapora    788           1.00</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Poulsenia.armata             Poulsenia.armata    755           0.92</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Quararibea.asterolepis Quararibea.asterolepis    724           0.98</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Resumen a nivel de hectárea. La DE poblacional usa el factor (N-1)/N.</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(marco)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">media =</span> <span class="fu">mean</span>(marco<span class="sc">$</span>tallos),</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">DE_poblacional =</span> <span class="fu">sd</span>(marco<span class="sc">$</span>tallos) <span class="sc">*</span> <span class="fu">sqrt</span>((N <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> N),</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">indice_dispersion =</span> <span class="fu">var</span>(marco<span class="sc">$</span>tallos) <span class="sc">/</span> <span class="fu">mean</span>(marco<span class="sc">$</span>tallos),</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">riqueza_media =</span> <span class="fu">mean</span>(marco<span class="sc">$</span>riqueza))</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             media    DE_poblacional indice_dispersion     riqueza_media </span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        429.140000         42.125531          4.219546         90.780000</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(marco<span class="sc">$</span>x, marco<span class="sc">$</span>y, <span class="at">pch =</span> <span class="dv">15</span>, <span class="at">cex =</span> <span class="fl">1.4</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">hcl.colors</span>(<span class="dv">20</span>, <span class="st">"YlGn"</span>)[<span class="fu">cut</span>(marco<span class="sc">$</span>tallos, <span class="dv">20</span>, <span class="at">labels =</span> <span class="cn">FALSE</span>)],</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Este (centenas de m)"</span>, <span class="at">ylab =</span> <span class="st">"Norte (centenas de m)"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Tallos por hectárea"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-bci-mapa" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bci-mapa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter03_files/figure-html/fig-bci-mapa-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bci-mapa-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.1: Distribución espacial del número de tallos por hectárea en las 50 parcelas del censo.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(tallos <span class="sc">~</span> Habitat, <span class="at">data =</span> marco, <span class="at">las =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"grey85"</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Tallos por hectárea"</span>, <span class="at">xlab =</span> <span class="st">"Hábitat"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-bci-habitat" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bci-habitat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter03_files/figure-html/fig-bci-habitat-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bci-habitat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.2: Distribución del número de tallos por hectárea dentro de cada clase de hábitat.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La figura 3.1 desplega los tallos de las 50 hectáreas en su ubicación real. La densidad oscila entre 344 y 538 tallos por hectárea, y el gradiente este—oeste con parches de colores más oscuros anticipa que unidades cercanas se parecen más que unidades lejanas: es la señal preliminar de dependencia espacial que examinaremos con el semivariograma. La figura 3.2 resume la misma información por hábitat. Las cajas revelan que la estructura física del sitio estructura al bosque: el suelo anegado concentra la menor densidad (343.5 tallos/ha, DE 4.9), porque pocas especies toleran la saturación de agua; el parche secundario presenta la mayor (538.0, con la mayor dispersión, DE 89.1, pero solo dos hectáreas); las clases de bosque antiguo quedan en un rango intermedio muy parecido (425–438), señal de que en estas 50 ha la fisonomía de crecimiento antiguo separa poco la densidad de tallos. El índice de dispersión (4.22 ≫ 1) cuantifica esa sobredispersión, pero —como advertimos en la teoría— no distingue entre agregación biológica, gradiente ambiental y mezcla de hábitats: para eso sirve el semivariograma, no el índice por sí solo.</p>
+<p>Para los análisis de frecuencia trabajaremos con una especie de presencia <em>parcial</em>, <code>Calophyllum.longifolium</code>, presente en el 62 % de las hectáreas (31 de 50). Una especie casi ubicua como <code>Faramea.occidentalis</code> —la más abundante, presente en el 100 % de las hectáreas— no permite ver la dependencia del soporte: su frecuencia es 1 en cualquier agregación. La especie parcial sí lo permite, como veremos al cambiar de soporte.</p>
+</section>
+<section id="mas-de-hectáreas-y-estimación" class="level3" data-number="3.6.3">
+<h3 data-number="3.6.3" class="anchored" data-anchor-id="mas-de-hectáreas-y-estimación"><span class="header-section-number">3.6.3</span> MAS de hectáreas y estimación</h3>
+<p>Seleccionamos un MAS de <span class="math inline">\(n=15\)</span> hectáreas entre las 50. La densidad se estima con la media muestral (soporte = 1 ha para todas las unidades), el total con <span class="math inline">\(A\widehat D=50\,\widehat D\)</span>, y la frecuencia de la especie focal con la proporción de hectáreas muestreadas en las que aparece.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3301</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">15</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> marco[<span class="fu">sample.int</span>(N, n), ]</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimación puntual y por intervalo.</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>D_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(s<span class="sc">$</span>tallos)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>SE_D <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((<span class="dv">1</span> <span class="sc">-</span> n <span class="sc">/</span> N) <span class="sc">*</span> <span class="fu">var</span>(s<span class="sc">$</span>tallos) <span class="sc">/</span> n)   <span class="co"># fpc + varianza de la media</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>IC_D <span class="ot">&lt;-</span> D_hat <span class="sc">+</span> <span class="fu">qt</span>(<span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.975</span>), n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> SE_D</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>focal <span class="ot">&lt;-</span> <span class="st">"Calophyllum.longifolium"</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>F_hat <span class="ot">&lt;-</span> <span class="fu">mean</span>(Y[s<span class="sc">$</span>id, focal] <span class="sc">&gt;</span> <span class="dv">0</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>SE_F <span class="ot">&lt;-</span> <span class="fu">sqrt</span>((<span class="dv">1</span> <span class="sc">-</span> n <span class="sc">/</span> N) <span class="sc">*</span> <span class="fu">var</span>(Y[s<span class="sc">$</span>id, focal] <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">/</span> n)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(<span class="at">densidad_tallos_ha =</span> D_hat, <span class="at">SE =</span> SE_D,</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">LI =</span> IC_D[<span class="dv">1</span>], <span class="at">LS =</span> IC_D[<span class="dv">2</span>],</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">total_tallos =</span> <span class="dv">50</span> <span class="sc">*</span> D_hat,</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">frecuencia_focal =</span> F_hat, <span class="at">SE_frecuencia =</span> SE_F), <span class="dv">3</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; densidad_tallos_ha                 SE                 LI                 LS </span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            433.667             13.335            405.067            462.267 </span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       total_tallos   frecuencia_focal      SE_frecuencia </span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          21683.333              0.600              0.110</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cols_mas <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">seq_len</span>(N) <span class="sc">%in%</span> s<span class="sc">$</span>id, <span class="st">"#bc4749"</span>, <span class="st">"grey88"</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(marco<span class="sc">$</span>x, marco<span class="sc">$</span>y, <span class="at">pch =</span> <span class="dv">15</span>, <span class="at">cex =</span> <span class="fl">1.4</span>, <span class="at">col =</span> cols_mas,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Este (centenas de m)"</span>, <span class="at">ylab =</span> <span class="st">"Norte (centenas de m)"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Muestra MAS de hectáreas"</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"bottomleft"</span>, <span class="fu">c</span>(<span class="st">"Seleccionada"</span>, <span class="st">"No seleccionada"</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">15</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#bc4749"</span>, <span class="st">"grey88"</span>), <span class="at">bty =</span> <span class="st">"n"</span>, <span class="at">cex =</span> <span class="fl">0.9</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-mas-muestra" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mas-muestra-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter03_files/figure-html/fig-mas-muestra-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mas-muestra-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.3: Localización de las 15 hectáreas seleccionadas por MAS sobre la cuadrícula del censo.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>breaks_t <span class="ot">&lt;-</span> <span class="fu">pretty</span>(<span class="fu">range</span>(marco<span class="sc">$</span>tallos), <span class="at">n =</span> <span class="dv">7</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(marco<span class="sc">$</span>tallos, <span class="at">breaks =</span> breaks_t, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">col =</span> <span class="st">"grey90"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">border =</span> <span class="st">"white"</span>, <span class="at">xlab =</span> <span class="st">"Tallos por hectárea"</span>, <span class="at">main =</span> <span class="st">""</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(s<span class="sc">$</span>tallos, <span class="at">breaks =</span> breaks_t, <span class="at">freq =</span> <span class="cn">FALSE</span>, <span class="at">add =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="fu">adjustcolor</span>(<span class="st">"#bc4749"</span>, <span class="fl">0.55</span>), <span class="at">border =</span> <span class="st">"white"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">c</span>(<span class="st">"Población"</span>, <span class="st">"Muestra MAS"</span>), <span class="at">fill =</span> <span class="fu">c</span>(<span class="st">"grey90"</span>, <span class="st">"#bc4749"</span>),</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-mas-distribucion" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mas-distribucion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter03_files/figure-html/fig-mas-distribucion-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mas-distribucion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.4: Distribución del número de tallos por hectárea en la población y en la muestra MAS.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>est_mas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">densidad =</span> D_hat, <span class="at">total =</span> <span class="dv">50</span> <span class="sc">*</span> D_hat, <span class="at">frecuencia =</span> F_hat)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>se_mas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">densidad =</span> SE_D, <span class="at">total =</span> <span class="dv">50</span> <span class="sc">*</span> SE_D, <span class="at">frecuencia =</span> SE_F)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ic_mas <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">LI =</span> est_mas <span class="sc">-</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se_mas,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">LS =</span> est_mas <span class="sc">+</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> se_mas)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>ic_mas[<span class="st">"frecuencia"</span>, ] <span class="ot">&lt;-</span> <span class="fu">pmin</span>(<span class="dv">1</span>, <span class="fu">pmax</span>(<span class="dv">0</span>, ic_mas[<span class="st">"frecuencia"</span>, ]))</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>verd_mas <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">densidad =</span> <span class="fu">mean</span>(marco<span class="sc">$</span>tallos), <span class="at">total =</span> <span class="fu">sum</span>(marco<span class="sc">$</span>tallos),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">frecuencia =</span> frecuencia_especie[focal])</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (j <span class="cf">in</span> <span class="fu">seq_along</span>(est_mas)) {</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(<span class="dv">1</span>, est_mas[j], <span class="at">ylim =</span> <span class="fu">range</span>(<span class="fu">c</span>(ic_mas[j, ], verd_mas[j])),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">xaxt =</span> <span class="st">"n"</span>, <span class="at">xlab =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="fu">names</span>(est_mas)[j],</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#386641"</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrows</span>(<span class="dv">1</span>, ic_mas[j, <span class="dv">1</span>], <span class="dv">1</span>, ic_mas[j, <span class="dv">2</span>], <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">code =</span> <span class="dv">3</span>, <span class="at">length =</span> <span class="fl">0.08</span>)</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abline</span>(<span class="at">h =</span> verd_mas[j], <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"#bc4749"</span>)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(op)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-mas-estimaciones" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mas-estimaciones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter03_files/figure-html/fig-mas-estimaciones-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mas-estimaciones-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.5: Estimaciones MAS de densidad, total y frecuencia con intervalo del 95%, frente a los valores del censo.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La figura 3.3 ubica las 15 hectáreas sorteadas: el azar dejó huecos y aglomeraciones, y eso es esperable —la defensa del MAS es el mecanismo, no la apariencia de una realización. La figura 3.4 compara la distribución de tallos de la población (gris) con la de la muestra (rojo); ambas comparten el rango y el centro, tal como exige la representatividad del sorteo. La figura 3.5 resume las tres estimaciones con sus intervalos: la densidad puntual (433.7 tallos/ha, EE 13.3) y el total (21 683; EE 667) quedan cerca del censo (429.1 y 21 457), con intervalos que incluyen la verdad; la frecuencia de <code>Calophyllum</code> (0.60, EE 0.11) tiene un intervalo ancho ([0.37, 0.84]) porque un indicador binario con 15 unidades aporta poca información; aquí la restricción natural a <span class="math inline">\([0,1]\)</span> no llega a recortar el intervalo. La DE de la población (42.1) describe qué tan distintos son los totales por hectárea; el EE (13.3) describe cuánto puede desviarse una media muestral, y no deben confundirse.</p>
+</section>
+<section id="evaluación-por-repetición" class="level3" data-number="3.6.4">
+<h3 data-number="3.6.4" class="anchored" data-anchor-id="evaluación-por-repetición"><span class="header-section-number">3.6.4</span> Evaluación por repetición</h3>
+<p>Repetimos el diseño 2000 veces sobre el censo para comprobar que las fórmulas describen la incertidumbre real del estimador.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3302</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">2000</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>rep_mas <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">vapply</span>(<span class="fu">seq_len</span>(B), <span class="cf">function</span>(i) {</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">sample</span>(marco<span class="sc">$</span>tallos, n)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">est =</span> <span class="fu">mean</span>(z), <span class="at">se =</span> <span class="fu">sqrt</span>((<span class="dv">1</span> <span class="sc">-</span> n <span class="sc">/</span> N) <span class="sc">*</span> <span class="fu">var</span>(z) <span class="sc">/</span> n))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>}, <span class="fu">numeric</span>(<span class="dv">2</span>)))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>metricas_evaluacion <span class="ot">&lt;-</span> <span class="cf">function</span>(x, verdad) <span class="fu">c</span>(</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">sesgo =</span> <span class="fu">mean</span>(x[, <span class="st">"est"</span>] <span class="sc">-</span> verdad),</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">DE_empirica =</span> <span class="fu">sd</span>(x[, <span class="st">"est"</span>]),</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">SE_medio =</span> <span class="fu">mean</span>(x[, <span class="st">"se"</span>]),</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">RMSE =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((x[, <span class="st">"est"</span>] <span class="sc">-</span> verdad)<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">cobertura =</span> <span class="fu">mean</span>(<span class="fu">abs</span>(x[, <span class="st">"est"</span>] <span class="sc">-</span> verdad) <span class="sc">&lt;=</span> <span class="fu">qt</span>(<span class="fl">0.975</span>, n <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> x[, <span class="st">"se"</span>])</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">metricas_evaluacion</span>(rep_mas, <span class="fu">mean</span>(marco<span class="sc">$</span>tallos)), <span class="dv">3</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       sesgo DE_empirica    SE_medio        RMSE   cobertura </span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       0.008       9.056       8.932       9.054       0.952</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(rep_mas[, <span class="st">"est"</span>], <span class="at">breaks =</span> <span class="dv">30</span>, <span class="at">col =</span> <span class="st">"#a7c957"</span>, <span class="at">border =</span> <span class="st">"white"</span>,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Densidad estimada (tallos/ha)"</span>, <span class="at">main =</span> <span class="st">""</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">mean</span>(marco<span class="sc">$</span>tallos), <span class="at">col =</span> <span class="st">"#bc4749"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> D_hat, <span class="at">col =</span> <span class="st">"#386641"</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">c</span>(<span class="st">"Densidad del censo"</span>, <span class="st">"Muestra observada"</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#bc4749"</span>, <span class="st">"#386641"</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-mas-repeticion" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mas-repeticion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter03_files/figure-html/fig-mas-repeticion-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mas-repeticion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.6: Distribución de la densidad estimada en 2000 repeticiones del MAS de 15 hectáreas.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La figura 3.6 resume las propiedades de largo plazo del MAS para la densidad. La distribución se agrupa alrededor de la densidad del censo (429.1) con sesgo despreciable (0.008): el estimador no tiende a errar en una dirección. La DE empírica (9.06) coincide con el error estándar medio que predice la fórmula (8.80), lo que valida que <span class="math inline">\(SE=\sqrt{(1-n/N)s^2/n}\)</span> describe bien la variación real del estimador. La cobertura del 94 % extiende el resultado al intervalo: aproximadamente 94 de cada 100 intervalos del 95 % capturan la densidad verdadera. La muestra puntual (433.7, línea verde) es uno de esos miles de resultados. Esta verificación no reemplaza el diagnóstico: validar el sorteo sobre este censo no certifica que el marco sea representativo de otro bosque.</p>
+</section>
+<section id="modelo-de-conteo-con-hábitat" class="level3" data-number="3.6.5">
+<h3 data-number="3.6.5" class="anchored" data-anchor-id="modelo-de-conteo-con-hábitat"><span class="header-section-number">3.6.5</span> Modelo de conteo con hábitat</h3>
+<p>La varianza entre hectáreas supera a la media (dispersión 4.22), condición típica de conteos ecológicos. Ajustamos un modelo Poisson para tallos en función del hábitat y medimos su sobredispersión; después reajustamos con cuasi-Poisson, que mantiene los coeficientes y corrige los errores estándar.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Poisson: los conteos son enteros, pero el reloj de Poisson supone varianza = media.</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>modelo_pois <span class="ot">&lt;-</span> <span class="fu">glm</span>(tallos <span class="sc">~</span> Habitat, <span class="at">family =</span> poisson, <span class="at">data =</span> marco)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>dispersion <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="fu">residuals</span>(modelo_pois, <span class="at">type =</span> <span class="st">"pearson"</span>)<span class="sc">^</span><span class="dv">2</span>) <span class="sc">/</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">df.residual</span>(modelo_pois)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>modelo_qp <span class="ot">&lt;-</span> <span class="fu">glm</span>(tallos <span class="sc">~</span> Habitat, <span class="at">family =</span> quasipoisson, <span class="at">data =</span> marco)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">dispersion_Poisson =</span> dispersion, <span class="at">AIC_Poisson =</span> <span class="fu">AIC</span>(modelo_pois))</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; dispersion_Poisson        AIC_Poisson </span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           2.475217         515.353594</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">summary</span>(modelo_qp))</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                    Estimate Std. Error     t value     Pr(&gt;|t|)</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept)      6.08136238 0.02658954 228.7125415 1.241452e-70</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HabitatOldLow   -0.02927321 0.03051239  -0.9593876 3.424901e-01</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HabitatOldSlope -0.02087718 0.03447150  -0.6056360 5.477991e-01</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HabitatSwamp    -0.24217527 0.06565029  -3.6888680 6.049307e-04</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HabitatYoung     0.20649618 0.05483932   3.7654768 4.798224e-04</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(modelo_qp), <span class="fu">residuals</span>(modelo_qp, <span class="at">type =</span> <span class="st">"pearson"</span>), <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"grey40"</span>, <span class="at">cex =</span> <span class="fl">0.8</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Conteo ajustado (tallos/ha)"</span>, <span class="at">ylab =</span> <span class="st">"Residuo de Pearson"</span>)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-modelo-residuos" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-modelo-residuos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter03_files/figure-html/fig-modelo-residuos-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-modelo-residuos-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.7: Residuos de Pearson del modelo cuasi-Poisson de tallos por hectárea frente al valor ajustado.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La dispersión de Pearson (2.48) confirma que Poisson subestima la variación: las hectáreas difieren más de lo que un proceso puramente aleatorio de tallos predeciría. En escala de medias, el cuasi-Poisson traduce los coeficientes a razones de densidad: frente a la meseta alta antigua (<code>OldHigh</code>), el suelo anegado reduce la densidad a un 79 % (coef. −0.24, <span class="math inline">\(p&lt;0.001\)</span>) —la saturación edáfica excluye buena parte del elenco—, y el parche secundario la eleva a un 123 % (coef. 0.21, <span class="math inline">\(p&lt;0.001\)</span>), coherente con rodales de regeneración densa. Las clases de bosque antiguo restantes no difieren de <code>OldHigh</code> (en este censo). La figura 3.7 muestra residuos de Pearson en una banda razonable alrededor de cero, sin patrón fuerte de embudo, y recuerda la advertencia del final: los coeficientes son asociaciones dentro de estas 50 hectáreas —con solo dos observaciones de <code>Swamp</code> y <code>Young</code>, sus intervalos son amplios— y no efectos causales ni predicciones para todo un bosque tropical.</p>
+</section>
+<section id="diagnóstico-de-dependencia-espacial" class="level3" data-number="3.6.6">
+<h3 data-number="3.6.6" class="anchored" data-anchor-id="diagnóstico-de-dependencia-espacial"><span class="header-section-number">3.6.6</span> Diagnóstico de dependencia espacial</h3>
+<p>Calculamos un semivariograma descriptivo a resolución de hectárea: para cada par de hectáreas, la mitad del cuadrado de la diferencia de tallos, promediada por clases de distancia.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Semivarianza entre todos los pares de hectáreas (simétrica; se usa la mitad).</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>distancia <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(<span class="fu">dist</span>(<span class="fu">cbind</span>(marco<span class="sc">$</span>x, marco<span class="sc">$</span>y)))</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>diferencia <span class="ot">&lt;-</span> <span class="fu">outer</span>(marco<span class="sc">$</span>tallos, marco<span class="sc">$</span>tallos, <span class="st">"-"</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>tri <span class="ot">&lt;-</span> <span class="fu">upper.tri</span>(distancia)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>pares <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">distancia =</span> distancia[tri],</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                    <span class="at">semivarianza =</span> <span class="fl">0.5</span> <span class="sc">*</span> diferencia[tri]<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>pares<span class="sc">$</span>clase <span class="ot">&lt;-</span> <span class="fu">cut</span>(pares<span class="sc">$</span>distancia,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                   <span class="at">breaks =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1.5</span>, <span class="fl">2.5</span>, <span class="fl">3.5</span>, <span class="fl">5.5</span>, <span class="cn">Inf</span>),</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                   <span class="at">include.lowest =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>semivar <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(<span class="fu">cbind</span>(distancia, semivarianza) <span class="sc">~</span> clase, pares, mean)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>semivar<span class="sc">$</span>n_pares <span class="ot">&lt;-</span> <span class="fu">as.vector</span>(<span class="fu">table</span>(pares<span class="sc">$</span>clase))</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">transform</span>(semivar, <span class="at">distancia =</span> <span class="fu">round</span>(distancia, <span class="dv">1</span>),</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">semivarianza =</span> <span class="fu">round</span>(semivarianza, <span class="dv">1</span>)))</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       clase distancia semivarianza n_pares</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   [0,1.5]       1.2       1197.6     157</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 (1.5,2.5]       2.1       1800.5     188</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 (2.5,3.5]       3.0       2105.1     195</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 (3.5,5.5]       4.4       2272.2     393</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 (5.5,Inf]       7.1       1329.6     292</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(semivar<span class="sc">$</span>distancia, semivar<span class="sc">$</span>semivarianza, <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Distancia media (centenas de m)"</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Semivarianza de tallos por hectárea"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(semivar<span class="sc">$</span>distancia, semivar<span class="sc">$</span>semivarianza,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">labels =</span> semivar<span class="sc">$</span>n_pares, <span class="at">pos =</span> <span class="dv">3</span>, <span class="at">cex =</span> <span class="fl">0.75</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-semivariograma" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-semivariograma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter03_files/figure-html/fig-semivariograma-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-semivariograma-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.8: Semivarianza de tallos por hectárea según la distancia entre parcelas; los rótulos indican cuántos pares sustenta cada clase.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La figura 3.8 y la tabla subyacente revelan la estructura espacial del censo. La semivarianza crece de 1197 a 2272 entre hectáreas separadas 1.2 y 4.4 cientos de metros: las unidades cercanas se parecen más que las lejanas, el sello de la autocorrelación positiva que ya sospechábamos en el mapa. Ese ascenso es biológicamente esperable en un bosque tropical, donde la dispersión limitada y la asociación con el suelo y la topografía agregan a las especies a escalas de decenas de metros a hectáreas <span class="citation" data-cites="condit2002beta harms2001habitat">(<a href="../references.html#ref-condit2002beta" role="doc-biblioref">Condit et&nbsp;al. 2002</a>; <a href="../references.html#ref-harms2001habitat" role="doc-biblioref">Harms et&nbsp;al. 2001</a>)</span>. La última clase advierte, en cambio, cómo el dominio acotado impone su límite: más allá de 5.5 (pares que cruzan la parcela entera este–oeste), la semivarianza cae a 1330, porque esos pares comparan extremos opuestos de un gradiente y dependen de unas pocas hectáreas de borde (292 pares). La nube de pares mostrada en los rótulos ayuda a no sobreinterpretar las clases extremas. El semivariograma describe la estructura observada; no demuestra un mecanismo de agregación ni corrige por sí solo la pérdida de réplicas independientes.</p>
+</section>
+<section id="cambio-de-soporte-con-datos-observados" class="level3" data-number="3.6.7">
+<h3 data-number="3.6.7" class="anchored" data-anchor-id="cambio-de-soporte-con-datos-observados"><span class="header-section-number">3.6.7</span> Cambio de soporte con datos observados</h3>
+<p>La cuadrícula tiene cinco filas por diez columnas. Agrupamos celdas contiguas sin generar conteos nuevos (solo sumamos los ya observados) y examinamos cómo cambian densidad, varianza y frecuencia con el soporte y su orientación.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Suma de celdas contiguas en una teselación desplazable.</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="co"># "alto"/"ancho" en hectáreas; "desf_y"/"desf_x" fijan el origen de la cuadrícula.</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>agrupar <span class="ot">&lt;-</span> <span class="cf">function</span>(z, alto, ancho, <span class="at">desf_y =</span> <span class="dv">0</span>, <span class="at">desf_x =</span> <span class="dv">0</span>) {</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  fi <span class="ot">&lt;-</span> <span class="fu">seq.int</span>(<span class="dv">1</span> <span class="sc">+</span> desf_y, <span class="fu">nrow</span>(z) <span class="sc">-</span> alto <span class="sc">+</span> <span class="dv">1</span>, <span class="at">by =</span> alto)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  co <span class="ot">&lt;-</span> <span class="fu">seq.int</span>(<span class="dv">1</span> <span class="sc">+</span> desf_x, <span class="fu">ncol</span>(z) <span class="sc">-</span> ancho <span class="sc">+</span> <span class="dv">1</span>, <span class="at">by =</span> ancho)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span><span class="fu">length</span>(fi) <span class="sc">||</span> <span class="sc">!</span><span class="fu">length</span>(co)) <span class="fu">return</span>(<span class="fu">numeric</span>())</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unlist</span>(<span class="fu">lapply</span>(fi, <span class="cf">function</span>(i) <span class="fu">vapply</span>(co, <span class="cf">function</span>(j)</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sum</span>(z[i<span class="sc">:</span>(i <span class="sc">+</span> alto <span class="sc">-</span> <span class="dv">1</span>), j<span class="sc">:</span>(j <span class="sc">+</span> ancho <span class="sc">-</span> <span class="dv">1</span>)]), <span class="fl">0.0</span>)))</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>M_tallos <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(tallos <span class="sc">~</span> y <span class="sc">+</span> x, <span class="at">data =</span> marco)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>M_focal <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(Y[, focal] <span class="sc">~</span> marco<span class="sc">$</span>y <span class="sc">+</span> marco<span class="sc">$</span>x)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>formas <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">alto =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">4</span>), <span class="at">ancho =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">1</span>))</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>escala <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(formas)), <span class="cf">function</span>(k) {</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  a <span class="ot">&lt;-</span> formas<span class="sc">$</span>alto[k] <span class="sc">*</span> formas<span class="sc">$</span>ancho[k]</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  yt <span class="ot">&lt;-</span> <span class="fu">agrupar</span>(M_tallos, formas<span class="sc">$</span>alto[k], formas<span class="sc">$</span>ancho[k])</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  yf <span class="ot">&lt;-</span> <span class="fu">agrupar</span>(M_focal, formas<span class="sc">$</span>alto[k], formas<span class="sc">$</span>ancho[k])</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">geometria =</span> <span class="fu">paste</span>(formas<span class="sc">$</span>alto[k], <span class="st">"x"</span>, formas<span class="sc">$</span>ancho[k]),</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>             <span class="at">area_ha =</span> a, <span class="at">unidades =</span> <span class="fu">length</span>(yt),</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">densidad =</span> <span class="fu">mean</span>(yt <span class="sc">/</span> a), <span class="at">var_densidad =</span> <span class="fu">var</span>(yt <span class="sc">/</span> a),</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>             <span class="at">frecuencia_focal =</span> <span class="fu">mean</span>(yf <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>escala[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)] <span class="ot">&lt;-</span> <span class="fu">lapply</span>(escala[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)], round, <span class="dv">3</span>)</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>escala</span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   geometria area_ha unidades densidad var_densidad frecuencia_focal</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1     1 x 1       1       50  429.140     1810.776             0.62</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2     1 x 2       2       25  429.140     1444.157             0.92</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3     2 x 1       2       20  417.375      717.339             0.90</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4     1 x 4       4       10  431.300     1083.456             1.00</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5     4 x 1       4       10  417.375      548.087             1.00</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>cols_geo <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"1 x 1"</span> <span class="ot">=</span> <span class="st">"grey75"</span>, <span class="st">"1 x 2"</span> <span class="ot">=</span> <span class="st">"#90a955"</span>, <span class="st">"2 x 1"</span> <span class="ot">=</span> <span class="st">"#386641"</span>,</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>              <span class="st">"1 x 4"</span> <span class="ot">=</span> <span class="st">"#90a955"</span>, <span class="st">"4 x 1"</span> <span class="ot">=</span> <span class="st">"#386641"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(escala<span class="sc">$</span>densidad, <span class="at">names.arg =</span> escala<span class="sc">$</span>geometria, <span class="at">las =</span> <span class="dv">2</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> cols_geo[escala<span class="sc">$</span>geometria], <span class="at">ylab =</span> <span class="st">"Densidad media (tallos/ha)"</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Densidad"</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">mean</span>(marco<span class="sc">$</span>tallos), <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(escala<span class="sc">$</span>var_densidad, <span class="at">names.arg =</span> escala<span class="sc">$</span>geometria, <span class="at">las =</span> <span class="dv">2</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> cols_geo[escala<span class="sc">$</span>geometria], <span class="at">ylab =</span> <span class="st">"Varianza de la densidad"</span>,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Varianza"</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(op)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-soporte" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-soporte-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter03_files/figure-html/fig-soporte-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-soporte-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.9: Densidad media y varianza de tallos, y frecuencia de la especie focal, según el soporte y la orientación de la teselación.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La figura 3.9 y la tabla resumen la lección del soporte. La densidad media se mantiene casi idéntica al cambiar la geometría (417.4–431.3 frente a 429.1 del censo): el cambio de soporte no sesga la densidad, porque los conteos se normalizan por el área. Lo que sí cambia drásticamente es la varianza entre unidades: cae de 1810.8 con parcelas de 1 ha a 1444.2 (bandas de 2) y 717.3 (2 ha apiladas), y sigue bajando con soportes de 4 ha (1083.5 horizontal, 548.1 vertical). Más área por unidad reduce ceros y promedia parches, y eso se paga en réplicas: 50 unidades de 1 ha frente a 10 de 4 ha. La orientación también decide: bandas que cruzan el eje largo este–oeste (1×2, 1×4) retienen más heterogeneidad que las apiladas norte–sur (2×1, 4×1), porque el gradiente del censo corre a lo largo de ese eje. La frecuencia de <code>Calophyllum</code> completa el argumento: 0.62 en 1 ha, 0.90–0.92 en soportes de 2 ha y 1.00 en los de 4 ha. El mismo número biológico —una especie agregada por dispersión limitada— produce frecuencias crecientes y varianzas decrecientes según cómo se corte el espacio: el soporte es parte del estimando.</p>
+</section>
+<section id="comparación-de-diseños-e-incertidumbre" class="level3" data-number="3.6.8">
+<h3 data-number="3.6.8" class="anchored" data-anchor-id="comparación-de-diseños-e-incertidumbre"><span class="header-section-number">3.6.8</span> Comparación de diseños e incertidumbre</h3>
+<p>Comparamos por repetición un MAS de 12 hectáreas con dos criterios de estratificación previa: (a) <code>OldLow</code> frente al resto —un criterio de fisonomía común— y (b) <code>Young</code> frente al resto —un criterio que aísla el parche secundario. La estimación estratificada pondera cada estrato por su tamaño (<span class="math inline">\(W_h=N_h/N\)</span>); atendemos a que las filas conserven el nombre del estrato para leer los pesos.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimador estratificado genérico: media ponderada por W_h = N_h / N.</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>evaluar_estrat <span class="ot">&lt;-</span> <span class="cf">function</span>(grupo, Nh_gr, nh_local) {</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  por_h <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">names</span>(nh_local), <span class="cf">function</span>(h) {</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    u <span class="ot">&lt;-</span> marco<span class="sc">$</span>tallos[grupo <span class="sc">==</span> h]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    n_h <span class="ot">&lt;-</span> <span class="fu">unname</span>(nh_local[h])</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    z <span class="ot">&lt;-</span> <span class="fu">sample</span>(u, n_h)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="at">h =</span> h, <span class="at">media =</span> <span class="fu">mean</span>(z),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">var =</span> (<span class="dv">1</span> <span class="sc">-</span> n_h <span class="sc">/</span> <span class="fu">length</span>(u)) <span class="sc">*</span> <span class="fu">var</span>(z) <span class="sc">/</span> n_h)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  }))</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  W <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(Nh_gr[por_h[, <span class="st">"h"</span>]] <span class="sc">/</span> <span class="fu">sum</span>(Nh_gr))</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">est =</span> <span class="fu">sum</span>(W <span class="sc">*</span> <span class="fu">as.numeric</span>(por_h[, <span class="st">"media"</span>])),</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">se =</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(W<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> <span class="fu">as.numeric</span>(por_h[, <span class="st">"var"</span>]))))</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Criterio (a): OldLow frente a Otros (26 y 24 hectáreas), 6 + 6 observaciones.</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>estrato_a <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(marco<span class="sc">$</span>Habitat <span class="sc">==</span> <span class="st">"OldLow"</span>, <span class="st">"OldLow"</span>, <span class="st">"Otros"</span>)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>Nh_a <span class="ot">&lt;-</span> <span class="fu">table</span>(estrato_a)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>nh_a <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">OldLow =</span> <span class="dv">6</span>, <span class="at">Otros =</span> <span class="dv">6</span>)</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3303</span>)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>mas12 <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(B, {</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">sample</span>(marco<span class="sc">$</span>tallos, <span class="dv">12</span>)</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">est =</span> <span class="fu">mean</span>(z), <span class="at">se =</span> <span class="fu">sqrt</span>((<span class="dv">1</span> <span class="sc">-</span> <span class="dv">12</span> <span class="sc">/</span> N) <span class="sc">*</span> <span class="fu">var</span>(z) <span class="sc">/</span> <span class="dv">12</span>))</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>est_oldlow <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(B, <span class="fu">evaluar_estrat</span>(estrato_a, Nh_a, nh_a)))</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Criterio (b): Young (2 ha) frente a Resto (48 ha), 2 + 10 observaciones.</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3305</span>)</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>estrato_b <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(marco<span class="sc">$</span>Habitat <span class="sc">==</span> <span class="st">"Young"</span>, <span class="st">"Young"</span>, <span class="st">"Resto"</span>)</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>Nh_b <span class="ot">&lt;-</span> <span class="fu">table</span>(estrato_b)</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>nh_b <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">Young =</span> <span class="dv">2</span>, <span class="at">Resto =</span> <span class="dv">10</span>)</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>est_young <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(B, <span class="fu">evaluar_estrat</span>(estrato_b, Nh_b, nh_b)))</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a><span class="fu">rbind</span>(</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">MAS =</span> <span class="fu">metricas_evaluacion</span>(mas12, <span class="fu">mean</span>(marco<span class="sc">$</span>tallos)),</span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">Estrat_OldLow =</span> <span class="fu">metricas_evaluacion</span>(est_oldlow, <span class="fu">mean</span>(marco<span class="sc">$</span>tallos)),</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">Estrat_Young =</span> <span class="fu">metricas_evaluacion</span>(est_young, <span class="fu">mean</span>(marco<span class="sc">$</span>tallos))</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     sesgo DE_empirica  SE_medio      RMSE cobertura</span></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; MAS            0.02216667    10.23270 10.090666 10.230167     0.947</span></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Estrat_OldLow  0.20269000    10.36966 10.150480 10.369053     0.940</span></span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Estrat_Young  -0.13393600     9.31594  9.015733  9.314573     0.945</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">list</span>(<span class="at">MAS =</span> mas12[, <span class="st">"est"</span>], <span class="at">OldLow =</span> est_oldlow[, <span class="st">"est"</span>],</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">Young =</span> est_young[, <span class="st">"est"</span>]),</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"grey80"</span>, <span class="st">"#90a955"</span>, <span class="st">"#386641"</span>),</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Densidad estimada (tallos/ha)"</span>, <span class="at">las =</span> <span class="dv">2</span>,</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">names =</span> <span class="fu">c</span>(<span class="st">"MAS"</span>, <span class="st">"Estr. OldLow"</span>, <span class="st">"Estr. Young"</span>))</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">mean</span>(marco<span class="sc">$</span>tallos), <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-mas-vs-estratificado" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mas-vs-estratificado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter03_files/figure-html/fig-mas-vs-estratificado-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mas-vs-estratificado-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.10: Distribución de la densidad estimada con MAS y con dos criterios de estratificación en 2000 repeticiones.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La figura 3.10 compara las tres estrategias en 2000 repeticiones y la tabla traduce la comparación en métricas. El mensaje más valioso es que <em>estratificar no implica ganar precisión</em>: el criterio <code>OldLow</code> frente a <code>Otros</code> apenas mueve el RMSE (10.54 frente a 10.67 del MAS; DE 10.53 frente a 10.67), porque las medias de ambos grupos casi coinciden (425 frente a 434 tallos/ha): separar por un criterio que no divide niveles promedios no reduce la varianza del estimador. El criterio <code>Young</code> frente a <code>Resto</code>, en cambio, sí gana (RMSE 9.31, DE 9.32, un 13 % inferior al MAS), porque aísla un parche de densidad claramente distinta (538 frente a 424.6). La lección operativa es la misma que en la teoría: el valor de la estratificación depende de que la variable previa separe niveles de la población y de que esos tamaños de estrato sean conocidos antes de muestrear. Los tres diseños son prácticamente insesgados (sesgos de −0.3 a 0.4) y la cobertura se mantiene cerca del 92 %, así que la diferencia de RMSE proviene de la varianza, no de un sesgo.</p>
+</section>
+<section id="sensibilidad-al-origen-de-la-cuadrícula" class="level3" data-number="3.6.9">
+<h3 data-number="3.6.9" class="anchored" data-anchor-id="sensibilidad-al-origen-de-la-cuadrícula"><span class="header-section-number">3.6.9</span> Sensibilidad al origen de la cuadrícula</h3>
+<p>Al teselar con bloques de 2×2 ha, el origen del desplazamiento (dónde empieza la cuadrícula) decide qué celdas quedan completas y cuáles se descartan en el borde. Repetimos la agregación con los cuatro orígenes posibles.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>origenes <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">desf_y =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="at">desf_x =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>sens_origen <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(origenes)), <span class="cf">function</span>(k) {</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  yt <span class="ot">&lt;-</span> <span class="fu">agrupar</span>(M_tallos, <span class="dv">2</span>, <span class="dv">2</span>, origenes<span class="sc">$</span>desf_y[k], origenes<span class="sc">$</span>desf_x[k])</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(<span class="at">origen_y =</span> origenes<span class="sc">$</span>desf_y[k], <span class="at">origen_x =</span> origenes<span class="sc">$</span>desf_x[k],</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">unidades =</span> <span class="fu">length</span>(yt), <span class="at">area_cubierta =</span> <span class="dv">4</span> <span class="sc">*</span> <span class="fu">length</span>(yt),</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">densidad =</span> <span class="fu">mean</span>(yt <span class="sc">/</span> <span class="dv">4</span>))</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>sens_origen<span class="sc">$</span>desviacion <span class="ot">&lt;-</span> sens_origen<span class="sc">$</span>densidad <span class="sc">-</span> <span class="fu">mean</span>(marco<span class="sc">$</span>tallos)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(sens_origen, <span class="dv">2</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   origen_y origen_x unidades area_cubierta densidad desviacion</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1        0        0       10            40   417.38     -11.76</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2        1        0       10            40   431.52       2.38</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3        0        1        8            32   410.75     -18.39</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4        1        1        8            32   426.59      -2.55</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">setNames</span>(sens_origen<span class="sc">$</span>desviacion,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">paste0</span>(<span class="st">"("</span>, sens_origen<span class="sc">$</span>origen_y, <span class="st">", "</span>, sens_origen<span class="sc">$</span>origen_x, <span class="st">")"</span>)),</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">las =</span> <span class="dv">1</span>, <span class="at">col =</span> <span class="fu">ifelse</span>(sens_origen<span class="sc">$</span>desviacion <span class="sc">&lt;</span> <span class="dv">0</span>, <span class="st">"#bc4749"</span>, <span class="st">"#386641"</span>),</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Desviación de la densidad (tallos/ha)"</span>)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(op)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="fig-origen" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-origen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="chapter03_files/figure-html/fig-origen-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-origen-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figura&nbsp;3.11: Desviación de la densidad estimada frente al censo para cada origen de la teselación de 2 por 2 hectáreas.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>La figura 3.11 muestra que la decisión puramente administrativa del origen no es inocua: según dónde empiece la cuadrícula, la densidad estimada con bloques de 4 ha oscila entre 410.8 (−18.4 tallos/ha) y 431.5 (+2.4). Dos causas se combinan: el origen fija cuántas celdas completas se logran (ocho o diez), descartando bordes de extensión distinta, y el borde descartado tiene densidades que no compensan. Son opciones legítimas registrar las parcelas parciales con su área real, usar una teselación compatible con el borde o aleatorizar el origen y conservar esa regla en la inferencia. Lo que no es defendible es elegir el origen después de mirar los datos: el protocolo se fija antes de observar.</p>
+</section>
+</section>
+<section id="interpretación-y-reproducibilidad" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="interpretación-y-reproducibilidad"><span class="header-section-number">3.7</span> Interpretación y reproducibilidad</h2>
+<p>El MAS estima densidad, total y frecuencia dentro de estas 50 hectáreas; el modelo y el semivariograma describen estructura (heterogeneidad por hábitat y agregación espacial), pero no amplían el dominio a otros bosques. La sensibilidad al soporte y al origen muestra que las decisiones geométricas son sustantivas y deben registrarse: conservar ceros, área, coordenadas, versión de los datos y semillas.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">archivos =</span> <span class="fu">c</span>(<span class="st">"vegan::BCI"</span>, <span class="st">"vegan::BCI.env"</span>),</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">version_vegan =</span> <span class="fu">as.character</span>(<span class="fu">packageVersion</span>(<span class="st">"vegan"</span>)),</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">version_R =</span> R.version.string,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> N, <span class="at">n =</span> n,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids_MAS =</span> <span class="fu">sort</span>(s<span class="sc">$</span>id),</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">especie_focal =</span> focal,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">frecuencia_focal_1ha =</span> <span class="fu">unname</span>(frecuencia_especie[focal]),</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">semillas =</span> <span class="fu">c</span>(<span class="at">MAS =</span> <span class="dv">3301</span>, <span class="at">repeticion =</span> <span class="dv">3302</span>, <span class="at">comparacion =</span> <span class="dv">3303</span>),</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">geometrias_soporte =</span> <span class="fu">c</span>(<span class="st">"1x1"</span>, <span class="st">"1x2"</span>, <span class="st">"2x1"</span>, <span class="st">"1x4"</span>, <span class="st">"4x1"</span>),</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">origen_teselacion =</span> <span class="st">"2x2 ha"</span>,</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimando =</span> <span class="st">"densidad media de tallos con DAP &gt;= 10 cm por hectárea"</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $archivos</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "vegan::BCI"     "vegan::BCI.env"</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $version_vegan</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2.7.5"</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $version_R</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "R version 4.5.2 (2025-10-31)"</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $N</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 50</span></span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $n</span></span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 15</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $ids_MAS</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1]  9 10 16 23 24 26 29 30 33 35 40 41 46 47 48</span></span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $especie_focal</span></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "Calophyllum.longifolium"</span></span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $frecuencia_focal_1ha</span></span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.62</span></span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $semillas</span></span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         MAS  repeticion comparacion </span></span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        3301        3302        3303 </span></span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $geometrias_soporte</span></span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "1x1" "1x2" "2x1" "1x4" "4x1"</span></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-45"><a href="#cb21-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $origen_teselacion</span></span>
+<span id="cb21-46"><a href="#cb21-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2x2 ha"</span></span>
+<span id="cb21-47"><a href="#cb21-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-48"><a href="#cb21-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $estimando</span></span>
+<span id="cb21-49"><a href="#cb21-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "densidad media de tallos con DAP &gt;= 10 cm por hectárea"</span></span>
+<span id="cb21-50"><a href="#cb21-50" aria-hidden="true" tabindex="-1"></a><span class="fu">sessionInfo</span>()</span>
+<span id="cb21-51"><a href="#cb21-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; R version 4.5.2 (2025-10-31)</span></span>
+<span id="cb21-52"><a href="#cb21-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Platform: x86_64-pc-linux-gnu</span></span>
+<span id="cb21-53"><a href="#cb21-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Running under: Ubuntu 24.04.4 LTS</span></span>
+<span id="cb21-54"><a href="#cb21-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-55"><a href="#cb21-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Matrix products: default</span></span>
+<span id="cb21-56"><a href="#cb21-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; BLAS:   /usr/lib/x86_64-linux-gnu/openblas-pthread/libblas.so.3 </span></span>
+<span id="cb21-57"><a href="#cb21-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; LAPACK: /usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblasp-r0.3.26.so;  LAPACK version 3.12.0</span></span>
+<span id="cb21-58"><a href="#cb21-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-59"><a href="#cb21-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; locale:</span></span>
+<span id="cb21-60"><a href="#cb21-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] LC_CTYPE=C.UTF-8       LC_NUMERIC=C           LC_TIME=C.UTF-8       </span></span>
+<span id="cb21-61"><a href="#cb21-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [4] LC_COLLATE=C.UTF-8     LC_MONETARY=C.UTF-8    LC_MESSAGES=C.UTF-8   </span></span>
+<span id="cb21-62"><a href="#cb21-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [7] LC_PAPER=C.UTF-8       LC_NAME=C              LC_ADDRESS=C          </span></span>
+<span id="cb21-63"><a href="#cb21-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [10] LC_TELEPHONE=C         LC_MEASUREMENT=C.UTF-8 LC_IDENTIFICATION=C   </span></span>
+<span id="cb21-64"><a href="#cb21-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-65"><a href="#cb21-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; time zone: UTC</span></span>
+<span id="cb21-66"><a href="#cb21-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tzcode source: system (glibc)</span></span>
+<span id="cb21-67"><a href="#cb21-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-68"><a href="#cb21-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; attached base packages:</span></span>
+<span id="cb21-69"><a href="#cb21-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] stats     graphics  grDevices datasets  utils     methods   base     </span></span>
+<span id="cb21-70"><a href="#cb21-70" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb21-71"><a href="#cb21-71" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; loaded via a namespace (and not attached):</span></span>
+<span id="cb21-72"><a href="#cb21-72" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] digest_0.6.39    permute_0.9-10   codetools_0.2-20 fastmap_1.2.0   </span></span>
+<span id="cb21-73"><a href="#cb21-73" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [5] Matrix_1.7-4     mgcv_1.9-3       xfun_0.56        lattice_0.22-7  </span></span>
+<span id="cb21-74"><a href="#cb21-74" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [9] splines_4.5.2    parallel_4.5.2   knitr_1.51       htmltools_0.5.9 </span></span>
+<span id="cb21-75"><a href="#cb21-75" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [13] rmarkdown_2.30   cli_3.6.5        grid_4.5.2       renv_1.2.4      </span></span>
+<span id="cb21-76"><a href="#cb21-76" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [17] vegan_2.7-5      compiler_4.5.2   tools_4.5.2      cluster_2.1.8.1 </span></span>
+<span id="cb21-77"><a href="#cb21-77" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [21] nlme_3.1-168     evaluate_1.0.5   yaml_2.3.12      rlang_1.1.7     </span></span>
+<span id="cb21-78"><a href="#cb21-78" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [25] jsonlite_2.0.0   MASS_7.3-65</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La lista fija lo esencial para reproducir cada cifra del capítulo: los identificadores de las 15 hectáreas sorteadas, la especie focal y su frecuencia en el censo, las semillas de cada evaluación, las geometrías de soporte y los parámetros de la teselación. Registrar el sorteo junto con la versión de R y de <code>vegan</code> que imprime <code>sessionInfo()</code> permite regenerar exactamente los mismos estimadores. Pero reproducir el cálculo no equivale a replicar la conclusión: el ordenamiento de precisión y las razones de densidad son válidos para estas 50 hectáreas observadas, no una ley de bosque tropical.</p>
+</section>
+<section id="ejercicios-teóricos-y-numéricos" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="ejercicios-teóricos-y-numéricos"><span class="header-section-number">3.8</span> Ejercicios teóricos y numéricos</h2>
+<p>Estos ejercicios son cerrados y progresivos. En todos declare primero la población, la unidad de muestreo, el diseño y el estimando; distinga la DE de las unidades del EE del estimador, conserve la corrección por población finita cuando corresponda y exprese los resultados con sus unidades. Use valores no redondeados durante los cálculos y redondee solo al presentar.</p>
+<section id="ejercicios-teóricos" class="level3" data-number="3.8.1">
+<h3 data-number="3.8.1" class="anchored" data-anchor-id="ejercicios-teóricos"><span class="header-section-number">3.8.1</span> Ejercicios teóricos</h3>
+<section id="ejercicio-t1.-población-soporte-unidades-y-estimando" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-t1.-población-soporte-unidades-y-estimando">Ejercicio T1. Población, soporte, unidades y estimando</h4>
+<p>Para cada situación identifique población, soporte, unidad de muestreo, unidad de observación y un estimando coherente, y señale qué información falta para sustentar inferencia probabilística.</p>
+<ol type="1">
+<li>Un humedal se divide en 500 cuadrantes de <span class="math inline">\(2\times2\)</span> m y se cuentan las plántulas de helecho dentro de 40 de ellos.</li>
+<li>En un bosque se tienden 80 transectos de 50 m y se registra la longitud de línea ocupada por una liana.</li>
+<li>Una parcela permanente se divide en 100 subcuadrantes de 1 m² y se anota la presencia de una orquídea en cada uno.</li>
+<li>Se miden los 40 primeros árboles con DAP ≥ 30 cm encontrados a menos de 20 m de un sendero, para estimar la densidad de árboles grandes del bosque.</li>
+</ol>
+<p>Explique por qué el cuarto caso no se vuelve probabilístico aunque se calcule una media y un intervalo convencional.</p>
+</section>
+<section id="ejercicio-t2.-densidad-bajo-el-mas" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-t2.-densidad-bajo-el-mas">Ejercicio T2. Densidad bajo el MAS</h4>
+<p>En un MAS sin reemplazo de <span class="math inline">\(n\)</span> parcelas iguales de área <span class="math inline">\(a\)</span> entre <span class="math inline">\(N\)</span> del mismo marco, use indicadores de inclusión para justificar que <span class="math inline">\(\bar y/a\)</span> es insesgado para la densidad media y que <span class="math inline">\(A\bar y/a\)</span> lo es para el total, con <span class="math inline">\(A=Na\)</span>. Después responda:</p>
+<ol type="1">
+<li>¿Por qué la corrección finita entra en la varianza de <span class="math inline">\(\widehat D\)</span> y en qué casos es despreciable?</li>
+<li>¿Puede el EE de <span class="math inline">\(\widehat D\)</span> ser pequeño aunque la DE entre parcelas sea grande?</li>
+<li>¿Qué cambia al aumentar <span class="math inline">\(n\)</span>: la variabilidad entre las unidades, la variabilidad del estimador, o ambas?</li>
+</ol>
+</section>
+<section id="ejercicio-t3.-frecuencia-y-soporte" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-t3.-frecuencia-y-soporte">Ejercicio T3. Frecuencia y soporte</h4>
+<p>La frecuencia <span class="math inline">\(\widehat F=\bar z\)</span> con <span class="math inline">\(z_i=I(y_i&gt;0)\)</span> depende del soporte.</p>
+<ol type="1">
+<li>Proponga el argumento de probabilidad por el cual la frecuencia de una especie crece al aumentar el área de la unidad de muestreo, para unidades independientes.</li>
+<li>¿Por qué esa relación se satura en 1 para una especie ubicua y qué implica para comparar estudios con cuadrantes de distinto tamaño?</li>
+<li>¿Qué información captura la densidad y no la frecuencia, y cuándo la frecuencia es preferible en monitoreo por costo?</li>
+</ol>
+</section>
+<section id="ejercicio-t4.-parcelas-de-áreas-desiguales" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-t4.-parcelas-de-áreas-desiguales">Ejercicio T4. Parcelas de áreas desiguales</h4>
+<p>Explique qué estima <span class="math inline">\(\widehat D_U\)</span> y qué estima <span class="math inline">\(\widehat D_R\)</span>, y en qué situación cada uno es preferible. ¿Por qué ninguno de los dos es en general insesgado si la probabilidad de selección depende del área? ¿Qué haría falta para estimar bien la densidad con pesos explícitos?</p>
+</section>
+<section id="ejercicio-t5.-tamaño-forma-y-borde" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-t5.-tamaño-forma-y-borde">Ejercicio T5. Tamaño, forma y borde</h4>
+<p>Compare y justifique: (i) muchas parcelas pequeñas frente a pocas grandes para estimar densidad de una especie gregaria; (ii) parcelas cuadradas frente a bandas largas frente a un gradiente de humedad; (iii) la regla de inclusión de individuos en el borde. Relacione cada elección con el cociente <span class="math inline">\(P/A\)</span> y con los ceros de la muestra.</p>
+</section>
+<section id="ejercicio-t6.-pseudorreplicación-y-dependencia-espacial" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-t6.-pseudorreplicación-y-dependencia-espacial">Ejercicio T6. Pseudorreplicación y dependencia espacial</h4>
+<p>Un estudio selecciona una parcela de 20×20 m en un bosque y la divide en 25 subcuadrantes, que trata como 25 réplicas.</p>
+<ol type="1">
+<li>¿Cuántas unidades primarias independientes sustentan la inferencia?</li>
+<li>Un semivariograma muestra semivarianzas bajas a distancias cortas. ¿Qué puede decir y qué no puede demostrar sobre el mecanismo dе agregación?</li>
+<li>El índice <span class="math inline">\(s^2/\bar y\)</span> vale 4.2. ¿Qué hipótesis de estructura espacial son compatibles con ese valor y cuál necesita información adicional para distinguirse?</li>
+</ol>
+</section>
+</section>
+<section id="ejercicios-numéricos" class="level3" data-number="3.8.2">
+<h3 data-number="3.8.2" class="anchored" data-anchor-id="ejercicios-numéricos"><span class="header-section-number">3.8.2</span> Ejercicios numéricos</h3>
+<section id="ejercicio-n1.-densidad-con-corrección-por-población-finita" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-n1.-densidad-con-corrección-por-población-finita">Ejercicio N1. Densidad con corrección por población finita</h4>
+<p>Una ciénaga se divide en <span class="math inline">\(N=120\)</span> cuadrantes de <span class="math inline">\(1~\text{m}^{2}\)</span>. Se toma un MAS sin reemplazo de <span class="math inline">\(n=12\)</span> cuadrantes y los conteos de plántulas son</p>
+<p><span class="math display">\[
+3,\ 5,\ 4,\ 0,\ 6,\ 3,\ 4,\ 5,\ 7,\ 4,\ 3,\ 4.
+\]</span></p>
+<ol type="1">
+<li>Calcule media, varianza y DE muestrales del conteo.</li>
+<li>Estime la densidad por metro cuadrado y su EE con corrección por población finita.</li>
+<li>Construya un IC del 95 % para la densidad usando <span class="math inline">\(t_{11}\)</span> y estime el total de plántulas con su intervalo.</li>
+</ol>
+</section>
+<section id="ejercicio-n2.-áreas-desiguales-d_u-frente-a-d_r" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-n2.-áreas-desiguales-d_u-frente-a-d_r">Ejercicio N2. Áreas desiguales: <code>D_U</code> frente a <code>D_R</code></h4>
+<p>Se observan cinco parcelas con área <span class="math inline">\(a_i\)</span> (m²) y conteos <span class="math inline">\(y_i\)</span>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Parcela</th>
+<th style="text-align: right;"><span class="math inline">\(a_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(y_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">12</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">11</td>
+</tr>
+</tbody>
+</table>
+<ol type="1">
+<li>Calcule <span class="math inline">\(\widehat D_U\)</span> y <span class="math inline">\(\widehat D_R\)</span>.</li>
+<li>Explique la diferencia numérica en términos de influencia de cada parcela.</li>
+<li>Indique en qué diseño o marco los dos coincidirían.</li>
+</ol>
+</section>
+<section id="ejercicio-n3.-frecuencia-y-su-varianza" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-n3.-frecuencia-y-su-varianza">Ejercicio N3. Frecuencia y su varianza</h4>
+<p>Utilice los conteos del ejercicio N1.</p>
+<ol type="1">
+<li>Construya el indicador de presencia y estime la frecuencia poblacional.</li>
+<li>Calcule la varianza muestral del indicador, su EE con corrección finita y un IC del 95 % basado en <span class="math inline">\(t_{11}\)</span>, restringido a <span class="math inline">\([0,1]\)</span>.</li>
+<li>Comparando con el EE de la densidad del ejercicio N1, explique por qué el indicador binario aporta menos información por observación.</li>
+</ol>
+</section>
+<section id="ejercicio-n4.-intercepción-por-puntos" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-n4.-intercepción-por-puntos">Ejercicio N4. Intercepción por puntos</h4>
+<p>Se bajan 80 puntos en una pradera y 12 caen sobre una especie.</p>
+<ol type="1">
+<li>Estime su cobertura <span class="math inline">\(\widehat C\)</span>.</li>
+<li>Calcule el EE binomial y un IC de Wald del 95 %.</li>
+<li>¿Qué supuesto debe cumplirse para que ese IC sea válido y qué ocurre si los puntos están agrupados en líneas?</li>
+</ol>
+</section>
+<section id="ejercicio-n5.-intercepción-lineal-y-replica-por-transecto" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-n5.-intercepción-lineal-y-replica-por-transecto">Ejercicio N5. Intercepción lineal y replica por transecto</h4>
+<p>Cinco transectos de longitud <span class="math inline">\(L_i\)</span> (m) registran longitudes ocupadas <span class="math inline">\(l_i\)</span>:</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Transecto</th>
+<th style="text-align: right;"><span class="math inline">\(L_i\)</span></th>
+<th style="text-align: right;"><span class="math inline">\(l_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">5</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: right;">9</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">7</td>
+</tr>
+</tbody>
+</table>
+<ol type="1">
+<li>Calcule la cobertura como cociente de totales <span class="math inline">\(\widehat C_R=\sum l_i/\sum L_i\)</span>.</li>
+<li>Calcule la cobertura como media de razones <span class="math inline">\(\widehat C_U=(1/5)\sum l_i/L_i\)</span>.</li>
+<li>Compare ambas y discuta por qué la réplica es el transecto, no cada metro de línea.</li>
+</ol>
+</section>
+<section id="ejercicio-n6.-frecuencia-y-tamaño-del-soporte" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-n6.-frecuencia-y-tamaño-del-soporte">Ejercicio N6. Frecuencia y tamaño del soporte</h4>
+<p>Una especie está presente en el 30 % de los cuadrantes de 1 m² de un muestreo (proporción <span class="math inline">\(p=0.30\)</span>).</p>
+<ol type="1">
+<li>Asumiendo presencia independiente entre cuadrantes, calcule la probabilidad esperada de presencia en un bloque de <span class="math inline">\(k=4\)</span> cuadrantes contiguos (<span class="math inline">\(1-(1-p)^k\)</span>).</li>
+<li>Compare con el patrón del censo de Barro Colorado: la frecuencia de <code>Calophyllum.longifolium</code> pasa de 0.62 (1 ha) a 0.92 (2 ha) y a 1.00 (4 ha). ¿Qué le dice la velocidad de ese ascenso sobre la dispersión de la especie?</li>
+</ol>
+</section>
+</section>
+<section id="ejercicios-guiados-en-r" class="level3" data-number="3.8.3">
+<h3 data-number="3.8.3" class="anchored" data-anchor-id="ejercicios-guiados-en-r"><span class="header-section-number">3.8.3</span> Ejercicios guiados en R</h3>
+<section id="ejercicio-r1.-mas-de-hectáreas-estimación-y-validación-con-repetición" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-r1.-mas-de-hectáreas-estimación-y-validación-con-repetición">Ejercicio R1. MAS de hectáreas: estimación y validación con repetición</h4>
+<p>Con los objetos <code>marco</code>, <code>Y</code>, <code>N</code> y la <code>frecuencia_especie</code> del capítulo tome un MAS de 15 hectáreas (semilla 3311) y estime densidad, total y frecuencia de <code>Calophyllum.longifolium</code> con sus EE e intervalos. Después repita el diseño 2000 veces (semilla 3312) y calcule sesgo, DE empírica, SE medio, RMSE y cobertura de la densidad; grafique la distribución de la densidad estimada y discuta por qué el EE medio debe parecerse a la DE empírica.</p>
+</section>
+<section id="ejercicio-r2.-modelo-de-conteo-y-su-diagnóstico" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-r2.-modelo-de-conteo-y-su-diagnóstico">Ejercicio R2. Modelo de conteo y su diagnóstico</h4>
+<p>Ajuste Poisson y cuasi-Poisson de <code>tallos</code> por <code>Habitat</code>. Reporte la dispersión de Pearson, los coeficientes y sus razones de densidad respecto de <code>OldHigh</code> (con <code>exp(coef(...))</code>), y comente qué especies de hábitat difieren del crecimiento antiguo. Ajuste el semivariograma descriptivo y explique qué aporta a la decisión de cuántas réplicas considerar.</p>
+</section>
+<section id="ejercicio-r3.-cambio-de-soporte-y-orientación" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-r3.-cambio-de-soporte-y-orientación">Ejercicio R3. Cambio de soporte y orientación</h4>
+<p>Con la función <code>agrupar</code> del capítulo, compare las geometrías 1×1, 1×2, 2×1, 1×4 y 4×1 para densidad, varianza y frecuencia de la especie focal. ¿Qué pareja de geometrías de la misma área (1×2 frente a 2×1, y 1×4 frente a 4×1) muestra el efecto de la orientación y por qué? Argumente con el gradiente este—oeste del censo.</p>
+</section>
+<section id="ejercicio-r4.-estratificación-dos-criterios-previos" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-r4.-estratificación-dos-criterios-previos">Ejercicio R4. Estratificación: dos criterios previos</h4>
+<p>Repita la comparación del capítulo con semilla 3314 y 2000 repeticiones, con 12 hectáreas, para: (a) MAS, (b) estratificación <code>OldLow</code> frente a <code>Otros</code> (6+6) y (c) <code>Young</code> frente a <code>Resto</code> (2+10). Reporte sesgo, DE, SE medio, RMSE y cobertura; dibuje los boxplots y explique en qué criterio y por qué la estratificación reduce la varianza del estimador.</p>
+</section>
+<section id="ejercicio-r5.-sensibilidad-al-origen-de-la-teselación" class="level4">
+<h4 class="anchored" data-anchor-id="ejercicio-r5.-sensibilidad-al-origen-de-la-teselación">Ejercicio R5. Sensibilidad al origen de la teselación</h4>
+<p>Genere las cuatro teselaciones 2×2 con <code>origenes</code> del capítulo, calcule la desviación de la densidad frente al censo y dibuje el barplot. Discuta qué protocolo recomendaría (origen fijo, parcelas parciales o aleatorización) y por qué el origen no debe elegirse después de ver los datos.</p>
+<div class="callout callout-style-simple callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Nota</span>Resultados breves de comprobación
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>T1.</strong> En el primer caso el marco puede ser la cuadrícula de 500 cuadrantes; en el segundo, los 80 transectos con su longitud; en el tercero, los 100 subcuadrantes de una parcela. Las unidades primarias son cuadrante, transecto y subcuadrante (pero los tres primeros son unidades de muestreo bien definidas; el tercero anida dentro de una sola parcela y no aporta 100 réplicas). En el cuarto caso el árbol observado depende del sendero y no se conoce una probabilidad positiva de inclusión para todos los árboles grandes del bosque; un IC convencional no corrige esa cobertura.</p>
+<p><strong>T2.</strong> Como <span class="math inline">\(\bar y\)</span> es insesgado para la media del marco bajo MAS, dividir entre el área fija <span class="math inline">\(a\)</span> conserva la insesgadez; <span class="math inline">\(A\bar y/a\)</span> extiende por el área total. La fpc solo reduce la varianza del estimador y es despreciable si <span class="math inline">\(n/N\approx0\)</span>. La DE entre parcelas no cambia con <span class="math inline">\(n\)</span>: lo que disminuye es el EE del estimador.</p>
+<p><strong>T3.</strong> Con presencia independiente, bloques de <span class="math inline">\(k\)</span> celdas tienen presencia con probabilidad <span class="math inline">\(1-(1-p)^k\)</span>, creciente en <span class="math inline">\(k\)</span>; una especie ubicua satura en 1 y cuadrantes grandes comparados con estudios de cuadrantes pequeños no son comparables. La frecuencia pierde la información de abundancia que la densidad conserva; en monitoreo suele preferirse por costo y robustez ante ceros.</p>
+<p><strong>T4.</strong> <span class="math inline">\(\widehat D_U\)</span> da igual influencia a cada parcela; <span class="math inline">\(\widehat D_R\)</span> da más influencia a las parcelas grandes. Si la selección depende del área, los estimadores no reflejan las probabilidades de inclusión; se requieren pesos <span class="math inline">\(\pi_i\)</span> (Horvitz–Thompson).</p>
+<p><strong>T5.</strong> Parcelas pequeñas y numerosas reparten mejor la muestra y detectan parches, pero aportan más ceros y borde relativo; frente a un gradiente, bandas largas lo cruzan pero exponen más borde (<span class="math inline">\(P/A=2(1/u+1/v)\)</span>). Las reglas de inclusión de borde se fijan antes de observar.</p>
+<p><strong>T6.</strong> Hay una unidad primaria (la parcela); los 25 subcuadrantes son submuestras. Un semivariograma con semivarianzas bajas a cortas distancias es compatible con autocorrelación, pero no demuestra un mecanismo. Un índice 4.2 es compatible con agregación, gradiente o mezcla de hábitats: distinguirlos exige información espacial o ambiental adicional.</p>
+<p><strong>N1.</strong> <span class="math inline">\(\bar y=4.0\)</span> plántulas/m², <span class="math inline">\(s^2=3.0909\)</span>, <span class="math inline">\(s=1.7581\)</span>. La densidad estimada es <span class="math inline">\(\widehat D=4.0\)</span> con EE 0.4815 (fpc 0.9) e IC <span class="math inline">\([2.940, 5.060]\)</span>. El total es 480 con EE 57.78 e IC <span class="math inline">\([352.83, 607.17]\)</span>.</p>
+<p><strong>N2.</strong> <span class="math inline">\(\widehat D_U=3.15\)</span> y <span class="math inline">\(\widehat D_R=55/18=3.0556\)</span> plántulas/m². La diferencia proviene de la influencia de cada parcela: el cociente de totales da más peso a las parcelas grandes; serían iguales si todas las áreas fueran iguales.</p>
+<p><strong>N3.</strong> El indicador tiene un 0 (la cuarta parcela): <span class="math inline">\(p=11/12=0.9167\)</span>, <span class="math inline">\(s_z^2=0.08333\)</span>, EE 0.0791. El IC restringido es <span class="math inline">\([0.743, 1.000]\)</span>. El EE relativo de una proporción binaria con 12 observaciones es mayor que el de la media del conteo: cada unidad binaria aporta menos información que un valor continuo.</p>
+<p><strong>N4.</strong> <span class="math inline">\(\widehat C=0.15\)</span>, EE <span class="math inline">\(=\sqrt{0.15\times0.85/80}=0.0399\)</span> e IC de Wald <span class="math inline">\([0.072, 0.228]\)</span>. El IC supone puntos independientes; con puntos agrupados en líneas, la réplica es la línea y el EE binomial lo subestimaría.</p>
+<p><strong>N5.</strong> <span class="math inline">\(\widehat C_R=33/120=0.275\)</span>, mientras que <span class="math inline">\(\widehat C_U=(5/20+8/25+4/20+9/25+7/30)/5=0.2727\)</span>. Varían poco porque las áreas son similares, pero conceptualmente resumen estrategias distintas; la réplica es el transecto.</p>
+<p><strong>N6.</strong> Con <span class="math inline">\(p=0.30\)</span>, la presencia esperada en bloques de cuatro cuadrantes es <span class="math inline">\(1-(1-0.3)^4=0.7599\)</span> si los cuadrantes fueran independientes. En BCI la frecuencia de <code>Calophyllum</code> sube de 0.62 a 0.92 y 1.00 mucho más rápido de lo que sugiere el azar para su <span class="math inline">\(p\)</span>: el ascenso empinado es lectura de agregación.</p>
+<p><strong>R1.</strong> Con la semilla 3311, densidad 431.6 (EE 12.7, IC aproximadamente [404.3, 458.9] tallos/ha; total 21 580) y frecuencia focal 0.667 (EE 0.105). Con la semilla 3312 y 2000 repeticiones: sesgo −0.06, DE 9.31, RMSE 9.31, SE medio 8.81 y cobertura 0.93; la DE empírica y el SE medio coinciden porque la fórmula del MAS describe la variación real.</p>
+<p><strong>R2.</strong> La dispersión de Pearson es 2.48, señal de sobredispersión. El cuasi-Poisson deja los coeficientes en escala de razones: Swamp ≈ 0.79 y Young ≈ 1.23 respecto de <code>OldHigh</code>; el semivariograma agrega que unidades cercanas son más semejantes, lo que desaconseja tratar las hectáreas vecinas como réplicas totalmente independientes.</p>
+<p><strong>R3.</strong> Las densidades se mantienen en 417.4–431.3 tallos/ha, mientras la varianza cae de 1810.8 (1×1) a 1444.2 (1×2), 717.3 (2×1), 1083.5 (1×4) y 548.1 (4×1); la frecuencia del focal sube de 0.62 a 0.90–1.00. La orientación importa: las bandas que cruzan el eje este—oeste (1×2, 1×4) conservan más heterogeneidad que las norte—sur (2×1, 4×1).</p>
+<p><strong>R4.</strong> Con la semilla 3314, el MAS da RMSE 10.74 y DE 10.74; la estratificación <code>OldLow</code> prácticamente no cambia el RMSE (10.57); la de <code>Young</code> lo reduce a 9.52 (DE 9.52). La ganancia aparece solo cuando el criterio separa niveles de densidad (Young, 538, frente a Resto, 424.6), no cuando divide por un criterio de fisonomía que no separa medias.</p>
+<p><strong>R5.</strong> Las desviaciones van de −18.39 a +2.38 tallos/ha según el origen (con ocho o diez celdas completas de 4 ha). La recomendación es fijar el origen o registrar parcelas parciales con su área antes de observar, y no elegir el origen después de ver los datos.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="actividad-propuesta-para-el-lector" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="actividad-propuesta-para-el-lector"><span class="header-section-number">3.9</span> Actividad propuesta para el lector</h2>
+<p>Use <code>vegan::varespec</code> y <code>vegan::varechem</code> (comunidad y variables de suelo de 24 parcelas). Documente procedencia y limitaciones; verifique correspondencia de filas, faltantes, ceros y rangos; defina estratos, unidad de muestreo, soporte, unidad de observación y un estimando (densidad o frecuencia) para una especie focal; justifique una audaz elección de soporte y una regla de inclusión. Estime el parámetro con un MAS reproducible con su incertidumbre; evalúe por repetición sesgo, DE, RMSE y cobertura; compare una estratificación previa construida con una variable química y discuta si el criterio separa niveles; examine la asociación entre parcelas con la información disponible (ubicación o suelo); y evalúe la sensibilidad de la frecuencia y de la varianza al soporte (varios tamaños y orientación) y al origen de la teselación. Interprete el significado de los ceros, el alcance espacial de las conclusiones y qué cambia al usar frecuencia en lugar de abundancia.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-condit2002beta" class="csl-entry" role="listitem">
+Condit, Richard, Nigel Pitman, Egbert G. Leigh, et&nbsp;al. 2002. <span>«Beta-Diversity in Tropical Forest Trees»</span>. <em>Science</em> 295 (5555): 666-69. <a href="https://doi.org/10.1126/science.1066854">https://doi.org/10.1126/science.1066854</a>.
+</div>
+<div id="ref-harms2001habitat" class="csl-entry" role="listitem">
+Harms, Kyle E., Richard Condit, Stephen P. Hubbell, y Robin B. Foster. 2001. <span>«Habitat Associations of Trees and Shrubs in a 50-ha Neotropical Forest Plot»</span>. <em>Journal of Ecology</em> 89 (6): 947-59. <a href="https://doi.org/10.1111/j.1365-2745.2001.00615.x">https://doi.org/10.1111/j.1365-2745.2001.00615.x</a>.
+</div>
+<div id="ref-henderson2016ecological" class="csl-entry" role="listitem">
+Henderson, Peter A., y T. R. E. Southwood. 2016. <em>Ecological Methods</em>. 4.ª ed. Wiley-Blackwell.
+</div>
+<div id="ref-manly2015ecological" class="csl-entry" role="listitem">
+Manly, Bryan F. J., y Jorge A. Navarro Alberto. 2015. <em>Introduction to Ecological Sampling</em>. Chapman; Hall/CRC.
+</div>
+<div id="ref-oksanen2024vegan" class="csl-entry" role="listitem">
+Oksanen, Jari, Gavin L. Simpson, F. Guillaume Blanchet, et&nbsp;al. 2024. <em>vegan: Community Ecology Package</em>. <a href="https://CRAN.R-project.org/package=vegan">https://CRAN.R-project.org/package=vegan</a>.
+</div>
+<div id="ref-pyke2001floristic" class="csl-entry" role="listitem">
+Pyke, Christopher R., Richard Condit, Salomón Aguilar, y Suzanne Lao. 2001. <span>«Floristic Composition across a Climatic Gradient in a Neotropical Lowland Forest»</span>. <em>Journal of Vegetation Science</em> 12 (4): 553-66. <a href="https://doi.org/10.2307/3237007">https://doi.org/10.2307/3237007</a>.
+</div>
+<div id="ref-sutherland2006census" class="csl-entry" role="listitem">
+Sutherland, William J., ed. 2006. <em>Ecological Census Techniques: A Handbook</em>. 2.ª ed. Cambridge University Press.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/chapter02.html" class="pagination-link" aria-label="Diseños probabilísticos para poblaciones biológicas">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Diseños probabilísticos para poblaciones biológicas</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/chapter04.html" class="pagination-link" aria-label="Transectos y muestreo por distancias">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transectos y muestreo por distancias</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Muestreo ecológico con R</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Jonathan Florez Giraldo</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

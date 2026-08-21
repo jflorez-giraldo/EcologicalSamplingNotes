@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Fundamentos estadísticos, métodos de campo y proyectos reproducibles para el estudio de poblaciones, comunidades e interacciones biológicas.">
+
+<title>10&nbsp; Demografía y dinámica poblacional – Muestreo ecológico</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/chapter11.html" rel="next">
+<link href="../chapters/chapter09.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-3fee61de2b36a07911a09d94e160f21d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-7cffdf8bbe0ff56ccfce34d1b7d2026d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter10.html">Parte V — Poblaciones y comunidades</a></li><li class="breadcrumb-item"><a href="../chapters/chapter10.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Muestreo ecológico</a> 
+        <div class="sidebar-tools-main">
+    <a href="../ecological-sampling.pdf" title="Descargar PDF" class="quarto-navigation-tool px-1" aria-label="Descargar PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Presentación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reading-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cómo usar este libro</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../literature-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Marco bibliográfico</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-catalog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Catálogo de datos reales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte I — Fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Del problema ecológico al diseño</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Diseños probabilísticos para poblaciones biológicas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte II — Métodos de campo</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transectos y muestreo por distancias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Métodos de censo por organismos y hábitats</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte III — Estimación de poblaciones</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Remoción, captura-recaptura e índices de abundancia</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ocupación y detección imperfecta</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte IV — Comparación y seguimiento</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Estudios comparativos, intervenciones y sesgos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Monitoreo ecológico y análisis de tendencias</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte V — Poblaciones y comunidades</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter10.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte VI — Síntesis</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Prácticas</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Práctica 3: Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Material complementario</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Material complementario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referencias</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contenido</h2>
+   
+  <ul>
+  <li><a href="#contabilidad-y-tasas-vitales" id="toc-contabilidad-y-tasas-vitales" class="nav-link active" data-scroll-target="#contabilidad-y-tasas-vitales"><span class="header-section-number">10.1</span> Contabilidad y tasas vitales</a></li>
+  <li><a href="#fertilidad-y-reclutamiento" id="toc-fertilidad-y-reclutamiento" class="nav-link" data-scroll-target="#fertilidad-y-reclutamiento"><span class="header-section-number">10.2</span> Fertilidad y reclutamiento</a></li>
+  <li><a href="#estructura-por-estadios" id="toc-estructura-por-estadios" class="nav-link" data-scroll-target="#estructura-por-estadios"><span class="header-section-number">10.3</span> Estructura por estadios</a></li>
+  <li><a href="#incertidumbre-y-diagnóstico" id="toc-incertidumbre-y-diagnóstico" class="nav-link" data-scroll-target="#incertidumbre-y-diagnóstico"><span class="header-section-number">10.4</span> Incertidumbre y diagnóstico</a></li>
+  <li><a href="#aplicación-completa-demografía-de-aquilegia-chrysantha" id="toc-aplicación-completa-demografía-de-aquilegia-chrysantha" class="nav-link" data-scroll-target="#aplicación-completa-demografía-de-aquilegia-chrysantha"><span class="header-section-number">10.5</span> Aplicación completa: demografía de <em>Aquilegia chrysantha</em></a>
+  <ul class="collapse">
+  <li><a href="#procedencia-diseño-unidad-y-estimandos" id="toc-procedencia-diseño-unidad-y-estimandos" class="nav-link" data-scroll-target="#procedencia-diseño-unidad-y-estimandos"><span class="header-section-number">10.5.1</span> Procedencia, diseño, unidad y estimandos</a></li>
+  <li><a href="#importación-y-auditoría" id="toc-importación-y-auditoría" class="nav-link" data-scroll-target="#importación-y-auditoría"><span class="header-section-number">10.5.2</span> Importación y auditoría</a></li>
+  <li><a href="#exploración-de-estructura-y-reproducción" id="toc-exploración-de-estructura-y-reproducción" class="nav-link" data-scroll-target="#exploración-de-estructura-y-reproducción"><span class="header-section-number">10.5.3</span> Exploración de estructura y reproducción</a></li>
+  <li><a href="#transición-y-supervivencia-aparente" id="toc-transición-y-supervivencia-aparente" class="nav-link" data-scroll-target="#transición-y-supervivencia-aparente"><span class="header-section-number">10.5.4</span> Transición y supervivencia aparente</a></li>
+  <li><a href="#fertilidad-observada-y-reclutamiento" id="toc-fertilidad-observada-y-reclutamiento" class="nav-link" data-scroll-target="#fertilidad-observada-y-reclutamiento"><span class="header-section-number">10.5.5</span> Fertilidad observada y reclutamiento</a></li>
+  <li><a href="#matriz-transparente-y-proyección-de-un-paso" id="toc-matriz-transparente-y-proyección-de-un-paso" class="nav-link" data-scroll-target="#matriz-transparente-y-proyección-de-un-paso"><span class="header-section-number">10.5.6</span> Matriz transparente y proyección de un paso</a></li>
+  <li><a href="#incertidumbre-por-parcelas" id="toc-incertidumbre-por-parcelas" class="nav-link" data-scroll-target="#incertidumbre-por-parcelas"><span class="header-section-number">10.5.7</span> Incertidumbre por parcelas</a></li>
+  <li><a href="#diagnóstico-retrospectivo" id="toc-diagnóstico-retrospectivo" class="nav-link" data-scroll-target="#diagnóstico-retrospectivo"><span class="header-section-number">10.5.8</span> Diagnóstico retrospectivo</a></li>
+  <li><a href="#sensibilidad-entre-parcelas-y-periodos" id="toc-sensibilidad-entre-parcelas-y-periodos" class="nav-link" data-scroll-target="#sensibilidad-entre-parcelas-y-periodos"><span class="header-section-number">10.5.9</span> Sensibilidad entre parcelas y periodos</a></li>
+  <li><a href="#interpretación" id="toc-interpretación" class="nav-link" data-scroll-target="#interpretación"><span class="header-section-number">10.5.10</span> Interpretación</a></li>
+  </ul></li>
+  <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis"><span class="header-section-number">10.6</span> Síntesis</a></li>
+  <li><a href="#actividad-propuesta-para-el-lector" id="toc-actividad-propuesta-para-el-lector" class="nav-link" data-scroll-target="#actividad-propuesta-para-el-lector"><span class="header-section-number">10.7</span> Actividad propuesta para el lector</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter10.html">Parte V — Poblaciones y comunidades</a></li><li class="breadcrumb-item"><a href="../chapters/chapter10.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></h1>
+<p class="subtitle lead">Supervivencia, transiciones y cambio por estadios</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="chapter-actions" aria-label="Recursos del capítulo">
+  <a class="chapter-action" href="../notebooks/qmd/chapter10.qmd" download="">
+    <i class="bi bi-file-earmark-code" aria-hidden="true"></i>
+    <span>Descargar QMD</span>
+  </a>
+  <a class="chapter-action" href="../notebooks/ipynb/chapter10.ipynb" download="">
+    <i class="bi bi-journal-code" aria-hidden="true"></i>
+    <span>Descargar IPYNB</span>
+  </a>
+  <a class="chapter-action chapter-action-pdf" href="../ecological-sampling.pdf" download="">
+    <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
+    <span>Descargar libro en PDF</span>
+  </a>
+</div>
+
+<p>La demografía conecta destinos individuales con cambio poblacional. Nacimientos, supervivencia, crecimiento, reproducción y movimiento deben compartir población, intervalo y convención de censo. Una tasa sin denominador y periodo explícitos no es comparable, y un cambio local mezcla procesos si la población es abierta <span class="citation" data-cites="henderson2016ecological sutherland2006census">(<a href="../references.html#ref-henderson2016ecological" role="doc-biblioref">Henderson y Southwood 2016</a>; <a href="../references.html#ref-sutherland2006census" role="doc-biblioref">Sutherland 2006</a>)</span>.</p>
+<section id="contabilidad-y-tasas-vitales" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="contabilidad-y-tasas-vitales"><span class="header-section-number">10.1</span> Contabilidad y tasas vitales</h2>
+<p>Para una población delimitada,</p>
+<p><span class="math display">\[
+N_{t+1}=N_t+B_t-D_t+I_t-E_t.
+\]</span></p>
+<p>Si inmigración y emigración no se observan, desaparición no equivale necesariamente a muerte y reclutamiento no equivale necesariamente a nacimiento local. Marcar y revisitar individuos permite estimar destinos condicionados al estado inicial; parcelas permanentes describen además entradas y estructura <span class="citation" data-cites="gregg2008field">(<a href="../references.html#ref-gregg2008field" role="doc-biblioref">Gregg 2008</a>)</span>.</p>
+<p>Para <span class="math inline">\(n_j\)</span> individuos en estadio inicial <span class="math inline">\(j\)</span>, de los cuales <span class="math inline">\(n_{ij}\)</span> aparecen en el estadio <span class="math inline">\(i\)</span> al siguiente censo,</p>
+<p><span class="math display">\[
+\widehat p_{ij}=\frac{n_{ij}}{n_j}, \qquad
+\widehat S_j=\sum_{i\in\text{vivos}}\widehat p_{ij}.
+\]</span></p>
+<p><span class="math inline">\(\widehat S_j\)</span> es supervivencia aparente cuando no se separan muerte, emigración y no detección. Permanencia, crecimiento y retroceso son componentes distintos de la transición. Sus conteos comparten denominador y no son estimaciones independientes.</p>
+</section>
+<section id="fertilidad-y-reclutamiento" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="fertilidad-y-reclutamiento"><span class="header-section-number">10.2</span> Fertilidad y reclutamiento</h2>
+<p>Frutos, semillas, nacimientos y nuevos individuos censables representan etapas distintas. Una media de frutos por planta florecida mide producción reproductiva, no reclutamiento. Para conectar reproducción con nuevos censables se necesita la cadena de establecimiento o un cociente empírico con intervalo y área compatibles <span class="citation" data-cites="henderson2016ecological">(<a href="../references.html#ref-henderson2016ecological" role="doc-biblioref">Henderson y Southwood 2016</a>)</span>.</p>
+<p>Con censos anuales por parcela puede resumirse</p>
+<p><span class="math display">\[
+F=\frac{\text{reclutas en }t+1}{\text{plantas florecidas en }t}.
+\]</span></p>
+<p><span class="math inline">\(F\)</span> es reclutamiento por planta florecida, no maternidad identificada: reclutas pueden proceder del banco de semillas y las madres no están enlazadas. La interpretación exige declarar esta limitación.</p>
+</section>
+<section id="estructura-por-estadios" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="estructura-por-estadios"><span class="header-section-number">10.3</span> Estructura por estadios</h2>
+<p>Edad cronológica no siempre predice destino. En plantas perennes, tamaño y estado reproductivo suelen definir estadios útiles. Sea <span class="math inline">\(\boldsymbol n_t\)</span> el vector de números por estadio. Una matriz anual descriptiva puede escribirse</p>
+<p><span class="math display">\[
+\boldsymbol n_{t+1}=\mathbf A\boldsymbol n_t,
+\]</span></p>
+<p>donde la columna <span class="math inline">\(j\)</span> representa el estadio de origen y la fila <span class="math inline">\(i\)</span> el destino. Las entradas vegetativas son probabilidades; una entrada reproductiva puede exceder uno si cuenta nuevos individuos por adulto. La matriz supone tasas constantes, clasificación correcta, intervalo común y cierre suficiente para la pregunta <span class="citation" data-cites="henderson2016ecological">(<a href="../references.html#ref-henderson2016ecological" role="doc-biblioref">Henderson y Southwood 2016</a>)</span>.</p>
+<p>Una proyección es condicional, no un pronóstico garantizado. Antes de proyectar se deben comparar totales predichos con censos posteriores, revisar variación entre años y parcelas y propagar incertidumbre de las unidades independientes.</p>
+</section>
+<section id="incertidumbre-y-diagnóstico" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="incertidumbre-y-diagnóstico"><span class="header-section-number">10.4</span> Incertidumbre y diagnóstico</h2>
+<p>Para una proporción, intervalos binomiales son útiles si los destinos individuales son comparables. Cuando individuos comparten parcela y ambiente, remuestrear filas subestima variación; parcelas o periodos son unidades más apropiadas. Con pocas parcelas, los intervalos describen estabilidad limitada <span class="citation" data-cites="manly2015ecological">(<a href="../references.html#ref-manly2015ecological" role="doc-biblioref">Manly y Navarro Alberto 2015</a>)</span>.</p>
+<p>Diagnósticos demográficos incluyen denominadores pequeños, estados imposibles, columnas vegetativas mayores que uno, tasas variables por año, plantas duplicadas y discrepancias entre estructura observada y predicha. Sensibilidad razonable examina parcelas, periodos y definiciones de estadio, sin convertir una proyección en una recomendación automática.</p>
+</section>
+<section id="aplicación-completa-demografía-de-aquilegia-chrysantha" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="aplicación-completa-demografía-de-aquilegia-chrysantha"><span class="header-section-number">10.5</span> Aplicación completa: demografía de <em>Aquilegia chrysantha</em></h2>
+<section id="procedencia-diseño-unidad-y-estimandos" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="procedencia-diseño-unidad-y-estimandos"><span class="header-section-number">10.5.1</span> Procedencia, diseño, unidad y estimandos</h3>
+<p><code>popbio::aq.trans</code> contiene transiciones anuales de <em>Aquilegia chrysantha</em> en diez parcelas de Fillmore Canyon, Organ Mountains, Nuevo México, entre 1996 y 2003. La documentación identifica propietarios, planta, parcela, año, estadio inicial, frutos y destino anual; el paquete y los datos se describen en <span class="citation" data-cites="stubben2007popbio">Stubben y Milligan (<a href="../references.html#ref-stubben2007popbio" role="doc-biblioref">2007</a>)</span>.</p>
+<p>La unidad longitudinal es la planta marcada y la unidad ambiental replicada es la parcela. Los estimandos son: supervivencia aparente anual por estadio; distribución de destinos vivos; frutos medios por planta florecida; reclutas por planta florecida del año anterior; y una matriz anual agrupada para estas parcelas y años. No hay selección probabilística de cañones ni maternidad de reclutas.</p>
+</section>
+<section id="importación-y-auditoría" class="level3" data-number="10.5.2">
+<h3 data-number="10.5.2" class="anchored" data-anchor-id="importación-y-auditoría"><span class="header-section-number">10.5.2</span> Importación y auditoría</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"popbio"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Este capítulo requiere el paquete 'popbio'."</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"aq.trans"</span>, <span class="at">package =</span> <span class="st">"popbio"</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> aq.trans</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>stages <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"recruit"</span>, <span class="st">"small"</span>, <span class="st">"large"</span>, <span class="st">"flower"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(<span class="fu">c</span>(<span class="st">"plot"</span>, <span class="st">"year"</span>, <span class="st">"plant"</span>, <span class="st">"stage"</span>, <span class="st">"fate"</span>, <span class="st">"fruits"</span>) <span class="sc">%in%</span> <span class="fu">names</span>(d)))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="sc">!</span><span class="fu">anyNA</span>(d[<span class="fu">c</span>(<span class="st">"plot"</span>, <span class="st">"year"</span>, <span class="st">"plant"</span>, <span class="st">"stage"</span>, <span class="st">"fate"</span>)]))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(d<span class="sc">$</span>fruits <span class="sc">&gt;=</span> <span class="dv">0</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>key <span class="ot">&lt;-</span> <span class="fu">interaction</span>(d<span class="sc">$</span>plot, d<span class="sc">$</span>year, d<span class="sc">$</span>plant, <span class="at">drop =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="sc">!</span><span class="fu">anyDuplicated</span>(key))</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>audit <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimensions =</span> <span class="fu">dim</span>(d), <span class="at">plots =</span> <span class="fu">sort</span>(<span class="fu">unique</span>(d<span class="sc">$</span>plot)), <span class="at">years =</span> <span class="fu">range</span>(d<span class="sc">$</span>year),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">initial_stage =</span> <span class="fu">table</span>(d<span class="sc">$</span>stage, <span class="at">useNA =</span> <span class="st">"ifany"</span>),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">fate =</span> <span class="fu">table</span>(d<span class="sc">$</span>fate, <span class="at">useNA =</span> <span class="st">"ifany"</span>),</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing =</span> <span class="fu">colSums</span>(<span class="fu">is.na</span>(d))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>audit</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $dimensions</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1637    9</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $plots</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  [1] 903 906 909 913 914 916 921 923 929 930</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $years</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 1996 2003</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $initial_stage</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    seed recruit   small   large  flower </span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       0     574     461     320     282 </span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $fate</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    seed recruit   small   large  flower    dead </span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       0       0     306     297     206     828 </span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $missing</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   plot   year  plant  stage   leaf   rose fruits   fate  rose2 </span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      0      0      0      0     15    813      0      0   1074</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La ausencia de plantas en el estadio <code>seed</code> y de destinos <code>seed</code> o <code>recruit</code> evita estimar directamente el banco de semillas. Los <code>NA</code> morfológicos no se sustituyen por cero; para transiciones bastan estadio y destino.</p>
+</section>
+<section id="exploración-de-estructura-y-reproducción" class="level3" data-number="10.5.3">
+<h3 data-number="10.5.3" class="anchored" data-anchor-id="exploración-de-estructura-y-reproducción"><span class="header-section-number">10.5.3</span> Exploración de estructura y reproducción</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>stage_year <span class="ot">&lt;-</span> <span class="fu">xtabs</span>(<span class="sc">~</span> stage <span class="sc">+</span> year, d)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>stage_year</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          year</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; stage     1996 1997 1998 1999 2000 2001 2002 2003</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   seed       0    0    0    0    0    0    0    0</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   recruit   12  287  186   76    5    5    0    3</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   small    134   75   60   84   58   31   13    6</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   large     17   68   41   57   59   58   16    4</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   flower    62    6   80   74   52    8    0    0</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Composición anual de los estadios iniciales observados."</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">prop.table</span>(stage_year[stages, , <span class="at">drop =</span> <span class="cn">FALSE</span>], <span class="dv">2</span>),</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#dda15e"</span>, <span class="st">"#90be6d"</span>, <span class="st">"#457b9d"</span>, <span class="st">"#9b5de5"</span>),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Año inicial"</span>, <span class="at">ylab =</span> <span class="st">"Proporción observada"</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> stages, <span class="at">args.legend =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="st">"top"</span>, <span class="at">ncol =</span> <span class="dv">4</span>, <span class="at">bty =</span> <span class="st">"n"</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter10_files/figure-html/ch10-exploracion-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(fruits <span class="sc">~</span> stage, d, <span class="cf">function</span>(x) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">n =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)), <span class="at">mean =</span> <span class="fu">mean</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">median =</span> <span class="fu">median</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">total =</span> <span class="fu">sum</span>(x, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     stage   fruits.n fruits.mean fruits.median fruits.total</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 recruit 574.000000    0.000000      0.000000     0.000000</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   small 461.000000    0.000000      0.000000     0.000000</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   large 320.000000    0.000000      0.000000     0.000000</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  flower 282.000000    2.741135      2.000000   773.000000</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La gráfica separa estructura de tamaño poblacional. Los frutos están concentrados en plantas florecidas; muchos ceros son resultados reproductivos válidos.</p>
+</section>
+<section id="transición-y-supervivencia-aparente" class="level3" data-number="10.5.4">
+<h3 data-number="10.5.4" class="anchored" data-anchor-id="transición-y-supervivencia-aparente"><span class="header-section-number">10.5.4</span> Transición y supervivencia aparente</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>transition_counts <span class="ot">&lt;-</span> <span class="fu">with</span>(d, <span class="fu">table</span>(stage, fate))[stages,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(stages, <span class="st">"dead"</span>), drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>transition_prob <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(transition_counts, <span class="dv">1</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>survival <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">stage =</span> stages,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">rowSums</span>(transition_counts),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">apparent_survival =</span> <span class="dv">1</span> <span class="sc">-</span> transition_prob[, <span class="st">"dead"</span>]</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>survival_ci <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">vapply</span>(<span class="fu">seq_along</span>(stages), <span class="cf">function</span>(j) {</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">binom.test</span>(<span class="fu">sum</span>(transition_counts[j, stages]),</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>             <span class="fu">sum</span>(transition_counts[j, ]))<span class="sc">$</span>conf.int</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>}, <span class="fu">numeric</span>(<span class="dv">2</span>)))</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>survival<span class="sc">$</span>lower <span class="ot">&lt;-</span> survival_ci[, <span class="dv">1</span>]</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>survival<span class="sc">$</span>upper <span class="ot">&lt;-</span> survival_ci[, <span class="dv">2</span>]</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>survival</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           stage   n apparent_survival     lower     upper</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; recruit recruit 574         0.1306620 0.1041786 0.1610135</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; small     small 461         0.5878525 0.5413910 0.6331796</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; large     large 320         0.6875000 0.6335857 0.7379026</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; flower   flower 282         0.8617021 0.8158249 0.8997738</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(transition_prob, <span class="dv">3</span>)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          fate</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; stage     recruit small large flower  dead</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   recruit   0.000 0.129 0.000  0.002 0.869</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   small     0.000 0.364 0.137  0.087 0.412</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   large     0.000 0.094 0.331  0.262 0.312</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   flower    0.000 0.121 0.454  0.287 0.138</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Los intervalos binomiales tratan plantas como ensayos comparables y por eso son optimistas si hay agrupación por parcela o año. Se complementarán con remuestreo de parcelas.</p>
+</section>
+<section id="fertilidad-observada-y-reclutamiento" class="level3" data-number="10.5.5">
+<h3 data-number="10.5.5" class="anchored" data-anchor-id="fertilidad-observada-y-reclutamiento"><span class="header-section-number">10.5.5</span> Fertilidad observada y reclutamiento</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>flower_rows <span class="ot">&lt;-</span> d<span class="sc">$</span>stage <span class="sc">==</span> <span class="st">"flower"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>fruit_summary <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">flowering_plants =</span> <span class="fu">sum</span>(flower_rows),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean_fruits =</span> <span class="fu">mean</span>(d<span class="sc">$</span>fruits[flower_rows], <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">proportion_with_fruit =</span> <span class="fu">mean</span>(d<span class="sc">$</span>fruits[flower_rows] <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">xtabs</span>(<span class="sc">~</span> plot <span class="sc">+</span> year <span class="sc">+</span> stage, d))</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(counts)[<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="st">"count"</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>wide <span class="ot">&lt;-</span> <span class="fu">reshape</span>(counts, <span class="at">idvar =</span> <span class="fu">c</span>(<span class="st">"plot"</span>, <span class="st">"year"</span>), <span class="at">timevar =</span> <span class="st">"stage"</span>,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">direction =</span> <span class="st">"wide"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(wide) <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"count</span><span class="sc">\\</span><span class="st">."</span>, <span class="st">""</span>, <span class="fu">names</span>(wide))</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (s <span class="cf">in</span> stages) <span class="cf">if</span> (<span class="sc">!</span>s <span class="sc">%in%</span> <span class="fu">names</span>(wide)) wide[[s]] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>next_recruits <span class="ot">&lt;-</span> wide[<span class="fu">c</span>(<span class="st">"plot"</span>, <span class="st">"year"</span>, <span class="st">"recruit"</span>)]</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>next_recruits<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(next_recruits<span class="sc">$</span>year)) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>wide<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(wide<span class="sc">$</span>year))</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(next_recruits)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">"recruits_next"</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>paired <span class="ot">&lt;-</span> <span class="fu">merge</span>(wide, next_recruits, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"plot"</span>, <span class="st">"year"</span>))</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>paired <span class="ot">&lt;-</span> paired[paired<span class="sc">$</span>flower <span class="sc">&gt;</span> <span class="dv">0</span>, ]</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>F_pooled <span class="ot">&lt;-</span> <span class="fu">sum</span>(paired<span class="sc">$</span>recruits_next) <span class="sc">/</span> <span class="fu">sum</span>(paired<span class="sc">$</span>flower)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>fruit_summary</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      flowering_plants           mean_fruits proportion_with_fruit </span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            282.000000              2.741135              0.787234</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">plot_years =</span> <span class="fu">nrow</span>(paired), <span class="at">flowering =</span> <span class="fu">sum</span>(paired<span class="sc">$</span>flower),</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>           <span class="at">recruits_next =</span> <span class="fu">sum</span>(paired<span class="sc">$</span>recruits_next),</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>           <span class="at">recruits_per_flowering =</span> F_pooled)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   plot_years flowering recruits_next recruits_per_flowering</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1         46       282           481               1.705674</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>El cociente agrupado alinea parcela y años consecutivos. No mide semillas por fruto ni asigna descendencia; resume establecimiento observado por planta florecida previa bajo posible contribución del banco de semillas.</p>
+</section>
+<section id="matriz-transparente-y-proyección-de-un-paso" class="level3" data-number="10.5.6">
+<h3 data-number="10.5.6" class="anchored" data-anchor-id="matriz-transparente-y-proyección-de-un-paso"><span class="header-section-number">10.5.6</span> Matriz transparente y proyección de un paso</h3>
+<p>La matriz usa <code>recruit</code>, <code>small</code>, <code>large</code> y <code>flower</code>. Las tres filas vegetativas proceden de destinos observados; la primera fila contiene el cociente de reclutamiento únicamente en la columna de plantas florecidas.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">4</span>, <span class="at">ncol =</span> <span class="dv">4</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="at">destination =</span> stages, <span class="at">origin =</span> stages))</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>A[<span class="fu">c</span>(<span class="st">"small"</span>, <span class="st">"large"</span>, <span class="st">"flower"</span>), ] <span class="ot">&lt;-</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">t</span>(transition_prob[, <span class="fu">c</span>(<span class="st">"small"</span>, <span class="st">"large"</span>, <span class="st">"flower"</span>), <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>A[<span class="st">"recruit"</span>, <span class="st">"flower"</span>] <span class="ot">&lt;-</span> F_pooled</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(<span class="fu">is.finite</span>(A)), <span class="fu">all</span>(A <span class="sc">&gt;=</span> <span class="dv">0</span>))</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>vegetative_column_sums <span class="ot">&lt;-</span> <span class="fu">colSums</span>(A[<span class="fu">c</span>(<span class="st">"small"</span>, <span class="st">"large"</span>, <span class="st">"flower"</span>), , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(vegetative_column_sums <span class="sc">&lt;=</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fu">sqrt</span>(.Machine<span class="sc">$</span>double.eps)))</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(A, <span class="dv">3</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            origin</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; destination recruit small large flower</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     recruit   0.000 0.000 0.000  1.706</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     small     0.129 0.364 0.094  0.121</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     large     0.000 0.137 0.331  0.454</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     flower    0.002 0.087 0.262  0.287</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>last_year <span class="ot">&lt;-</span> <span class="fu">max</span>(d<span class="sc">$</span>year)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>n_last <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">factor</span>(d<span class="sc">$</span>stage[d<span class="sc">$</span>year <span class="sc">==</span> last_year], <span class="at">levels =</span> stages))</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>prediction <span class="ot">&lt;-</span> <span class="fu">drop</span>(A <span class="sc">%*%</span> <span class="fu">as.numeric</span>(n_last))</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(<span class="at">stage =</span> stages, <span class="at">observed_initial =</span> <span class="fu">as.numeric</span>(n_last),</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>           <span class="at">projected_next =</span> prediction)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           stage observed_initial projected_next</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; recruit recruit                3       0.000000</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; small     small                6       2.948311</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; large     large                4       2.144957</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; flower   flower                0       1.575834</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La proyección posterior a 2003 es un escenario de tasas agrupadas, no una observación ni un pronóstico validado. Combina supervivencia aparente y reclutamiento asociado, con tasas constantes entre parcelas y años.</p>
+</section>
+<section id="incertidumbre-por-parcelas" class="level3" data-number="10.5.7">
+<h3 data-number="10.5.7" class="anchored" data-anchor-id="incertidumbre-por-parcelas"><span class="header-section-number">10.5.7</span> Incertidumbre por parcelas</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>matrix_from_data <span class="ot">&lt;-</span> <span class="cf">function</span>(z) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  tc <span class="ot">&lt;-</span> <span class="fu">with</span>(z, <span class="fu">table</span>(<span class="fu">factor</span>(stage, <span class="at">levels =</span> stages),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">factor</span>(fate, <span class="at">levels =</span> <span class="fu">c</span>(stages, <span class="st">"dead"</span>))))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  tp <span class="ot">&lt;-</span> <span class="fu">prop.table</span>(tc, <span class="dv">1</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  cy <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">xtabs</span>(<span class="sc">~</span> plot <span class="sc">+</span> year <span class="sc">+</span> stage, z))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(cy)[<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="st">"count"</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  cw <span class="ot">&lt;-</span> <span class="fu">reshape</span>(cy, <span class="at">idvar =</span> <span class="fu">c</span>(<span class="st">"plot"</span>, <span class="st">"year"</span>), <span class="at">timevar =</span> <span class="st">"stage"</span>, <span class="at">direction =</span> <span class="st">"wide"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(cw) <span class="ot">&lt;-</span> <span class="fu">sub</span>(<span class="st">"count</span><span class="sc">\\</span><span class="st">."</span>, <span class="st">""</span>, <span class="fu">names</span>(cw))</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (s <span class="cf">in</span> stages) <span class="cf">if</span> (<span class="sc">!</span>s <span class="sc">%in%</span> <span class="fu">names</span>(cw)) cw[[s]] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  nr <span class="ot">&lt;-</span> cw[<span class="fu">c</span>(<span class="st">"plot"</span>, <span class="st">"year"</span>, <span class="st">"recruit"</span>)]</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  nr<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(nr<span class="sc">$</span>year)) <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  cw<span class="sc">$</span>year <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.character</span>(cw<span class="sc">$</span>year))</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(nr)[<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="st">"recruits_next"</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  pr <span class="ot">&lt;-</span> <span class="fu">merge</span>(cw, nr, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"plot"</span>, <span class="st">"year"</span>))</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  pr <span class="ot">&lt;-</span> pr[pr<span class="sc">$</span>flower <span class="sc">&gt;</span> <span class="dv">0</span>, ]</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  M <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="dv">4</span>, <span class="dv">4</span>, <span class="at">dimnames =</span> <span class="fu">list</span>(stages, stages))</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  M[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, ] <span class="ot">&lt;-</span> <span class="fu">t</span>(tp[, <span class="fu">c</span>(<span class="st">"small"</span>, <span class="st">"large"</span>, <span class="st">"flower"</span>), <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  M[<span class="dv">1</span>, <span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="fu">sum</span>(pr<span class="sc">$</span>recruits_next) <span class="sc">/</span> <span class="fu">sum</span>(pr<span class="sc">$</span>flower)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  M</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1010</span>)</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>plots <span class="ot">&lt;-</span> <span class="fu">unique</span>(d<span class="sc">$</span>plot)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">999</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>boot <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B, {</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  selected <span class="ot">&lt;-</span> <span class="fu">sample</span>(plots, <span class="fu">length</span>(plots), <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  zb <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">seq_along</span>(selected), <span class="cf">function</span>(i) {</span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> d[d<span class="sc">$</span>plot <span class="sc">==</span> selected[i], ]</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>    x<span class="sc">$</span>plot <span class="ot">&lt;-</span> i</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    x</span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  }))</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>  M <span class="ot">&lt;-</span> <span class="fu">matrix_from_data</span>(zb)</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">survival =</span> <span class="fu">colSums</span>(M[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, , <span class="at">drop =</span> <span class="cn">FALSE</span>]),</span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">recruitment =</span> M[<span class="dv">1</span>, <span class="dv">4</span>])</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">apply</span>(boot, <span class="dv">1</span>, quantile, <span class="fu">c</span>(.<span class="dv">025</span>, .<span class="dv">5</span>, .<span class="dv">975</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                        2.5%       50%     97.5%</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; survival.recruit 0.08027321 0.1326923 0.1720018</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; survival.small   0.51495221 0.5899705 0.6394509</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; survival.large   0.65011718 0.6864686 0.7381369</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; survival.flower  0.81441930 0.8609023 0.8892054</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; recruitment      0.59703038 1.6838906 2.9714850</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>El remuestreo conserva juntas plantas y años de cada parcela. Diez parcelas siguen siendo una base pequeña para inferencia regional.</p>
+</section>
+<section id="diagnóstico-retrospectivo" class="level3" data-number="10.5.8">
+<h3 data-number="10.5.8" class="anchored" data-anchor-id="diagnóstico-retrospectivo"><span class="header-section-number">10.5.8</span> Diagnóstico retrospectivo</h3>
+<p>Se estima una matriz con todos los años excepto el último intervalo disponible y se compara la estructura predicha con los destinos observados de ese intervalo.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> d[d<span class="sc">$</span>year <span class="sc">&lt;</span> <span class="fu">max</span>(d<span class="sc">$</span>year), ]</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>A_train <span class="ot">&lt;-</span> <span class="fu">matrix_from_data</span>(train)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>validation <span class="ot">&lt;-</span> d[d<span class="sc">$</span>year <span class="sc">==</span> <span class="fu">max</span>(d<span class="sc">$</span>year), ]</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>n_origin <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">factor</span>(validation<span class="sc">$</span>stage, <span class="at">levels =</span> stages))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>observed_fates <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="fu">factor</span>(validation<span class="sc">$</span>fate,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                               <span class="at">levels =</span> <span class="fu">c</span>(stages, <span class="st">"dead"</span>)))[stages]</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>predicted_fates <span class="ot">&lt;-</span> <span class="fu">drop</span>(A_train <span class="sc">%*%</span> <span class="fu">as.numeric</span>(n_origin))</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>diagnostic <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">stage =</span> stages, <span class="at">observed =</span> <span class="fu">as.numeric</span>(observed_fates), <span class="at">predicted =</span> predicted_fates,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">pearson =</span> (<span class="fu">as.numeric</span>(observed_fates) <span class="sc">-</span> predicted_fates) <span class="sc">/</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sqrt</span>(<span class="fu">pmax</span>(predicted_fates, <span class="dv">1</span>))</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>diagnostic</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           stage observed predicted    pearson</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; recruit recruit        0  0.000000  0.0000000</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; small     small        4  2.931176  0.6242885</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; large     large        5  2.108722  1.9910413</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; flower   flower        1  1.582831 -0.4632605</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La comparación es imperfecta porque el reclutamiento de la matriz se alinea por parcela-año, mientras los destinos validan plantas ya censadas. Residuos grandes señalan variación temporal, clasificación o reclutamiento no representado; no identifican por sí solos cuál proceso falló.</p>
+</section>
+<section id="sensibilidad-entre-parcelas-y-periodos" class="level3" data-number="10.5.9">
+<h3 data-number="10.5.9" class="anchored" data-anchor-id="sensibilidad-entre-parcelas-y-periodos"><span class="header-section-number">10.5.9</span> Sensibilidad entre parcelas y periodos</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>leave_plot <span class="ot">&lt;-</span> <span class="fu">sapply</span>(plots, <span class="cf">function</span>(p) {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  M <span class="ot">&lt;-</span> <span class="fu">matrix_from_data</span>(d[d<span class="sc">$</span>plot <span class="sc">!=</span> p, ])</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">survival =</span> <span class="fu">colSums</span>(M[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, , <span class="at">drop =</span> <span class="cn">FALSE</span>]), <span class="at">recruitment =</span> M[<span class="dv">1</span>, <span class="dv">4</span>])</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>period_split <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">list</span>(<span class="at">early =</span> d[d<span class="sc">$</span>year <span class="sc">&lt;=</span> <span class="dv">1999</span>, ],</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                            <span class="at">late =</span> d[d<span class="sc">$</span>year <span class="sc">&gt;=</span> <span class="dv">2000</span>, ]), matrix_from_data)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>leave_summary <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">parameter =</span> <span class="fu">rownames</span>(leave_plot),</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">minimum =</span> <span class="fu">apply</span>(leave_plot, <span class="dv">1</span>, min, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">maximum =</span> <span class="fu">apply</span>(leave_plot, <span class="dv">1</span>, max, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">row.names =</span> <span class="cn">NULL</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>period_summary <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(<span class="fu">names</span>(period_split), <span class="cf">function</span>(period) {</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  M <span class="ot">&lt;-</span> period_split[[period]]</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(period,</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">parameter =</span> <span class="fu">c</span>(<span class="fu">paste0</span>(<span class="st">"survival_"</span>, stages), <span class="st">"recruitment"</span>),</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">estimate =</span> <span class="fu">c</span>(<span class="fu">colSums</span>(M[<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>, , <span class="at">drop =</span> <span class="cn">FALSE</span>]), M[<span class="dv">1</span>, <span class="dv">4</span>]))</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>leave_summary</span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          parameter   minimum   maximum</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 survival.recruit 0.1208226 0.1528662</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2   survival.small 0.5621302 0.6175000</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   survival.large 0.6678967 0.7011070</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  survival.flower 0.8508772 0.8698885</span></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5      recruitment 1.2832618 2.0338983</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>period_summary</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          period        parameter   estimate</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; recruit   early survival_recruit 0.13190731</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; small     early   survival_small 0.63739377</span></span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; large     early   survival_large 0.90163934</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; flower    early  survival_flower 0.90090090</span></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           early      recruitment 3.20270270</span></span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; recruit1   late survival_recruit 0.07692308</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; small1     late   survival_small 0.42592593</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; large1     late   survival_large 0.40145985</span></span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; flower1    late  survival_flower 0.71666667</span></span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1          late      recruitment 0.08333333</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Variación amplia al omitir una parcela limita la representatividad espacial; diferencias entre periodos cuestionan tasas constantes. Estas comparaciones no seleccionan una matriz favorita: muestran cuánto depende el resumen de espacio y tiempo.</p>
+</section>
+<section id="interpretación" class="level3" data-number="10.5.10">
+<h3 data-number="10.5.10" class="anchored" data-anchor-id="interpretación"><span class="header-section-number">10.5.10</span> Interpretación</h3>
+<p>Los datos permiten describir qué fracción de cada estadio reaparece viva, hacia qué estadio cambia, cuántos frutos producen las plantas florecidas y cuántos reclutas aparecen después por planta florecida. La matriz integra esos resúmenes con convenciones explícitas, pero omite banco de semillas medido, maternidad, detección y movimiento. Por ello, cualquier proyección está condicionada a estas diez parcelas, años y clasificación. La variación bootstrap, la validación de un intervalo y la sensibilidad espacial y temporal deben acompañar la matriz.</p>
+</section>
+</section>
+<section id="síntesis" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="síntesis"><span class="header-section-number">10.6</span> Síntesis</h2>
+<ul>
+<li>Las tasas vitales requieren denominador, intervalo y estado inicial.</li>
+<li>Supervivencia aparente puede mezclar muerte, emigración y no detección.</li>
+<li>Frutos, semillas y reclutas no son medidas intercambiables de fertilidad.</li>
+<li>Una matriz por estadios debe declarar orientación y contenido de cada entrada.</li>
+<li>Proyección, diagnóstico e incertidumbre son necesarios antes de interpretar dinámica poblacional.</li>
+</ul>
+</section>
+<section id="actividad-propuesta-para-el-lector" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="actividad-propuesta-para-el-lector"><span class="header-section-number">10.7</span> Actividad propuesta para el lector</h2>
+<p>Use <code>popbio::monkeyflower</code>, un conjunto real incluido en <code>popbio</code>. Consulte su documentación y registre procedencia, población, años, estadios y orientación de las matrices; audite dimensiones, nombres, valores negativos y columnas biológicamente plausibles; defina una tasa o proyección como estimando; explore variación entre matrices; derive supervivencia, permanencia, crecimiento y fertilidad sin mezclar sus unidades; proyecte una estructura inicial durante un horizonte corto con incertidumbre entre matrices; compare predicciones con un intervalo reservado cuando sea posible; evalúe sensibilidad a periodo y estado inicial; e interprete resultados y límites sin añadir métricas derivadas de valores propios.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-gregg2008field" class="csl-entry" role="listitem">
+Gregg, Michael B., ed. 2008. <em>Field Epidemiology</em>. 3.ª ed. Oxford University Press.
+</div>
+<div id="ref-henderson2016ecological" class="csl-entry" role="listitem">
+Henderson, Peter A., y T. R. E. Southwood. 2016. <em>Ecological Methods</em>. 4.ª ed. Wiley-Blackwell.
+</div>
+<div id="ref-manly2015ecological" class="csl-entry" role="listitem">
+Manly, Bryan F. J., y Jorge A. Navarro Alberto. 2015. <em>Introduction to Ecological Sampling</em>. Chapman; Hall/CRC.
+</div>
+<div id="ref-stubben2007popbio" class="csl-entry" role="listitem">
+Stubben, Christopher J., y Brook G. Milligan. 2007. <span>«Estimating and Analyzing Demographic Models Using the popbio Package in R»</span>. <em>Journal of Statistical Software</em> 22 (11): 1-23. <a href="https://doi.org/10.18637/jss.v022.i11">https://doi.org/10.18637/jss.v022.i11</a>.
+</div>
+<div id="ref-sutherland2006census" class="csl-entry" role="listitem">
+Sutherland, William J., ed. 2006. <em>Ecological Census Techniques: A Handbook</em>. 2.ª ed. Cambridge University Press.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/chapter09.html" class="pagination-link" aria-label="Monitoreo ecológico y análisis de tendencias">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Monitoreo ecológico y análisis de tendencias</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/chapter11.html" class="pagination-link" aria-label="Riqueza, diversidad y composición de comunidades">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Muestreo ecológico con R</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Jonathan Florez Giraldo</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

@@ -1,0 +1,24 @@
+dataset:
+  title: "Alder Flycatcher Interval-Count Histories"
+  version: "unmarked 1.5.1"
+  source_url: "https://cran.r-project.org/package=unmarked"
+  accessed: "2026-08-16"
+  license: "GPL-3, package unmarked"
+  citation: "unmarked/inst/csv/alfl.csv; alflCovs.csv"
+  raw_files: ["package:unmarked/alfl.csv", "package:unmarked/alflCovs.csv"]
+study:
+  purpose: "Estudiar asociaciones de hábitat y detección de mosquero de alisos."
+  target_population: "Aves disponibles en parcelas de conteo durante cada visita."
+  sampling_frame: "Puntos de conteo contenidos en alflCovs.csv."
+  sampling_unit: "Punto de conteo."
+  observation_unit: "Ave individual seguida durante tres intervalos."
+  selection_mechanism: "Documentado por Chandler et al. (2009), no asumido probabilístico aquí."
+  observation_process: "Conteo de 15 minutos dividido en tres intervalos de 5 minutos."
+  geographic_scope: "Praderas de castor en Massachusetts, Estados Unidos."
+  temporal_scope: "2005."
+processing:
+  script: "chapters/chapter06.qmd"
+  output_files: []
+  exclusions: []
+  transformations: ["Construcción de historias de tres intervalos", "Perfil de verosimilitud M0"]
+  missing_data: "Se auditan historias y covariables en el capítulo."
