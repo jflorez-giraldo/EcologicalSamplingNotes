@@ -30,9 +30,10 @@ generan mediante `scripts/build-notebooks.R` y no deben editarse manualmente.
 
 ## Arquitectura editorial
 
-- once capítulos organizados en seis partes;
+- quince capítulos organizados en seis partes;
 - teoría aplicada, proyectos guiados en R y ejercicios;
 - un capítulo de síntesis para proyectos completos;
+- cinco prácticas progresivas, desde planificación hasta interacciones;
 - casos reales documentados en `data-catalog.qmd`;
 - plantillas reproducibles en `resources/templates/`; y
 - materiales de enseñanza privados en `instructor/`, fuera del render público.

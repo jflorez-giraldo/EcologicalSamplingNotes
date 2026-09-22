@@ -1,0 +1,257 @@
+---
+title: "Práctica 5: Recursos e interacciones"
+subtitle: "Selección, dinámica y redes tróficas en grupos"
+execute:
+  enabled: true
+  warning: false
+  message: false
+---
+
+## Presentación
+
+Esta práctica autocontenida usa únicamente base R. Todos los conteos son
+**didácticos** y todas las trayectorias se identifican como **simulaciones**. No
+representan un estudio real ni deben citarse como evidencia biológica.
+
+**Duración sugerida:** 120 minutos. **Producto grupal:** un script completado,
+tres figuras y una ficha de interpretación de máximo una página.
+
+**Roles.** Asignen responsable de código, auditoría, interpretación y relatoría;
+cambien roles después del bloque 2. La persona de auditoría debe detener el
+análisis si falla un `stopifnot()`.
+
+::: {.callout-important}
+## Regla causal
+
+Coocurrencia positiva o negativa no prueba competencia. En cada conclusión
+distingan patrón observado, predicción del modelo y mecanismo que requeriría otro
+diseño para identificarse.
+:::
+
+Los huecos aparecen como `____` y los bloques incompletos no se evalúan al
+renderizar. Reemplacen cada hueco antes de ejecutar en R.
+
+## Bloque 0. Arranque y estimandos
+
+Ejecuten este bloque completo.
+
+```{r}
+habitat <- c("bosque", "matorral", "pastizal", "humedal")
+availability <- c(bosque = .40, matorral = .25, pastizal = .25, humedal = .10)
+use_A <- rbind(
+  A01 = c(18, 8, 3, 1), A02 = c(16, 9, 4, 1),
+  A03 = c(20, 6, 3, 1), A04 = c(17, 8, 4, 1),
+  A05 = c(15, 10, 4, 1), A06 = c(19, 7, 3, 1),
+  A07 = c(16, 8, 5, 1), A08 = c(18, 7, 4, 1))
+use_B <- rbind(
+  B01 = c(5, 8, 14, 3), B02 = c(4, 9, 14, 3),
+  B03 = c(6, 7, 13, 4), B04 = c(5, 9, 12, 4),
+  B05 = c(4, 8, 15, 3), B06 = c(6, 8, 12, 4),
+  B07 = c(5, 7, 14, 4), B08 = c(4, 9, 13, 4))
+colnames(use_A) <- colnames(use_B) <- habitat
+
+stopifnot(!anyNA(use_A), !anyNA(use_B), all(use_A >= 0), all(use_B >= 0),
+          all(rowSums(use_A) == 30), all(rowSums(use_B) == 30),
+          isTRUE(all.equal(sum(availability), 1)))
+```
+
+::: {.callout-note}
+## Acuerdo previo del grupo
+
+Escriban antes de calcular: población conceptual, unidad independiente,
+disponibilidad, periodo y estimandos. Para esta práctica, la unidad independiente
+es el individuo; las 30 localizaciones son observaciones agrupadas.
+:::
+
+## Bloque 1. Uso, selección e incertidumbre
+
+Completen proporciones, razones, amplitud de Levins estandarizada y solapamiento
+de Pianka.
+
+```{r}
+#| eval: false
+use_prop <- rbind(
+  A = colSums(use_A) / ____,
+  B = colSums(use_B) / ____
+)
+selection_ratio <- sweep(use_prop, 2, ____, "/")
+
+levins_std <- function(p) {
+  p <- p / sum(p)
+  B <- 1 / ____
+  (B - 1) / (length(p) - 1)
+}
+pianka <- function(x, y) ____ / sqrt(sum(x^2) * sum(y^2))
+
+selection_ratio
+c(amplitud_A = levins_std(use_prop["A", ]),
+  amplitud_B = levins_std(use_prop["B", ]),
+  solapamiento = pianka(use_prop["A", ], use_prop["B", ]))
+```
+
+Construyan una figura con disponible, uso A y uso B. Después remuestreen
+individuos completos, no localizaciones.
+
+```{r}
+#| eval: false
+barplot(t(rbind(disponible = availability, use_prop)), beside = TRUE,
+        col = c("grey75", "#386641", "#bc6c25"), ylab = "Proporción",
+        legend.text = c("Disponible", "A", "B"))
+
+metrics <- function(A, B) {
+  pa <- colSums(A) / sum(A)
+  pb <- colSums(B) / sum(B)
+  c(setNames(pa / availability, paste0("wA_", habitat)),
+    breadth_A = levins_std(pa), breadth_B = levins_std(pb),
+    overlap = pianka(pa, pb))
+}
+set.seed(5101)
+boot <- replicate(999, metrics(
+  use_A[sample(seq_len(nrow(use_A)), ____, replace = TRUE), , drop = FALSE],
+  use_B[sample(seq_len(nrow(use_B)), ____, replace = TRUE), , drop = FALSE]
+))
+round(t(apply(boot, 1, ____, c(.025, .5, .975))), 3)
+```
+
+**Preguntas.** ¿Qué hábitat selecciona más A? ¿Cuál evita B? ¿Un solapamiento
+bajo o alto identifica competencia? ¿Qué fuente de incertidumbre queda fuera al
+tratar la disponibilidad como fija?
+
+::: {.callout-warning}
+## Sensibilidad obligatoria
+
+Repitan las razones de A con disponibilidad alternativa
+`c(.34, .28, .28, .10)`. Una conclusión que cambia debe reportarse como
+dependiente de la delimitación del área disponible.
+:::
+
+## Bloque 2. Competencia y depredación
+
+Complete el simulador de competencia de Lotka-Volterra. Los parámetros son
+supuestos, no estimaciones.
+
+```{r}
+#| eval: false
+simulate_competition <- function(r, K, alpha, initial, dt = .02, duration = 80) {
+  time <- seq(0, duration, by = dt)
+  N <- matrix(NA_real_, length(time), 2)
+  N[1, ] <- initial
+  for (i in 2:length(time)) {
+    n <- N[i - 1, ]
+    dN <- c(
+      r[1] * n[1] * (1 - (n[1] + ____ * n[2]) / K[1]),
+      r[2] * n[2] * (1 - (n[2] + ____ * n[1]) / K[2])
+    )
+    N[i, ] <- pmax(0, n + ____ * dN)
+  }
+  data.frame(time, especie_1 = N[, 1], especie_2 = N[, 2])
+}
+
+comp <- simulate_competition(c(.55, .45), c(100, 80), c(.7, .5), c(12, 10))
+matplot(comp$time, comp[-1], type = "l", lty = 1,
+        col = c("#386641", "#bc6c25"), xlab = "Tiempo", ylab = "N")
+```
+
+Calcule el equilibrio interior y compare el resultado final con pasos `dt=.02` y
+`dt=.2`. Luego cambie `alpha` a `c(1.4, .5)` y use tres estados iniciales.
+
+```{r}
+#| eval: false
+r <- c(.55, .45); K <- c(100, 80); alpha <- c(.7, .5)
+equilibrium <- c(
+  N1 = (K[1] - alpha[1] * K[2]) / ____,
+  N2 = (K[2] - alpha[2] * K[1]) / ____
+)
+equilibrium
+```
+
+Ahora ajusten una respuesta funcional tipo II a un ensayo **simulado** con cinco
+arenas por densidad.
+
+```{r}
+#| eval: false
+set.seed(5102)
+feeding <- expand.grid(prey = c(2, 5, 10, 20, 40, 80), arena = 1:5)
+a_true <- .08; h_true <- .12
+feeding$mu <- with(feeding, a_true * prey / (1 + a_true * h_true * prey))
+feeding$eaten <- mapply(function(n, mu)
+  rbinom(1, n, min(mu / n, .999)), feeding$prey, feeding$mu)
+stopifnot(all(feeding$eaten >= 0), all(feeding$eaten <= feeding$prey))
+
+fit <- nls(eaten ~ a * prey / (1 + a * h * prey), data = feeding,
+           start = list(a = ____, h = ____), algorithm = "port",
+           lower = c(a = 1e-6, h = 1e-6))
+coef(fit)
+plot(residuals(fit) ~ feeding$prey, pch = 16,
+     xlab = "Presas ofrecidas", ylab = "Residuo")
+abline(h = 0, lty = 2)
+```
+
+**Preguntas.** ¿Coexistencia en la simulación demuestra competencia en campo?
+¿Qué verifica la comparación de pasos? ¿Por qué la arena y no cada presa es la
+réplica? ¿Dónde se observa saturación?
+
+## Bloque 3. Matriz trófica
+
+Ejecuten la construcción y completen las métricas. Filas son consumidores;
+columnas, recursos.
+
+```{r}
+taxa <- c("pasto", "insecto", "conejo", "rana", "zorro", "halcon")
+web <- matrix(0L, 6, 6, dimnames = list(consumidor = taxa, recurso = taxa))
+web[cbind(c("insecto", "conejo", "rana", "zorro", "zorro", "halcon", "halcon"),
+          c("pasto", "pasto", "insecto", "conejo", "rana", "conejo", "rana"))] <- 1L
+stopifnot(all(web %in% 0:1), sum(diag(web)) == 0)
+```
+
+```{r}
+#| eval: false
+S <- nrow(web)
+L <- ____
+degree <- data.frame(
+  taxon = taxa,
+  recursos = ____,
+  consumidores = ____
+)
+connectance <- L / ____
+
+trophic_level <- setNames(rep(NA_real_, S), taxa)
+trophic_level[colSums(web) > 0 & rowSums(web) == 0] <- 1
+for (iteration in seq_len(S)) {
+  for (consumer in taxa[rowSums(web) > 0]) {
+    resources <- names(which(web[consumer, ] == 1))
+    if (all(!is.na(trophic_level[resources])))
+      trophic_level[consumer] <- 1 + ____
+  }
+}
+degree$trophic_level <- trophic_level[degree$taxon]
+degree
+c(links = L, connectance = connectance)
+```
+
+Añadan `halcon -> insecto`. Recalculen conectancia y definan omnivoría como
+varianza de niveles de los recursos (cero si hay menos de dos). ¿Qué cambió y por
+qué? Después eliminen vínculos observados una sola vez usando los conteos
+`c(9, 7, 6, 4, 2, 5, 1)` y discutan detección.
+
+::: {.callout-note collapse="true"}
+## Comprobación numérica
+
+Bloque 1: A usa aproximadamente `(0.579, 0.263, 0.125, 0.033)` y B
+`(0.163, 0.271, 0.446, 0.121)`. Las razones de A son aproximadamente
+`(1.448, 1.050, 0.500, 0.333)`. Amplitudes: A 0.46, B 0.73; solapamiento 0.62.
+
+Bloque 2: el equilibrio de coexistencia es `(62.86, 48.57)`. El resultado con
+pasos 0.02 y 0.2 debe ser muy parecido; diferencias grandes indicarían error
+numérico.
+
+Bloque 3: hay 7 vínculos, conectancia `7 / 30 = 0.233`; niveles: pasto 1,
+insecto y conejo 2, rana 3, zorro y halcón 3.5.
+:::
+
+## Entrega
+
+Incluyan: estimandos y unidades; auditoría; figura uso-disponibilidad con
+intervalos; dos escenarios de competencia rotulados como simulaciones; ajuste y
+residuos de respuesta funcional; tabla de red original y sensible; y seis frases
+que separen descripción, predicción e inferencia causal.

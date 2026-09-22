@@ -1,16 +1,17 @@
 # Material complementario {.unnumbered}
 
-## Profundizaciones metodológicas previstas
+## Profundizaciones complementarias
 
-- estimadores de razón, regresión y calibración;
-- estimación de varianza para diseños complejos;
-- muestreo adaptativo, de red e indirecto;
-- ocupación y detectabilidad imperfecta;
-- captura, marcado y recaptura;
-- análisis espacial y selección de muestras balanceadas; y
-- protocolos de control de calidad en campo.
+El desarrollo central ya incluye estimación de razón, regresión y calibración,
+muestreo indirecto, ocupación, captura-recaptura, supervivencia e interacciones.
+Como rutas posteriores quedan:
 
-Estos temas ofrecen rutas de profundización más allá del desarrollo central.
+- estimación avanzada de varianza para diseños complejos;
+- muestreo adaptativo y por redes extensas;
+- selección espacialmente balanceada;
+- integración de marcos múltiples;
+- respuesta no probabilística y ajuste por propensión; y
+- protocolos especializados de control de calidad en campo.
 
 ## Plantillas
 

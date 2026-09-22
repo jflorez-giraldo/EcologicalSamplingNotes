@@ -1,0 +1,287 @@
+---
+title: "Práctica 4: Epidemiología y tiempo hasta evento"
+subtitle: "Medidas de efecto, caso-control y supervivencia en R"
+execute:
+  enabled: true
+  warning: false
+  message: false
+---
+
+## Presentación
+
+Esta práctica es autocontenida. Usa `datasets::esoph`, un caso-control agregado,
+y `survival::lung`, una cohorte clínica con tiempo hasta muerte. El bloque 1 usa
+una cohorte resumida para distinguir riesgo, tasa y odds. Se necesita R y el
+paquete `survival`; no se requieren archivos externos.
+
+Los huecos están marcados con `____` y `# COMPLETAR`. Ejecute los bloques en
+orden, produzca las gráficas y responda las preguntas. El cuadro colapsado da
+resultados breves para comprobar cálculos, no reemplaza la interpretación.
+
+::: {.callout-important}
+## Regla de entrega
+
+Cada conclusión debe incluir **magnitud**, **incertidumbre**, **población y
+horizonte**, y al menos una limitación del diseño. No se aceptan conclusiones
+formadas solo por valores $p$ o por las palabras "significativo/no significativo".
+:::
+
+## Bloque 0. Arranque y auditoría
+
+Este bloque está completo. Construye objetos nuevos y verifica codificaciones.
+
+```{r}
+d_esoph <- datasets::esoph
+d_esoph[c("agegp", "alcgp", "tobgp")] <-
+  lapply(d_esoph[c("agegp", "alcgp", "tobgp")], factor, ordered = FALSE)
+
+d_lung <- survival::lung
+d_lung$event <- d_lung$status == 2
+d_lung$sex <- factor(d_lung$sex, levels = 1:2,
+                     labels = c("Hombre", "Mujer"))
+
+stopifnot(nrow(d_esoph) == 88L, !anyNA(d_esoph),
+          all(d_esoph$ncases + d_esoph$ncontrols > 0),
+          nrow(d_lung) == 228L, all(d_lung$time > 0),
+          all(d_lung$status %in% 1:2))
+
+auditoria <- list(
+  esoph = c(filas = nrow(d_esoph), casos = sum(d_esoph$ncases),
+            controles = sum(d_esoph$ncontrols)),
+  lung = c(personas = nrow(d_lung), eventos = sum(d_lung$event),
+           censuras = sum(!d_lung$event)),
+  faltantes_lung = colSums(is.na(d_lung))
+)
+auditoria
+```
+
+**Pregunta/diseño/estimando.** Para `esoph`, escriba la población fuente, cómo
+se seleccionaron las filas y por qué el estimando natural es un OR y no un
+riesgo. Para `lung`, defina evento, origen del tiempo, censura y $S(365)$.
+
+## Bloque 1. Cohorte resumida: RD, RR, IRR y OR
+
+Una cohorte hipotética siguió 120 expuestos y 150 no expuestos durante un año;
+hubo 24 y 12 eventos, respectivamente. Por entradas y salidas, aportaron 94.5 y
+137.2 persona-años. Complete medidas e intervalos de 95 %.
+
+```{r}
+#| eval: false
+# COMPLETAR
+a <- 24; n1 <- 120; pt1 <- 94.5
+c <- 12; n0 <- 150; pt0 <- 137.2
+b <- n1 - a; d <- n0 - c
+
+risk1 <- ____                         # a / n1
+risk0 <- ____                         # c / n0
+RD <- ____                            # risk1 - risk0
+se_RD <- sqrt(risk1 * (1 - risk1) / n1 + risk0 * (1 - risk0) / n0)
+ci_RD <- RD + c(-1, 1) * qnorm(0.975) * se_RD
+
+RR <- ____                            # risk1 / risk0
+se_log_RR <- sqrt(1 / a - 1 / n1 + 1 / c - 1 / n0)
+ci_RR <- exp(log(RR) + c(-1, 1) * qnorm(0.975) * se_log_RR)
+
+rate1 <- ____                         # a / pt1
+rate0 <- ____                         # c / pt0
+IRR <- ____                           # rate1 / rate0
+ci_IRR <- exp(log(IRR) + c(-1, 1) * qnorm(0.975) * sqrt(1 / a + 1 / c))
+
+OR <- ____                            # a * d / (b * c)
+ci_OR <- exp(log(OR) + c(-1, 1) * qnorm(0.975) *
+             sqrt(1 / a + 1 / b + 1 / c + 1 / d))
+
+round(rbind(RD = c(estimate = RD, lower = ci_RD[1], upper = ci_RD[2]),
+            RR = c(RR, ci_RR), IRR = c(IRR, ci_IRR),
+            OR = c(OR, ci_OR)), 3)
+```
+
+**Preguntas de análisis.**
+
+1. Interprete RD por 100 personas y RR durante un año. ¿Qué información aporta
+   RD que no aparece en RR?
+2. ¿Por qué IRR difiere de RR? Incluya las unidades de cada tasa.
+3. Compare OR y RR. ¿Por qué sería incorrecto presentar OR como "2.875 veces el
+   riesgo"?
+
+**Sensibilidad.** Cambie solo el riesgo basal no expuesto a 0.30 y conserve
+`RR = 2.5` (riesgo expuesto 0.75). Calcule el OR teórico. Explique por qué la
+aproximación OR-RR empeora cuando el evento es frecuente.
+
+## Bloque 2. Caso-control agregado: `esoph`
+
+Estime OR de categorías de alcohol y tabaco ajustados por edad. Los factores se
+convirtieron a no ordenados para obtener comparaciones explícitas contra la
+primera categoría.
+
+```{r}
+#| eval: false
+# COMPLETAR: explore antes de modelar.
+tabla_alcohol <- xtabs(cbind(casos = ____, controles = ____) ~ ____, d_esoph)
+tabla_alcohol
+
+p_muestral <- with(d_esoph, ____ / (____ + ____))
+boxplot(split(p_muestral, d_esoph$alcgp),
+        col = c("#d9ed92", "#99d98c", "#52b69a", "#168aad"),
+        xlab = "Alcohol", ylab = "Casos / total muestreado")
+```
+
+```{r}
+#| eval: false
+# COMPLETAR: respuesta agrupada, familia y predictores.
+fit_esoph <- glm(cbind(____, ____) ~ ____ + ____ + ____,
+                 family = ____, data = d_esoph)
+ci <- confint.default(fit_esoph)
+OR_esoph <- exp(cbind(OR = coef(fit_esoph), ci))
+round(OR_esoph[grep("^(alcgp|tobgp)", rownames(OR_esoph)), ], 2)
+```
+
+**Diagnóstico y sensibilidad.**
+
+```{r}
+#| eval: false
+# COMPLETAR
+dispersion <- deviance(fit_esoph) / ____             # df.residual(fit_esoph)
+diag_esoph <- transform(d_esoph,
+  pearson = residuals(fit_esoph, type = "____"),
+  cook = cooks.distance(fit_esoph))
+diag_esoph[order(-abs(diag_esoph$pearson)),
+           c("agegp", "alcgp", "tobgp", "ncases", "ncontrols",
+             "pearson", "cook")][1:5, ]
+
+fit_quasi <- update(fit_esoph, family = ____)
+c(SE_binomial = coef(summary(fit_esoph))["alcgp120+", "Std. Error"],
+  SE_quasi = coef(summary(fit_quasi))["alcgp120+", "Std. Error"])
+```
+
+**Preguntas de análisis.**
+
+1. Interprete los OR ajustados de `alcgp40-79` y `alcgp120+`, con intervalos.
+2. ¿Por qué `p_muestral` no estima prevalencia de cáncer?
+3. ¿Qué evalúa la razón de dispersión y qué no puede decir sobre selección de
+   controles o confusión?
+4. Revise la celda con mayor residuo. ¿Su influencia autoriza eliminarla?
+
+**Sensibilidad.** Ajuste `alcgp * tobgp + agegp`. Compare grados de libertad,
+coeficientes e intervalos con el modelo aditivo. No elija el modelo usando solo
+el menor valor $p$: discuta soporte por celda y pregunta científica.
+
+## Bloque 3. Censura y Kaplan-Meier
+
+Complete la tabla de seguimiento y estime supervivencia por sexo.
+
+```{r}
+#| eval: false
+# COMPLETAR
+seguimiento <- with(d_lung, data.frame(
+  sexo = sex, tiempo = time,
+  estado = ifelse(____, "Evento", "Censura")))
+table(seguimiento$sexo, seguimiento$estado)
+
+km_sex <- survival::survfit(
+  survival::Surv(____, ____) ~ ____, data = d_lung)
+km_sex
+
+resumen_km <- summary(km_sex, times = c(180, 365), extend = TRUE)
+data.frame(estrato = resumen_km$strata, tiempo = resumen_km$time,
+           S = resumen_km$surv,
+           LI = resumen_km$lower, LS = resumen_km$upper)
+```
+
+```{r}
+#| eval: false
+# COMPLETAR: curva escalonada, marcas de censura, ejes y leyenda.
+plot(km_sex, col = c("#355070", "#b56576"), lwd = 2,
+     mark.time = ____, xlab = ____, ylab = ____, conf.int = FALSE)
+legend("topright", levels(d_lung$sex),
+       col = c("#355070", "#b56576"), lwd = 2, bty = "n")
+```
+
+**Preguntas de análisis.**
+
+1. Interprete $S(365)$ e intervalos para cada sexo y la mediana de supervivencia.
+2. ¿Por qué una censura no es un superviviente al final del estudio ni un dato
+   que deba borrarse?
+3. Formule el supuesto de censura no informativa y un mecanismo que lo viole.
+4. Distinga este tiempo hasta muerte de la supervivencia demográfica aparente
+   entre censos de una población silvestre.
+
+## Bloque 4. Cox: magnitud, diagnóstico y sensibilidad
+
+```{r}
+#| eval: false
+# COMPLETAR
+fit_cox <- survival::coxph(
+  survival::Surv(____, ____) ~ ____ + ____, data = d_lung, x = TRUE)
+HR <- exp(cbind(HR = coef(fit_cox), confint(fit_cox)))
+round(HR, 3)
+
+ph <- survival::cox.zph(____)
+ph
+plot(ph, var = "sex", resid = TRUE,
+     main = "Proporcionalidad: sexo")
+
+mart <- residuals(fit_cox, type = "____")
+plot(d_lung$age, mart, pch = 21, bg = "#6d597a",
+     xlab = "Edad", ylab = "Residuo de martingala")
+lines(lowess(d_lung$age, mart), col = "#e56b6f", lwd = 2)
+```
+
+La sensibilidad a ECOG debe separar ajuste de cambio de muestra.
+
+```{r}
+#| eval: false
+# COMPLETAR: ambos modelos sobre las mismas filas completas.
+cc <- complete.cases(d_lung[c("time", "event", "age", "sex", "ph.ecog")])
+fit_misma_base <- survival::coxph(
+  survival::Surv(time, event) ~ ____, data = d_lung[cc, ])
+fit_ecog <- survival::coxph(
+  survival::Surv(time, event) ~ ____ + ____, data = d_lung[cc, ])
+c(n = sum(cc),
+  HR_sexo_base = exp(coef(fit_misma_base)["sexMujer"]),
+  HR_sexo_ECOG = exp(coef(fit_ecog)["sexMujer"]))
+```
+
+**Preguntas de análisis.**
+
+1. Interprete HR de sexo y edad con sus intervalos. Explique por qué HR 0.60 no
+   significa "40 % más días" ni una diferencia de riesgo constante.
+2. ¿Qué revisan `cox.zph()` y el suavizado de residuos? ¿Pueden probar que el
+   modelo es correcto?
+3. Compare el HR de sexo en la misma muestra antes y después de ECOG. ¿Qué
+   amenaza aborda y qué confusión puede permanecer?
+
+## Síntesis
+
+Construya una tabla con RD, RR, IRR y OR del bloque 1; OR seleccionados e
+intervalos de `esoph`; $S(365)$ por sexo; y HR de Cox. Añada una columna que diga
+qué significa el denominador o la escala de cada medida.
+
+Escriba dos conclusiones separadas, una para `esoph` y otra para `lung`. Cada una
+debe contener magnitud, intervalo, diseño, supuesto crítico y límite de
+generalización.
+
+::: {.callout-note collapse="true"}
+## Resultados breves de comprobación
+
+**Auditoría.** `esoph`: 88 filas, 200 casos y 775 controles. `lung`: 228
+personas, 165 eventos y 63 censuras; hay faltantes en `inst`, `ph.ecog`,
+`ph.karno`, `pat.karno`, `meal.cal` y `wt.loss`, no en las variables básicas.
+
+**Cohorte.** RD 0.120 (IC 0.036--0.204), RR 2.500 (1.305--4.789), IRR 2.904
+(1.452--5.806) y OR 2.875 (1.371--6.028). Tasas: 0.254 y 0.087 eventos por
+persona-año. Con riesgos 0.75 y 0.30, OR = 7 frente a RR = 2.5.
+
+**`esoph`.** Alcohol, referencias 0--39 g/día: OR 4.20 (2.57--6.85), 7.25
+(4.15--12.67), 36.70 (17.26--78.06). Tabaco 30+ frente a 0--9: OR 5.16
+(2.63--10.13). Devianza/gl = 1.083; la sensibilidad cuasibinomial da dispersión
+estimada 1.139.
+
+**Kaplan-Meier.** Medianas: hombres 270 días (212--310), mujeres 426
+(348--550). $S(365)$: hombres 0.336 (0.261--0.433), mujeres 0.526
+(0.421--0.658).
+
+**Cox.** Edad HR 1.017 (0.999--1.036) por año; mujer frente a hombre HR 0.599
+(0.431--0.831). Diagnóstico PH global: $p\approx0.25$. En 227 filas completas,
+HR de sexo 0.603 antes y 0.575 después de ajustar por ECOG.
+:::

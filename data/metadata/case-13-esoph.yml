@@ -1,0 +1,24 @@
+dataset:
+  title: "Esophageal Cancer Case-Control Data"
+  version: "R datasets"
+  source_url: "https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/esoph.html"
+  accessed: "2026-09-21"
+  license: "Part of R; distributed under the R license"
+  citation: "datasets::esoph"
+  raw_files: ["package:datasets/esoph"]
+study:
+  purpose: "Comparar odds de cáncer esofágico entre categorías de alcohol y tabaco."
+  target_population: "Población fuente del estudio caso-control en Ille-et-Vilaine, Francia."
+  sampling_frame: "Casos y controles agregados documentados en el objeto."
+  sampling_unit: "Persona seleccionada como caso o control."
+  observation_unit: "Celda agregada por edad, alcohol y tabaco."
+  selection_mechanism: "Muestreo condicionado por estado de caso-control."
+  observation_process: "Conteos de casos y controles por estrato."
+  geographic_scope: "Ille-et-Vilaine, Francia."
+  temporal_scope: "Periodo documentado por la fuente del conjunto."
+processing:
+  script: "chapters/chapter08-epidemiologia.qmd"
+  output_files: []
+  exclusions: []
+  transformations: ["Tablas por estrato", "Modelo binomial agregado", "Odds ratios"]
+  missing_data: "El objeto se audita y no contiene faltantes."

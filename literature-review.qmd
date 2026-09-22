@@ -1,19 +1,23 @@
 # Marco bibliográfico {.unnumbered}
 
-## Corpus delimitado
+## Corpus y criterio de uso
 
-El contenido metodológico del libro se sustenta exclusivamente en los siete
-libros disponibles en `references/`. Las fuentes externas se utilizan solo para
-documentar la procedencia de datos o software y no para ampliar la teoría más
-allá de este corpus.
+El contenido metodológico se apoya en la bibliografía básica del syllabus y en
+fuentes especializadas de muestreo, epidemiología y ecología. Cada técnica se
+atribuye a una fuente metodológica; la documentación de R se usa para describir
+software y datos, no como sustituto del fundamento estadístico. Los ejemplos
+simulados se identifican como tales y las aplicaciones empíricas conservan la
+procedencia y las limitaciones de su diseño.
 
 ## Diseño y estimación
 
-@lohr2022sampling desarrolla población, marco, muestreo aleatorio simple,
-estratificación, conglomerados, etapas, probabilidades desiguales, estimación
-auxiliar, no respuesta, varianza y calidad total. @manly2015ecological conecta
-estos principios con problemas ecológicos y añade muestreo adaptativo, métodos
-sin parcela, remoción, captura-recaptura, ocupación, monitoreo y tendencias.
+@lohr2022sampling, @gutierrez2016estrategias, @valliant2013practical y
+@lehtonen2004practical desarrollan población, marco, tamaño de muestra, diseños
+complejos, ponderación y análisis. @sarndal1992model fundamenta estimación
+asistida por modelos y calibración, mientras @wolter2007variance organiza la
+estimación de varianza. @thompson2012sampling y @lumley2010complex complementan
+muestreo indirecto, multiplicidad y análisis computacional. @manly2015ecological
+conecta estos principios con problemas ecológicos y métodos de campo.
 
 ## Métodos ecológicos de campo
 
@@ -22,45 +26,55 @@ métodos generales y los protocolos para plantas, invertebrados, peces,
 anfibios, reptiles, aves y mamíferos. @henderson2016ecological complementa esa
 base con instrumentos y métodos para ambientes terrestres y acuáticos,
 estimación poblacional, demografía, diversidad, clasificación, ordenación y
-series ecológicas.
+series ecológicas. @buckland2001distance sustenta el muestreo por distancias y
+@manly2002resource el análisis de uso y disponibilidad de recursos.
 
 ## Comparación, sesgo y vigilancia
 
-@woodward2014epidemiology y @gerstman2013epidemiology se usan únicamente en sus
-estructuras transferibles: medidas de ocurrencia, diseños comparativos,
-intervenciones, error, sesgo de selección e información, confusión,
-interacción, clasificación y supervivencia. No se trasladan al libro
-recomendaciones clínicas ni contenidos propios del manejo de enfermedades.
+@woodward2014epidemiology, @gerstman2013epidemiology y @lash2021modern sustentan
+medidas de frecuencia y asociación, diseños observacionales, error, sesgo y
+confusión. @hulley2013designing aporta principios de ensayos, cohortes y
+casos-controles; @kleinbaum2012survival fundamenta tiempo hasta evento. El libro
+enseña estas estructuras para interpretar diseños y resultados, pero no ofrece
+recomendaciones clínicas. @gregg2008field aporta vigilancia, calidad de datos,
+documentación y comunicación.
 
-@gregg2008field aporta organización de investigaciones de campo, vigilancia,
-calidad de datos, documentación y comunicación. Sus procedimientos se traducen
-a observaciones ecológicas sin importar prácticas clínicas, legales o de
-control de brotes.
+## Poblaciones, comunidades e interacciones
+
+@caswell2001matrix y @stubben2007popbio sustentan proyección por edades o
+estadios. @begon2006ecology y @krebs1999ecological organizan crecimiento,
+competencia, depredación e interacciones; @magurran2004measuring,
+@legendre2012numerical y @borcard2018numerical apoyan diversidad, clasificación
+y ordenación. Las redes tróficas se representan con matrices explícitas y se
+interpretan atendiendo a detección y esfuerzo [@dormann2008bipartite].
 
 ## Correspondencia con el libro
 
 | Área | Fuentes del corpus |
 |---|---|
 | Pregunta, marco y unidades | Sutherland; Manly y Navarro Alberto; Lohr |
-| Diseños probabilísticos | Lohr; Manly y Navarro Alberto; Sutherland |
+| Diseños probabilísticos | Lohr; Gutiérrez; Valliant; Lehtonen y Pahkinen |
+| Planificación, calibración e indirecto | Särndal; Wolter; Thompson; Lumley |
 | Parcelas e intercepción | Sutherland; Henderson; Manly y Navarro Alberto |
-| Transectos y distancias | Manly y Navarro Alberto; Sutherland; Henderson |
+| Transectos y distancias | Buckland; Manly y Navarro Alberto; Sutherland |
 | Métodos por taxón y hábitat | Sutherland; Henderson |
 | Remoción y captura-recaptura | Manly y Navarro Alberto; Henderson; Sutherland; Lohr |
 | Ocupación | Manly y Navarro Alberto; Sutherland |
-| Comparaciones y sesgos | Woodward; Gerstman; Gregg; Lohr |
+| Experimentos y cuasi-experimentos | Hulley; Underwood; Scheiner; Woodward |
+| Epidemiología y supervivencia | Woodward; Gerstman; Lash; Kleinbaum |
 | Monitoreo y tendencias | Manly y Navarro Alberto; Sutherland; Henderson; Gregg |
-| Demografía | Henderson; Gerstman; Manly y Navarro Alberto |
-| Comunidades | Henderson |
-| Proyecto completo | Las siete obras, dentro de sus alcances declarados |
+| Demografía | Caswell; Stubben y Milligan; Begon; Henderson |
+| Comunidades | Magurran; Legendre; Borcard; Henderson |
+| Recursos e interacciones | Manly et al.; Begon; Krebs; Dormann et al. |
+| Proyecto completo | Fuentes anteriores, según el diseño y estimando |
 
 ## Política de fidelidad
 
-- Cada afirmación metodológica debe corresponder a un tema explícito del corpus.
+- Cada afirmación metodológica debe corresponder a una fuente identificable.
 - Las aplicaciones en R implementan esos métodos, pero los paquetes no actúan
   como autoridades metodológicas.
 - Los datos externos requieren fuente, licencia, unidad y limitaciones
   documentadas.
-- Una técnica ausente del corpus no se incorpora por estar disponible en R.
+- Una técnica no se incorpora únicamente por estar disponible en R.
 - Los ejemplos sintetizan y atribuyen; no reproducen extensamente texto,
   figuras o tablas protegidas.

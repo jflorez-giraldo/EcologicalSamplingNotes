@@ -39,6 +39,7 @@ book:
       chapters:
         - chapters/chapter01.qmd
         - chapters/chapter02.qmd
+        - chapters/chapter02-planificacion.qmd
     - part: "Parte II — Métodos de campo"
       chapters:
         - chapters/chapter03.qmd
@@ -51,18 +52,23 @@ book:
     - part: "Parte IV — Comparación y seguimiento"
       chapters:
         - chapters/chapter08.qmd
+        - chapters/chapter08-epidemiologia.qmd
         - chapters/chapter09.qmd
     - part: "Parte V — Poblaciones y comunidades"
       chapters:
         - chapters/chapter10.qmd
         - chapters/chapter11.qmd
+        - chapters/chapter11-interacciones.qmd
     - part: "Parte VI — Síntesis"
       chapters:
         - chapters/chapter12.qmd
     - part: "Prácticas"
       chapters:
+        - chapters/practica01.qmd
         - chapters/practica02.qmd
         - chapters/practica03.qmd
+        - chapters/practica04.qmd
+        - chapters/practica05.qmd
     - part: "Material complementario"
       chapters:
         - appendix.qmd

@@ -2,9 +2,9 @@
 
 ## Criterios de selección
 
-Cada aplicación principal utiliza observaciones empíricas distribuidas con R o
-con un paquete instalado. La teoría procede de los siete libros del corpus; las
-referencias externas de esta página documentan únicamente datos y software.
+Cada aplicación empírica principal utiliza observaciones distribuidas con R o
+con un paquete instalado. Los ejemplos simulados o didácticos se identifican
+como tales y se usan cuando el mecanismo debe conocerse para evaluar un método.
 
 ::: {.callout-important}
 ## Datos reales no significa inferencia automática
@@ -16,20 +16,23 @@ lo que la documentación permite y limita sus conclusiones al diseño conocido.
 
 ## Casos adoptados
 
-| Código | Caso real | Fuente reproducible | Capítulo | Uso principal |
-|---|---|---|---:|---|
-| C1 | Flores de iris | `datasets::iris` | 1 | Población, marco, dominios e incertidumbre |
-| C2 | Cerezos negros | `datasets::trees` | 2 | Comparación de diseños probabilísticos |
-| C3 | Árboles de Barro Colorado | `vegan::BCI`, `BCI.env` | 2 y 3 | Conglomerados, etapas, parcelas, soporte y dependencia espacial |
-| C4 | Chochines de Montrave | `Distance::wren_lt` | 4 | Transectos y función de detección |
-| C5 | Duikers en cámaras | `Distance::DuikerCameraTraps` | 5 | Eventos, esfuerzo y métodos de censo |
-| C6 | Mosquero de alisos | CSV incluidos en `unmarked` | 6 | Historias cerradas y captura-recaptura |
-| C7 | Mesocarnívoros | `unmarked::MesoCarnivores` | 7 | Ocupación y detección repetida |
-| C8 | Ensayo de fertilización NPK | `datasets::npk` | 8 | Comparaciones ajustadas por bloque |
-| C9 | Capturas históricas de lince | `datasets::lynx` | 9 | Índices, tendencia y dependencia temporal |
-| C10 | *Aquilegia chrysantha* | `popbio::aq.trans` | 10 | Transiciones y demografía por estadios |
-| C11 | Praderas de dunas | `vegan::dune`, `dune.env` | 11 | Diversidad clásica y composición |
-| C12 | Ácaros oribátidos | `vegan::mite`, `mite.env` | 12 | Flujo integrado y reproducible |
+| Código | Caso real | Fuente reproducible | Unidad del libro | Uso principal |
+|---|---|---|---|---|
+| C1 | Flores de iris | `datasets::iris` | `chapter01` | Población, marco, dominios e incertidumbre |
+| C2 | Cerezos negros | `datasets::trees` | `chapter02`, `chapter02-planificacion` | Diseños probabilísticos, auxiliares y planificación |
+| C3 | Árboles de Barro Colorado | `vegan::BCI`, `BCI.env` | `chapter02`, `chapter03` | Conglomerados, etapas, parcelas, soporte y dependencia espacial |
+| C4 | Chochines de Montrave | `Distance::wren_lt` | `chapter04` | Transectos y función de detección |
+| C5 | Duikers en cámaras | `Distance::DuikerCameraTraps` | `chapter05` | Eventos, esfuerzo y métodos de censo |
+| C6 | Mosquero de alisos | CSV incluidos en `unmarked` | `chapter06` | Historias cerradas y captura-recaptura |
+| C7 | Mesocarnívoros | `unmarked::MesoCarnivores` | `chapter07` | Ocupación y detección repetida |
+| C8 | Ensayo de fertilización NPK | `datasets::npk` | `chapter08` | Comparaciones ajustadas por bloque |
+| C9 | Capturas históricas de lince | `datasets::lynx` | `chapter09` | Índices, tendencia y dependencia temporal |
+| C10 | *Aquilegia chrysantha* | `popbio::aq.trans`, `aq.census` | `chapter10` | Transiciones y demografía por estadios |
+| C11 | Praderas de dunas | `vegan::dune`, `dune.env` | `chapter11` | Diversidad clásica y composición |
+| C12 | Ácaros oribátidos | `vegan::mite`, `mite.env` | `chapter12` | Flujo integrado y reproducible |
+| C13 | Cáncer esofágico agregado | `datasets::esoph` | `chapter08-epidemiologia` | Diseño caso-control y odds ratios |
+| C14 | Cáncer pulmonar avanzado | `survival::lung` | `chapter08-epidemiologia` | Censura, Kaplan--Meier y Cox |
+| C15 | Carpinteros belloteros | `popbio::woodpecker` | `chapter10` | Supervivencia juvenil y adulta |
 
 ## Procedencia y límites
 
@@ -71,6 +74,16 @@ otras fincas o dosis. `lynx` registra capturas anuales, no abundancia, y carece
 de esfuerzo [@campbell1977lynx]. `aq.trans` contiene destinos anuales de plantas
 marcadas de *Aquilegia chrysantha* y se distribuye con `popbio`
 [@stubben2007popbio].
+
+### C13--C15. Epidemiología y supervivencia
+
+`esoph` resume casos y controles por edad, alcohol y tabaco; por su diseño no
+permite estimar prevalencia o riesgo poblacional. `survival::lung` contiene
+tiempos hasta muerte y censura en pacientes con cáncer avanzado y se usa para
+enseñar supervivencia, no para formular recomendaciones clínicas
+[@therneau2024survival]. `popbio::woodpecker` resume números iniciales y
+supervivientes juveniles y adultos de carpinteros belloteros en Nuevo México
+[@stacey1992woodpecker].
 
 ## Política de datos
 

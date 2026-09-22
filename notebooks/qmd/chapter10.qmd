@@ -60,11 +60,22 @@ $F$ es reclutamiento por planta florecida, no maternidad identificada: reclutas
 pueden proceder del banco de semillas y las madres no están enlazadas. La
 interpretación exige declarar esta limitación.
 
-## Estructura por estadios
+## Edad, estadio y estructura
 
-Edad cronológica no siempre predice destino. En plantas perennes, tamaño y estado
-reproductivo suelen definir estadios útiles. Sea $\boldsymbol n_t$ el vector de
-números por estadio. Una matriz anual descriptiva puede escribirse
+La **edad** es tiempo desde nacimiento o germinación; el **estadio** agrupa por un
+atributo que predice el destino, como tamaño, madurez o estado reproductivo. No son
+sinónimos: dos plantas de la misma edad pueden tener tamaños distintos y un adulto
+puede permanecer varios años en el mismo estadio. Clases de edad son naturales en
+una cohorte sin grandes diferencias individuales; estadios suelen ser más útiles
+cuando tamaño o reproducción predicen mejor supervivencia y fecundidad.
+
+La estructura por edades en el tiempo $t$ es el vector de conteos o proporciones
+$(n_{0,t},n_{1,t},\ldots)$. Una pirámide ancha en edades jóvenes puede reflejar un
+pulso de reclutamiento, pero no demuestra crecimiento: esas clases podrían tener
+baja supervivencia. Además, una muestra transversal confunde edad, cohorte y año.
+
+Sea $\boldsymbol n_t$ el vector de números por edad o estadio. Una matriz anual
+descriptiva puede escribirse
 
 $$
 \boldsymbol n_{t+1}=\mathbf A\boldsymbol n_t,
@@ -79,6 +90,157 @@ clasificación correcta, intervalo común y cierre suficiente para la pregunta
 Una proyección es condicional, no un pronóstico garantizado. Antes de proyectar se
 deben comparar totales predichos con censos posteriores, revisar variación entre
 años y parcelas y propagar incertidumbre de las unidades independientes.
+
+## Tabla de vida y reproducción neta
+
+Una **tabla de cohorte** sigue individuos nacidos en un mismo periodo. Una tabla
+**estática** sustituye ese seguimiento por la estructura de edades observada en un
+momento; solo representa una cohorte sintética si reclutamiento y mortalidad han
+sido aproximadamente constantes, las edades se asignan bien y no hay migración
+selectiva. Esas condiciones son fuertes, por lo que no se debe leer cualquier
+histograma de edades como supervivencia.
+
+Para edad $x$, $n_x$ es el número vivo al inicio, $l_x=n_x/n_0$ la supervivencia
+desde edad 0, $d_x=n_x-n_{x+1}$ las muertes, $q_x=d_x/n_x$ la probabilidad
+condicional de morir, $L_x=(n_x+n_{x+1})/2$ los individuos-año vividos (muertes
+uniformes), $T_x=\sum_{y\geq x}L_y$ y $e_x=T_x/n_x$ la esperanza de vida restante.
+$m_x$ es la descendencia femenina por individuo de edad $x$ durante el intervalo y
+
+$$
+R_0=\sum_x l_xm_x
+$$
+
+es la descendencia esperada por individuo inicial. $R_0>1$, $=1$ o $<1$ indica
+reemplazo generacional por encima, igual o por debajo de uno bajo esas tasas; no es
+una tasa anual ni incluye por sí solo el tiempo generacional.
+
+La siguiente cohorte femenina es didáctica y declarada, no un conjunto empírico:
+empieza con 1 000 individuos, termina al completar el intervalo 4--5 y supone que
+las muertes se distribuyen uniformemente dentro de cada intervalo.
+
+```{r}
+#| label: ch10-tabla-vida
+cohort <- data.frame(
+  age = 0:4,
+  nx = c(1000, 600, 420, 252, 101),
+  nx_next = c(600, 420, 252, 101, 0),
+  mx = c(0, 0, 0.8, 1.3, 1.0)
+)
+cohort$lx <- cohort$nx / cohort$nx[1]
+cohort$dx <- cohort$nx - cohort$nx_next
+cohort$qx <- cohort$dx / cohort$nx
+cohort$Lx <- (cohort$nx + cohort$nx_next) / 2
+cohort$Tx <- rev(cumsum(rev(cohort$Lx)))
+cohort$ex <- cohort$Tx / cohort$nx
+R0 <- sum(cohort$lx * cohort$mx)
+
+stopifnot(all(cohort$dx >= 0), all(cohort$qx >= 0 & cohort$qx <= 1),
+          all(diff(cohort$nx) <= 0), abs(cohort$lx[1] - 1) < 1e-12)
+cohort[c("age", "nx", "lx", "dx", "qx", "Lx", "Tx", "ex", "mx")]
+c(R0 = R0)
+```
+
+Aquí $R_0=0.765$: bajo estas tasas, 1 000 individuos iniciales producirían unas
+765 descendientes a lo largo de su vida, 23.5 % menos que el reemplazo. La cohorte
+es cerrada y completa, de modo que no se calcula un intervalo muestral ficticio;
+en campo, incertidumbre en $n_x$ y $m_x$ debe propagarse por cohorte, sitio o año.
+
+### Supervivencia juvenil y adulta observada
+
+`popbio::woodpecker` contiene números iniciales y supervivientes de carpinteros
+belloteros juveniles y adultos en Water Canyon, Nuevo México, para 1975--1983,
+reconstruidos de Stacey y Taper [-@stacey1992woodpecker] según la documentación
+del paquete. Es un ejemplo por estadios: no contiene edades exactas ni historias
+individuales.
+
+```{r}
+#| label: ch10-woodpecker
+data("woodpecker", package = "popbio")
+stopifnot(nrow(woodpecker) == 18, all(woodpecker$surv <= woodpecker$start),
+          all(woodpecker$start > 0), !anyNA(woodpecker))
+
+wood_survival <- aggregate(cbind(start, surv) ~ rate, woodpecker, sum)
+wood_survival$estimate <- wood_survival$surv / wood_survival$start
+wood_ci <- t(mapply(function(x, n) binom.test(x, n)$conf.int,
+                    wood_survival$surv, wood_survival$start))
+wood_survival$lower <- wood_ci[, 1]
+wood_survival$upper <- wood_ci[, 2]
+wood_survival
+
+annual_wood <- transform(woodpecker, survival = surv / start)
+aggregate(survival ~ rate, annual_wood,
+          function(x) c(minimum = min(x), median = median(x), maximum = max(x)))
+```
+
+La supervivencia agrupada fue 0.401 (IC binomial exacto 95 %: 0.344--0.460) en
+juveniles y 0.572 (0.521--0.621) en adultos, una diferencia descriptiva de 0.171.
+Sin embargo, las tasas anuales variaron entre 0 y 0.636 en juveniles y entre 0.373
+y 0.700 en adultos. Agrupar años estrecha la incertidumbre y oculta variación
+ambiental; el intervalo binomial tampoco estima esa variación entre años.
+
+## Crecimiento poblacional y densidad
+
+Con intervalos discretos y tasas constantes, $N_t=N_0\lambda^t$; la tasa
+instantánea equivalente es $r=\log(\lambda)$ y $N(t)=N_0e^{rt}$. Así,
+$\lambda>1$ (o $r>0$) implica aumento y el tiempo de duplicación es
+$t_2=\log(2)/r$. Si $r<0$, el tiempo de reducción a la mitad es
+$t_{1/2}=\log(0.5)/r$. Estas cantidades describen cambio multiplicativo, no
+identifican nacimientos, muertes o movimiento por separado.
+
+El modelo logístico introduce capacidad de carga $K$:
+
+$$
+\frac{dN}{dt}=rN\left(1-\frac{N}{K}\right), \qquad
+N(t)=\frac{K}{1+(K/N_0-1)e^{-rt}}.
+$$
+
+$K$ es el nivel de equilibrio bajo ambiente y escala definidos, no un máximo fijo
+universal. La dependencia de densidad es negativa cuando la tasa per cápita
+$r(1-N/K)$ disminuye con $N$; competencia, enfermedad o territorialidad son
+procesos posibles, pero la forma logística no prueba cuál opera.
+
+```{r}
+#| label: ch10-crecimiento
+N0 <- 80
+N5 <- 140
+years <- 5
+lambda_count <- (N5 / N0)^(1 / years)
+r_count <- log(lambda_count)
+doubling_time <- log(2) / r_count
+
+t_grid <- 0:20
+K <- 500
+exponential <- N0 * exp(r_count * t_grid)
+logistic <- K / (1 + (K / N0 - 1) * exp(-r_count * t_grid))
+growth_check <- data.frame(t = t_grid, exponential, logistic)
+c(lambda = lambda_count, r = r_count, doubling_years = doubling_time)
+growth_check[growth_check$t %in% c(0, 5, 10, 20), ]
+
+# Sensibilidad del resultado a una K no identificada por solo dos conteos.
+setNames(sapply(c(400, 500, 600), function(k) {
+  k / (1 + (k / N0 - 1) * exp(-r_count * 20))
+}), c("K400", "K500", "K600"))
+```
+
+Pasar de 80 a 140 en cinco años equivale a $\lambda=1.118$, $r=0.112$ por año y
+duplicación en 6.19 años si la tasa permanece constante. El exponencial alcanza
+751 individuos en el año 20; el logístico con $K=500$ alcanza 321. Al variar $K$
+entre 400 y 600, esa predicción cambia de 280 a 354: dos conteos identifican la
+tasa exponencial media, pero no $K$. Ajustar una logística requiere observaciones
+que cubran densidades y tiempo suficientes, residuos sin estructura y contraste
+con modelos alternativos.
+
+## Dispersión: patrón y proceso
+
+En demografía, **dispersión** puede significar movimiento (proceso: emigración,
+inmigración o distancia natal) o disposición espacial (patrón: regular, aleatoria
+o agregada). Un patrón agregado no demuestra dispersión natal corta: también puede
+resultar de hábitat heterogéneo, reproducción clonal o interacción. Recíprocamente,
+emigración puede reducir supervivencia aparente aunque no cambie el patrón dentro
+de las parcelas observadas. El [capítulo de parcelas](chapter03.qmd) muestra además
+que varianza/media, frecuencia y dependencia espacial cambian con el tamaño y la
+ubicación de la unidad. Por eso, inferir proceso exige datos de movimiento o un
+diseño espacial, no solo conteos agregados [@sutherland2006census].
 
 ## Incertidumbre y diagnóstico
 
@@ -97,10 +259,11 @@ en una recomendación automática.
 
 ### Procedencia, diseño, unidad y estimandos
 
-`popbio::aq.trans` contiene transiciones anuales de *Aquilegia chrysantha* en diez
+`popbio::aq.census` conserva los registros anuales originales y `popbio::aq.trans`
+organiza pares de censos como transiciones de *Aquilegia chrysantha* en diez
 parcelas de Fillmore Canyon, Organ Mountains, Nuevo México, entre 1996 y 2003. La
-documentación identifica propietarios, planta, parcela, año, estadio inicial,
-frutos y destino anual; el paquete y los datos se describen en @stubben2007popbio.
+documentación identifica propietarios, planta, parcela, año, estado, frutos y
+destino anual; el paquete y los datos se describen en @stubben2007popbio.
 
 La unidad longitudinal es la planta marcada y la unidad ambiental replicada es la
 parcela. Los estimandos son: supervivencia aparente anual por estadio; distribución
@@ -116,27 +279,37 @@ if (!requireNamespace("popbio", quietly = TRUE)) {
   stop("Este capítulo requiere el paquete 'popbio'.")
 }
 data("aq.trans", package = "popbio")
+data("aq.census", package = "popbio")
 d <- aq.trans
 stages <- c("recruit", "small", "large", "flower")
 
 stopifnot(all(c("plot", "year", "plant", "stage", "fate", "fruits") %in% names(d)))
+stopifnot(all(c("plot", "year", "plant", "status", "fruits") %in% names(aq.census)))
 stopifnot(!anyNA(d[c("plot", "year", "plant", "stage", "fate")]))
 stopifnot(all(d$fruits >= 0, na.rm = TRUE))
 key <- interaction(d$plot, d$year, d$plant, drop = TRUE)
 stopifnot(!anyDuplicated(key))
+census_key <- interaction(aq.census$plot, aq.census$year, aq.census$plant,
+                          drop = TRUE)
+stopifnot(!anyDuplicated(census_key), all(aq.census$fruits >= 0))
 
 audit <- list(
-  dimensions = dim(d), plots = sort(unique(d$plot)), years = range(d$year),
+  transition_dimensions = dim(d), census_dimensions = dim(aq.census),
+  plots = sort(unique(d$plot)), years = range(d$year),
+  census_status = table(aq.census$status, useNA = "ifany"),
   initial_stage = table(d$stage, useNA = "ifany"),
   fate = table(d$fate, useNA = "ifany"),
-  missing = colSums(is.na(d))
+  transition_missing = colSums(is.na(d)),
+  census_missing = colSums(is.na(aq.census))
 )
 audit
 ```
 
-La ausencia de plantas en el estadio `seed` y de destinos `seed` o `recruit` evita
-estimar directamente el banco de semillas. Los `NA` morfológicos no se sustituyen
-por cero; para transiciones bastan estadio y destino.
+El censo contiene 2 853 filas, 1 123 combinaciones parcela--planta y ninguna clave
+parcela--año--planta duplicada. La ausencia de plantas en el estadio `seed` y de
+destinos `seed` o `recruit` en las transiciones evita estimar directamente el
+banco de semillas. Los `NA` morfológicos de `aq.census` no se sustituyen por cero;
+para transiciones bastan estadio y destino.
 
 ### Exploración de estructura y reproducción
 
@@ -252,6 +425,51 @@ La proyección posterior a 2003 es un escenario de tasas agrupadas, no una
 observación ni un pronóstico validado. Combina supervivencia aparente y
 reclutamiento asociado, con tasas constantes entre parcelas y años.
 
+### Tasa asintótica y estructura estable
+
+Si una matriz no negativa mantiene sus entradas y conecta los estadios, su valor
+propio dominante $\lambda$ resume el cambio multiplicativo asintótico y el vector
+propio derecho asociado, normalizado para sumar uno, da la estructura estable. No
+es la estructura inicial ni elimina transitorios; es el resultado condicional de
+repetir indefinidamente la misma matriz [@caswell2001matrix].
+
+```{r}
+#| label: ch10-estructura-estable
+dominant_summary <- function(M) {
+  eig <- eigen(M)
+  i <- which.max(Re(eig$values))
+  lambda <- Re(eig$values[i])
+  stable <- abs(Re(eig$vectors[, i]))
+  stable <- stable / sum(stable)
+  c(lambda = lambda, r = log(lambda), stable)
+}
+
+asymptotic <- dominant_summary(A)
+data.frame(
+  quantity = c("lambda", "r", paste0("stable_", stages)),
+  estimate = unname(asymptotic)
+)
+
+projection_20 <- matrix(NA_real_, nrow = length(stages), ncol = 21,
+                        dimnames = list(stages, 0:20))
+projection_20[, 1] <- as.numeric(n_last)
+for (tt in 2:ncol(projection_20)) {
+  projection_20[, tt] <- drop(A %*% projection_20[, tt - 1])
+}
+structure_20 <- sweep(projection_20, 2, colSums(projection_20), "/")
+data.frame(stage = stages,
+           initial = as.numeric(n_last) / sum(n_last),
+           year_5 = structure_20[, 6], year_20 = structure_20[, 21],
+           stable = unname(asymptotic[3:6]))
+```
+
+La matriz agrupada tiene $\lambda=0.777$ ($r=-0.253$ por año): bajo tasas
+constantes, el tamaño asintótico se multiplicaría por 0.777 cada año, equivalente
+a reducirse a la mitad en 2.74 años. La estructura estable sería aproximadamente
+37.1 % reclutas, 22.0 % pequeñas, 24.0 % grandes y 16.9 % florecidas. Esto es un
+escenario descriptivo, no evidencia de que esa disminución continuará: mezcla
+años, usa supervivencia aparente y aproxima fecundidad mediante reclutas asociados.
+
 ### Incertidumbre por parcelas
 
 ```{r}
@@ -289,13 +507,19 @@ boot <- replicate(B, {
   }))
   M <- matrix_from_data(zb)
   c(survival = colSums(M[2:4, , drop = FALSE]),
-    recruitment = M[1, 4])
+    recruitment = M[1, 4],
+    lambda = unname(dominant_summary(M)["lambda"]))
 })
-t(apply(boot, 1, quantile, c(.025, .5, .975), na.rm = TRUE))
+boot_intervals <- t(apply(boot, 1, quantile, c(.025, .5, .975), na.rm = TRUE))
+boot_intervals
 ```
 
 El remuestreo conserva juntas plantas y años de cada parcela. Diez parcelas siguen
-siendo una base pequeña para inferencia regional.
+siendo una base pequeña para inferencia regional. La mediana bootstrap de $\lambda$
+es 0.776 y el intervalo percentil 95 % es 0.747--0.810; incluso su extremo superior
+queda 19 % por debajo de reemplazo bajo este modelo. El intervalo mide sensibilidad
+a qué parcelas integran este conjunto, no incertidumbre total: no remuestrea años,
+error de clasificación ni el vínculo entre madres y reclutas.
 
 ### Diagnóstico retrospectivo
 
@@ -330,7 +554,8 @@ identifican por sí solos cuál proceso falló.
 #| label: ch10-sensibilidad
 leave_plot <- sapply(plots, function(p) {
   M <- matrix_from_data(d[d$plot != p, ])
-  c(survival = colSums(M[2:4, , drop = FALSE]), recruitment = M[1, 4])
+  c(survival = colSums(M[2:4, , drop = FALSE]), recruitment = M[1, 4],
+    lambda = unname(dominant_summary(M)["lambda"]))
 })
 period_split <- lapply(list(early = d[d$year <= 1999, ],
                             late = d[d$year >= 2000, ]), matrix_from_data)
@@ -344,8 +569,9 @@ leave_summary <- data.frame(
 period_summary <- do.call(rbind, lapply(names(period_split), function(period) {
   M <- period_split[[period]]
   data.frame(period,
-             parameter = c(paste0("survival_", stages), "recruitment"),
-             estimate = c(colSums(M[2:4, , drop = FALSE]), M[1, 4]))
+             parameter = c(paste0("survival_", stages), "recruitment", "lambda"),
+             estimate = c(colSums(M[2:4, , drop = FALSE]), M[1, 4],
+                          unname(dominant_summary(M)["lambda"])))
 }))
 leave_summary
 period_summary
@@ -369,21 +595,53 @@ intervalo y la sensibilidad espacial y temporal deben acompañar la matriz.
 ## Síntesis
 
 - Las tasas vitales requieren denominador, intervalo y estado inicial.
+- Edad y estadio responden preguntas distintas; una tabla estática no se convierte
+  automáticamente en una cohorte.
 - Supervivencia aparente puede mezclar muerte, emigración y no detección.
 - Frutos, semillas y reclutas no son medidas intercambiables de fertilidad.
+- $R_0$ resume reemplazo generacional; $\lambda$ y $r$ resumen cambio por unidad de
+  tiempo y no deben intercambiarse.
+- $K$ y la dependencia de densidad deben estimarse con datos que cubran densidades,
+  no suponerse a partir de dos conteos.
 - Una matriz por estadios debe declarar orientación y contenido de cada entrada.
 - Proyección, diagnóstico e incertidumbre son necesarios antes de interpretar
   dinámica poblacional.
+- Un patrón espacial no identifica por sí solo el proceso de dispersión.
 
-## Actividad propuesta para el lector
+## Ejercicios
 
-Use `popbio::monkeyflower`, un conjunto real incluido en `popbio`. Consulte su
-documentación y registre procedencia, población, años, estadios y orientación de
-las matrices; audite dimensiones, nombres, valores negativos y columnas
-biológicamente plausibles; defina una tasa o proyección como estimando; explore
-variación entre matrices; derive supervivencia, permanencia, crecimiento y
-fertilidad sin mezclar sus unidades; proyecte una estructura inicial durante un
-horizonte corto con incertidumbre entre matrices; compare predicciones con un
-intervalo reservado cuando sea posible; evalúe sensibilidad a periodo y estado
-inicial; e interprete resultados y límites sin añadir métricas derivadas de
-valores propios.
+1. Recalcule la tabla de vida si $n_3$ cambia de 252 a 300 y $n_4$ permanece en
+   101. Identifique qué columnas cambian y explique por qué $l_2$ no cambia.
+2. Con `woodpecker`, calcule por separado la supervivencia juvenil en 1975--1978
+   y 1980--1983. No incluya 1979 en ninguno de los dos periodos y use cocientes de
+   totales, no la media simple de tasas anuales.
+3. Una población pasa de 120 a 90 individuos en tres años. Calcule $\lambda$, $r$
+   y el tiempo de reducción a la mitad si esa tasa persistiera.
+4. Proyecte `n_last` diez pasos con `A`. Compare la composición con la estructura
+   estable y explique por qué una composición cercana no valida tasas constantes.
+5. Cambie solo `A["recruit", "flower"]` en -20 % y +20 %. Compare $\lambda$ con
+   el valor original y discuta por qué esto es sensibilidad, no incertidumbre.
+6. Use `popbio::monkeyflower`: documente procedencia y orientación de las matrices,
+   audite valores imposibles, proyecte un estado inicial y examine variación entre
+   matrices. Mantenga separadas permanencia, crecimiento, supervivencia y
+   fecundidad.
+7. Dibuje dos mecanismos capaces de producir el mismo patrón agregado en parcelas
+   y proponga un dato adicional que permita distinguirlos, conectando su respuesta
+   con el capítulo de parcelas.
+
+## Resultados de comprobación
+
+- **Ejercicio 1:** $l_2=0.420$; con la modificación, $d_2=120$, $q_2=0.286$ y
+  $L_2=360$. Deben recalcularse también $T_x$ y $e_x$ de edades anteriores.
+- **Ejercicio 2:** 1975--1978 da $77/166=0.464$; 1980--1983 da
+  $38/120=0.317$. El contraste depende del corte temporal y no separa ambiente de
+  composición individual.
+- **Ejercicio 3:** $\lambda=(90/120)^{1/3}=0.909$, $r=-0.0959$ por año y
+  $t_{1/2}=7.23$ años.
+- **Ejercicio 4:** la comprobación computacional debe usar multiplicación iterada,
+  conservar cuatro estadios y producir proporciones que sumen uno en cada paso.
+- **Ejercicio 5:** ambos escenarios deben conservar entradas no negativas; el
+  orden esperado es $\lambda_{-20\%}<0.777<\lambda_{+20\%}$.
+- **Ejercicios 6--7:** no tienen un único número correcto. Se comprueban por la
+  orientación explícita, unidades compatibles, auditoría reproducible y ausencia
+  de afirmaciones causales basadas solo en patrón espacial.

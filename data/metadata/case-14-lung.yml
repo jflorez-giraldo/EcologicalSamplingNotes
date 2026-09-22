@@ -1,0 +1,24 @@
+dataset:
+  title: "NCCTG Lung Cancer Data"
+  version: "survival 3.8-3"
+  source_url: "https://cran.r-project.org/package=survival"
+  accessed: "2026-09-21"
+  license: "LGPL, package survival"
+  citation: "survival::lung"
+  raw_files: ["package:survival/lung"]
+study:
+  purpose: "Ilustrar análisis de tiempo hasta muerte con censura."
+  target_population: "Pacientes con cáncer pulmonar avanzado documentados por NCCTG."
+  sampling_frame: "Participantes incluidos en el conjunto lung."
+  sampling_unit: "Paciente."
+  observation_unit: "Paciente con tiempo, estado y covariables."
+  selection_mechanism: "No asumido probabilístico para poblaciones clínicas externas."
+  observation_process: "Seguimiento hasta muerte o censura."
+  geographic_scope: "Centros participantes documentados por la fuente."
+  temporal_scope: "Seguimiento registrado en días."
+processing:
+  script: "chapters/chapter08-epidemiologia.qmd"
+  output_files: []
+  exclusions: ["Registros con faltantes según el modelo de sensibilidad"]
+  transformations: ["Recodificación de evento", "Kaplan-Meier", "Modelo de Cox"]
+  missing_data: "Los faltantes se auditan y se comparan sobre una base común."

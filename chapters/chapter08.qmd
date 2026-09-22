@@ -58,6 +58,146 @@ réplicas adicionales ni permite ignorar bloque en el análisis. Si cada bloque 
 contiene todas las condiciones, solo son estimables comparaciones apoyadas por el
 patrón conjunto de asignación; conviene usar un modelo deliberadamente limitado.
 
+## Ensayos aleatorizados: del protocolo al estimando
+
+Un ensayo controlado no es solo un estudio con dos grupos. Antes de reclutar debe
+registrar una pregunta que conecte población, intervención, **comparador**,
+desenlace y horizonte. El comparador puede ser placebo, atención habitual, otra
+intervención o una dosis distinta; "sin tratamiento" es insuficiente si los
+grupos reciben distinta atención, seguimiento o cointervenciones. El desenlace
+primario necesita una definición operacional, momento de medición y regla para
+eventos competidores, mediciones repetidas y datos faltantes
+[@hulley2013designing; @lash2021modern].
+
+La secuencia aleatoria y el **ocultamiento de la asignación** resuelven problemas
+distintos. La primera genera grupos comparables en expectativa; el segundo evita
+que quien incorpora unidades anticipe la próxima condición y altere el ingreso.
+Sobres opacos realmente inviolables o una asignación central pueden ocultar la
+secuencia; alternar tratamientos o usar el día de consulta no es aleatorio.
+
+El **enmascaramiento** ocurre después de asignar: participantes, personal,
+evaluadores o analistas pueden desconocer la condición. Reduce cointervenciones,
+conductas y medición diferencial, pero no siempre es viable. Debe declararse
+quién estuvo enmascarado y cómo se estandarizó la medición cuando no fue posible.
+"Doble ciego" no identifica por sí solo a esas personas.
+
+### Adherencia, pérdidas e intención de tratar
+
+El estimando principal de **intención de tratar** (ITT) compara grupos según la
+asignación original, aunque haya incumplimiento, cambio o contaminación. Estima
+el efecto de una política de ofrecer o asignar la intervención bajo las
+condiciones del ensayo y conserva la protección de la aleatorización. No implica
+inventar desenlaces: las pérdidas siguen exigiendo prevención, descripción y un
+análisis de sensibilidad a faltantes.
+
+Un análisis por protocolo responde por quienes adhirieron a reglas definidas de
+antemano; uno "según tratamiento recibido" reclasifica por exposición efectiva.
+Ambos pueden sufrir confusión porque la adherencia ocurre después de asignar y se
+relaciona con pronóstico. Son complementos, no sustitutos automáticos de ITT. El
+reporte mínimo separa asignados, tratados, seguidos y analizados, y presenta
+tamaño del efecto, intervalo y relevancia práctica, no solo un valor $p$.
+
+### Ensayos por conglomerados
+
+Cuando se asignan escuelas, veredas, clínicas o fragmentos, el conglomerado es
+la unidad experimental aunque el desenlace se mida en individuos. La asignación
+por conglomerados reduce contaminación y puede ser operacionalmente natural,
+pero las observaciones internas comparten ambiente, personal y exposición. Con
+tamaño medio $m$ y correlación intraclase $\rho$, una aproximación al factor de
+diseño es
+
+$$
+DEFF = 1 + (m-1)\rho.
+$$
+
+Muchos individuos dentro de pocos conglomerados no reemplazan a más unidades
+asignadas. La planificación debe considerar número y tamaño de conglomerados,
+estratificación o pares, reclutamiento antes o después de conocer la condición y
+variación de tamaños. El análisis conserva la asignación mediante medias por
+conglomerado, errores agrupados o modelos jerárquicos; con pocos conglomerados,
+las correcciones de muestra pequeña y la visualización por unidad primaria son
+esenciales. El estimando también debe decir si pondera por individuo o por
+conglomerado: no son iguales cuando sus tamaños varían.
+
+::: {.callout-important}
+## Lista de control de un ensayo
+
+Registre unidad de asignación y de observación, generación y ocultamiento de la
+secuencia, comparador, personas enmascaradas, desenlace primario y horizonte,
+adherencia, contaminación, pérdidas por grupo, estimando ITT y método que respeta
+bloques o conglomerados. Un diagrama de flujo es parte del análisis, no adorno.
+:::
+
+## Cuasi-experimentos: construir el contrafactual
+
+Un cuasi-experimento estudia una intervención sin asignación aleatoria. La fecha,
+regla administrativa, umbral o despliegue escalonado puede crear una comparación
+más defendible que una asociación transversal, pero no elimina por definición la
+confusión. Hay que describir qué habría ocurrido sin intervención y qué datos
+permiten aproximarlo.
+
+### Antes-después y control no equivalente
+
+El contraste antes-después en unidades expuestas,
+$\bar Y_{post}-\bar Y_{pre}$, mezcla el efecto con tendencia temporal,
+estacionalidad, regresión a la media, cambios de medición y otros eventos
+coincidentes. Varias mediciones previas son más informativas que un único punto.
+
+Añadir un **control no equivalente** permite comparar con unidades no asignadas,
+pero exige justificar por qué representan la evolución contrafactual. El ajuste
+por covariables medidas no corrige diferencias no observadas ni una elección del
+control motivada por su trayectoria posterior. Deben graficarse niveles y
+tendencias preintervención y documentarse cambios simultáneos.
+
+### Diferencias en diferencias
+
+Con grupos tratado ($G=1$) y control ($G=0$) y periodos pre/post ($T$),
+
+$$
+\widehat\delta_{DiD}=
+(\bar Y_{1,post}-\bar Y_{1,pre})-
+(\bar Y_{0,post}-\bar Y_{0,pre}),
+$$
+
+que corresponde a la interacción $G\times T$ en un modelo básico. La
+interpretación causal requiere **tendencias paralelas en ausencia de la
+intervención**, ausencia de anticipación y de efectos que pasen al control, y una
+composición comparable a través del tiempo. Las tendencias previas pueden
+cuestionar, pero no demostrar, el supuesto. Con adopción escalonada y efectos que
+cambian en el tiempo, una regresión simple con efectos fijos puede mezclar
+comparaciones inadecuadas; el diseño y el estimando deben redefinirse antes de
+ajustar.
+
+### Serie temporal interrumpida
+
+Una serie interrumpida usa muchos puntos antes y después de una fecha conocida:
+
+$$
+Y_t=\beta_0+\beta_1t+\beta_2I(t\geq T_0)
+    +\beta_3(t-T_0)_++\varepsilon_t.
+$$
+
+$\beta_2$ representa un cambio inmediato de nivel y $\beta_3$ un cambio de
+pendiente, en la escala elegida. Deben preespecificarse la fecha, el periodo de
+transición y la forma de tendencia; revisar estacionalidad, autocorrelación,
+valores atípicos y cambios de definición; y buscar intervenciones concurrentes.
+Una serie control contemporánea fortalece la atribución.
+
+### Auditoría, diagnóstico y sensibilidad cuasi-experimental
+
+- Conserve fechas reales, versión del instrumento, elegibilidad, exposición y
+  pertenencia al control; no recodifique retrospectivamente la intervención.
+- Muestre datos crudos y tendencias previas, no solo medias pre/post.
+- Use incertidumbre compatible con unidades repetidas, conglomerados o
+  autocorrelación; más filas no siempre significan más réplicas.
+- Pruebe fechas placebo, ventanas alternativas, tendencias específicas y
+  exclusión de cambios concurrentes definidos de antemano.
+- Interprete la magnitud en unidades del desenlace y el horizonte. Un intervalo
+  amplio puede incluir beneficios y daños relevantes aunque $p>0.05$.
+
+Estas sensibilidades examinan dependencia de decisiones observables. No convierten
+en aleatoria una intervención ni descartan confusión no medida.
+
 ## Sesgos que alteran una comparación
 
 - **Selección:** inclusión o permanencia relacionadas con condición y respuesta.

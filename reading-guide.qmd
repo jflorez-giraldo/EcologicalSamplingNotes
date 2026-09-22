@@ -39,7 +39,9 @@ continua.
 
 ## Ruta sugerida
 
-Los capítulos 1 y 2 establecen la notación y la lógica de inferencia. A partir de
-allí, los capítulos pueden consultarse por familia metodológica, aunque conviene
-leer el capítulo de síntesis después de haber trabajado al menos un método de
-campo, uno poblacional y uno comunitario.
+La Parte I establece notación, inferencia, planificación y uso de información
+auxiliar. Las partes siguientes avanzan por métodos de campo, estimación de
+poblaciones, diseños comparativos y epidemiológicos, demografía, comunidades e
+interacciones. Las prácticas siguen esa progresión. Conviene leer el capítulo de
+síntesis después de haber trabajado al menos un diseño probabilístico, un método
+de campo, una comparación temporal y un análisis comunitario.
