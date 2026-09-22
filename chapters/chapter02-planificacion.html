@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Fundamentos estadísticos, métodos de campo y proyectos reproducibles para el estudio de poblaciones, comunidades e interacciones biológicas.">
+
+<title>3&nbsp; Planificación del tamaño de muestra – Muestreo ecológico</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/chapter03.html" rel="next">
+<link href="../chapters/chapter02.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-3fee61de2b36a07911a09d94e160f21d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f95d08478d6d2965eb675d4638296471.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter01.html">Parte I — Fundamentos</a></li><li class="breadcrumb-item"><a href="../chapters/chapter02-planificacion.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Planificación del tamaño de muestra</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Muestreo ecológico</a> 
+        <div class="sidebar-tools-main">
+    <a href="../ecological-sampling.pdf" title="Descargar PDF" class="quarto-navigation-tool px-1" aria-label="Descargar PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Presentación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reading-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cómo usar este libro</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../literature-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Marco bibliográfico</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-catalog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Catálogo de datos reales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte I — Fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Del problema ecológico al diseño</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Diseños probabilísticos para poblaciones biológicas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter02-planificacion.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Planificación del tamaño de muestra</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte II — Métodos de campo</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transectos y muestreo por distancias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Métodos de censo por organismos y hábitats</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte III — Estimación de poblaciones</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Remoción, captura-recaptura e índices de abundancia</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Ocupación y detección imperfecta</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte IV — Comparación y seguimiento</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estudios comparativos, intervenciones y sesgos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter08-epidemiologia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Diseños epidemiológicos y tiempo hasta evento</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Monitoreo ecológico y análisis de tendencias</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte V — Poblaciones y comunidades</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter11-interacciones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Uso de recursos e interacciones ecológicas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte VI — Síntesis</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Prácticas</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Práctica 1: Planificación, calibración y multiplicidad</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Práctica 3: Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Práctica 4: Epidemiología y tiempo hasta evento</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Práctica 5: Recursos e interacciones</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Material complementario</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Material complementario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referencias</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contenido</h2>
+   
+  <ul>
+  <li><a href="#fundamentos-planear-desde-el-estimando" id="toc-fundamentos-planear-desde-el-estimando" class="nav-link active" data-scroll-target="#fundamentos-planear-desde-el-estimando"><span class="header-section-number">3.1</span> Fundamentos: planear desde el estimando</a>
+  <ul class="collapse">
+  <li><a href="#media-y-corrección-por-población-finita" id="toc-media-y-corrección-por-población-finita" class="nav-link" data-scroll-target="#media-y-corrección-por-población-finita"><span class="header-section-number">3.1.1</span> Media y corrección por población finita</a></li>
+  <li><a href="#proporción" id="toc-proporción" class="nav-link" data-scroll-target="#proporción"><span class="header-section-number">3.1.2</span> Proporción</a></li>
+  <li><a href="#piloto-efecto-de-diseño-y-no-respuesta" id="toc-piloto-efecto-de-diseño-y-no-respuesta" class="nav-link" data-scroll-target="#piloto-efecto-de-diseño-y-no-respuesta"><span class="header-section-number">3.1.3</span> Piloto, efecto de diseño y no respuesta</a></li>
+  <li><a href="#costo-y-factibilidad" id="toc-costo-y-factibilidad" class="nav-link" data-scroll-target="#costo-y-factibilidad"><span class="header-section-number">3.1.4</span> Costo y factibilidad</a></li>
+  </ul></li>
+  <li><a href="#aplicación-reproducible-planificación-con-trees" id="toc-aplicación-reproducible-planificación-con-trees" class="nav-link" data-scroll-target="#aplicación-reproducible-planificación-con-trees"><span class="header-section-number">3.2</span> Aplicación reproducible: planificación con <code>trees</code></a>
+  <ul class="collapse">
+  <li><a href="#procedencia-piloto-y-auditoría" id="toc-procedencia-piloto-y-auditoría" class="nav-link" data-scroll-target="#procedencia-piloto-y-auditoría"><span class="header-section-number">3.2.1</span> Procedencia, piloto y auditoría</a></li>
+  <li><a href="#funciones-transparentes-de-planificación" id="toc-funciones-transparentes-de-planificación" class="nav-link" data-scroll-target="#funciones-transparentes-de-planificación"><span class="header-section-number">3.2.2</span> Funciones transparentes de planificación</a></li>
+  <li><a href="#auditoría-de-costo-y-precisión-alcanzable" id="toc-auditoría-de-costo-y-precisión-alcanzable" class="nav-link" data-scroll-target="#auditoría-de-costo-y-precisión-alcanzable"><span class="header-section-number">3.2.3</span> Auditoría de costo y precisión alcanzable</a></li>
+  <li><a href="#sensibilidad-a-supuestos" id="toc-sensibilidad-a-supuestos" class="nav-link" data-scroll-target="#sensibilidad-a-supuestos"><span class="header-section-number">3.2.4</span> Sensibilidad a supuestos</a></li>
+  </ul></li>
+  <li><a href="#deff-retrospectivo-con-veganbci" id="toc-deff-retrospectivo-con-veganbci" class="nav-link" data-scroll-target="#deff-retrospectivo-con-veganbci"><span class="header-section-number">3.3</span> DEFF retrospectivo con <code>vegan::BCI</code></a></li>
+  <li><a href="#razón-y-regresión-como-puente" id="toc-razón-y-regresión-como-puente" class="nav-link" data-scroll-target="#razón-y-regresión-como-puente"><span class="header-section-number">3.4</span> Razón y regresión como puente</a>
+  <ul class="collapse">
+  <li><a href="#mas-y-estimadores-asistidos" id="toc-mas-y-estimadores-asistidos" class="nav-link" data-scroll-target="#mas-y-estimadores-asistidos"><span class="header-section-number">3.4.1</span> MAS y estimadores asistidos</a></li>
+  </ul></li>
+  <li><a href="#calibración-y-greg-transparentes-en-base-r" id="toc-calibración-y-greg-transparentes-en-base-r" class="nav-link" data-scroll-target="#calibración-y-greg-transparentes-en-base-r"><span class="header-section-number">3.5</span> Calibración y GREG transparentes en base R</a>
+  <ul class="collapse">
+  <li><a href="#diagnóstico-de-pesos-y-tamaño-efectivo" id="toc-diagnóstico-de-pesos-y-tamaño-efectivo" class="nav-link" data-scroll-target="#diagnóstico-de-pesos-y-tamaño-efectivo"><span class="header-section-number">3.5.1</span> Diagnóstico de pesos y tamaño efectivo</a></li>
+  <li><a href="#repetición-y-diagnóstico-del-modelo-de-trabajo" id="toc-repetición-y-diagnóstico-del-modelo-de-trabajo" class="nav-link" data-scroll-target="#repetición-y-diagnóstico-del-modelo-de-trabajo"><span class="header-section-number">3.5.2</span> Repetición y diagnóstico del modelo de trabajo</a></li>
+  </ul></li>
+  <li><a href="#muestreo-indirecto-y-multiplicidad" id="toc-muestreo-indirecto-y-multiplicidad" class="nav-link" data-scroll-target="#muestreo-indirecto-y-multiplicidad"><span class="header-section-number">3.6</span> Muestreo indirecto y multiplicidad</a>
+  <ul class="collapse">
+  <li><a href="#ejemplo-enlazado-transparente" id="toc-ejemplo-enlazado-transparente" class="nav-link" data-scroll-target="#ejemplo-enlazado-transparente"><span class="header-section-number">3.6.1</span> Ejemplo enlazado transparente</a></li>
+  <li><a href="#comprobación-exacta-e-incertidumbre" id="toc-comprobación-exacta-e-incertidumbre" class="nav-link" data-scroll-target="#comprobación-exacta-e-incertidumbre"><span class="header-section-number">3.6.2</span> Comprobación exacta e incertidumbre</a></li>
+  </ul></li>
+  <li><a href="#incertidumbre-auditoría-y-decisiones" id="toc-incertidumbre-auditoría-y-decisiones" class="nav-link" data-scroll-target="#incertidumbre-auditoría-y-decisiones"><span class="header-section-number">3.7</span> Incertidumbre, auditoría y decisiones</a></li>
+  <li><a href="#ejercicios" id="toc-ejercicios" class="nav-link" data-scroll-target="#ejercicios"><span class="header-section-number">3.8</span> Ejercicios</a>
+  <ul class="collapse">
+  <li><a href="#teóricos" id="toc-teóricos" class="nav-link" data-scroll-target="#teóricos"><span class="header-section-number">3.8.1</span> Teóricos</a></li>
+  <li><a href="#numéricos" id="toc-numéricos" class="nav-link" data-scroll-target="#numéricos"><span class="header-section-number">3.8.2</span> Numéricos</a></li>
+  <li><a href="#en-r" id="toc-en-r" class="nav-link" data-scroll-target="#en-r"><span class="header-section-number">3.8.3</span> En R</a></li>
+  </ul></li>
+  <li><a href="#comprobación-reproducible" id="toc-comprobación-reproducible" class="nav-link" data-scroll-target="#comprobación-reproducible"><span class="header-section-number">3.9</span> Comprobación reproducible</a></li>
+  <li><a href="#interpretación" id="toc-interpretación" class="nav-link" data-scroll-target="#interpretación"><span class="header-section-number">3.10</span> Interpretación</a></li>
+  <li><a href="#actividad-propuesta-para-el-lector" id="toc-actividad-propuesta-para-el-lector" class="nav-link" data-scroll-target="#actividad-propuesta-para-el-lector"><span class="header-section-number">3.11</span> Actividad propuesta para el lector</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter01.html">Parte I — Fundamentos</a></li><li class="breadcrumb-item"><a href="../chapters/chapter02-planificacion.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Planificación del tamaño de muestra</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Planificación del tamaño de muestra</span></h1>
+<p class="subtitle lead">Precisión, costo, información auxiliar y multiplicidad</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="chapter-actions" aria-label="Recursos del capítulo">
+  <a class="chapter-action" href="../notebooks/qmd/chapter02-planificacion.qmd" download="">
+    <i class="bi bi-file-earmark-code" aria-hidden="true"></i>
+    <span>Descargar QMD</span>
+  </a>
+  <a class="chapter-action" href="../notebooks/ipynb/chapter02-planificacion.ipynb" download="">
+    <i class="bi bi-journal-code" aria-hidden="true"></i>
+    <span>Descargar IPYNB</span>
+  </a>
+  <a class="chapter-action chapter-action-pdf" href="../ecological-sampling.pdf" download="">
+    <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
+    <span>Descargar libro en PDF</span>
+  </a>
+</div>
+
+<section id="fundamentos-planear-desde-el-estimando" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="fundamentos-planear-desde-el-estimando"><span class="header-section-number">3.1</span> Fundamentos: planear desde el estimando</h2>
+<p>El tamaño de muestra no es una propiedad del estudio aislada de su pregunta. Se calcula para un <strong>estimando</strong>, una precisión, un nivel de confianza, un diseño y una población definidos. También depende de la heterogeneidad prevista, la no respuesta y el presupuesto. Elegir primero un número cómodo de unidades y buscar después qué puede estimarse invierte el orden lógico <span class="citation" data-cites="lohr2022sampling valliant2013practical">(<a href="../references.html#ref-lohr2022sampling" role="doc-biblioref">Lohr 2022</a>; <a href="../references.html#ref-valliant2013practical" role="doc-biblioref">Valliant et&nbsp;al. 2013</a>)</span>.</p>
+<p>Antes de calcular <span class="math inline">\(n\)</span> deben registrarse:</p>
+<ol type="1">
+<li>población, marco, unidad de muestreo y dominios que requieren resultados;</li>
+<li>media, proporción o total primario y su escala;</li>
+<li>semiamplitud tolerable <span class="math inline">\(d\)</span> del intervalo, absoluta o relativa;</li>
+<li>confianza <span class="math inline">\(1-\alpha\)</span> y valor crítico <span class="math inline">\(z_{1-\alpha/2}\)</span>;</li>
+<li>DE <span class="math inline">\(S\)</span> o proporción esperada <span class="math inline">\(P\)</span>, procedente de un piloto comparable;</li>
+<li>efecto de diseño, tasa de respuesta y estructura de costos;</li>
+<li>regla de redondeo y análisis de sensibilidad.</li>
+</ol>
+<p>La <strong>precisión objetivo</strong> <span class="math inline">\(d\)</span> es la distancia máxima planeada entre la estimación y cada extremo del intervalo, no la probabilidad de que el estimador sea exacto. Un intervalo del 95 % con semiamplitud 4 unidades expresa una meta de error de muestreo; no cubre sesgo de marco, medición, no respuesta informativa ni un piloto no comparable.</p>
+<section id="media-y-corrección-por-población-finita" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="media-y-corrección-por-población-finita"><span class="header-section-number">3.1.1</span> Media y corrección por población finita</h3>
+<p>Bajo muestreo aleatorio simple sin reemplazo (MAS),</p>
+<p><span class="math display">\[
+\operatorname{Var}(\bar y)=\left(1-\frac nN\right)\frac{S^2}{n}.
+\]</span></p>
+<p>Si se ignora inicialmente la finitud, el tamaño para una media es</p>
+<p><span class="math display">\[
+n_0=\frac{z_{1-\alpha/2}^2S^2}{d^2}.
+\]</span></p>
+<p>Una forma convencional de aplicar la corrección por población finita (CPF) es</p>
+<p><span class="math display">\[
+n_{CPF}=\frac{n_0}{1+(n_0-1)/N}.
+\]</span></p>
+<p>Se redondea hacia arriba. La pequeña diferencia entre esta expresión y resolver directamente la fórmula de varianza anterior, <span class="math inline">\(n=Nn_0/(N+n_0)\)</span>, procede de la convención usada para la varianza finita; debe declararse, pero rara vez cambia el entero final. La CPF solo corresponde cuando el marco tiene <span class="math inline">\(N\)</span> unidades, se muestrea sin reemplazo y la inferencia queda en esa población. No debe aplicarse porque el área de estudio parezca pequeña.</p>
+</section>
+<section id="proporción" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="proporción"><span class="header-section-number">3.1.2</span> Proporción</h3>
+<p>Para una proporción con valor anticipado <span class="math inline">\(P\)</span>,</p>
+<p><span class="math display">\[
+n_0=\frac{z_{1-\alpha/2}^2P(1-P)}{d^2},\qquad
+n_{CPF}=\frac{n_0}{1+(n_0-1)/N}.
+\]</span></p>
+<p>Si no existe información previa, <span class="math inline">\(P=0.5\)</span> maximiza <span class="math inline">\(P(1-P)\)</span> y produce el cálculo más conservador. Esto no garantiza suficientes casos raros: si se requieren análisis de una especie con prevalencia 0.02, también debe planearse el número esperado de positivos y quizá un diseño dirigido o estratificado.</p>
+</section>
+<section id="piloto-efecto-de-diseño-y-no-respuesta" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="piloto-efecto-de-diseño-y-no-respuesta"><span class="header-section-number">3.1.3</span> Piloto, efecto de diseño y no respuesta</h3>
+<p>La varianza piloto debe proceder de unidades, estación, soporte y protocolo comparables. Una DE calculada con individuos internos no sustituye la DE entre parcelas si las parcelas son las unidades seleccionadas. Con un piloto pequeño, <span class="math inline">\(S\)</span> es inestable; por eso conviene presentar una cuadrícula de valores plausibles, no una cifra con falsa certeza.</p>
+<p>El efecto de diseño se define como</p>
+<p><span class="math display">\[
+DEFF=\frac{\operatorname{Var}_{d}(\widehat\theta)}
+{\operatorname{Var}_{MAS}(\widehat\theta)}.
+\]</span></p>
+<p>Para planificación aproximada se reemplaza <span class="math inline">\(n_0\)</span> por <span class="math inline">\(n_0^*=DEFF\,n_0\)</span> antes de la CPF. En conglomerados de tamaño medio <span class="math inline">\(L\)</span> e intracorrelación <span class="math inline">\(\rho\)</span>, <span class="math inline">\(DEFF\approx1+(L-1)\rho\)</span>. Esta aproximación no reemplaza la fórmula específica del diseño ni garantiza un número suficiente de unidades primarias <span class="citation" data-cites="thompson2012sampling">(<a href="../references.html#ref-thompson2012sampling" role="doc-biblioref">Thompson 2012</a>)</span>.</p>
+<p>Si <span class="math inline">\(r\)</span> es la proporción esperada de unidades con respuesta completa,</p>
+<p><span class="math display">\[
+n_{contactar}=\left\lceil\frac{n_{CPF}}{r}\right\rceil.
+\]</span></p>
+<p>Inflar el tamaño compensa pérdida de cantidad solo si quienes no responden son intercambiables, para el estimando, con quienes responden. No elimina sesgo por no respuesta diferencial. Deben separarse unidades no elegibles, no localizadas, rechazos y mediciones fallidas.</p>
+</section>
+<section id="costo-y-factibilidad" class="level3" data-number="3.1.4">
+<h3 data-number="3.1.4" class="anchored" data-anchor-id="costo-y-factibilidad"><span class="header-section-number">3.1.4</span> Costo y factibilidad</h3>
+<p>Con costo fijo <span class="math inline">\(C_0\)</span>, costo por contacto <span class="math inline">\(c\)</span> y presupuesto <span class="math inline">\(C\)</span>,</p>
+<p><span class="math display">\[
+n_{contactar}^{max}=\left\lfloor\frac{C-C_0}{c}\right\rfloor.
+\]</span></p>
+<p>La planificación es factible si ese máximo alcanza el número requerido y si existen suficientes unidades elegibles. En diseños por conglomerados, una función más realista separa viajes y mediciones: <span class="math inline">\(C=C_0+c_1m+c_2mL\)</span>, con <span class="math inline">\(m\)</span> sitios y <span class="math inline">\(L\)</span> observaciones por sitio. Añadir muchas observaciones dentro de pocos sitios puede ser barato y, con <span class="math inline">\(\rho&gt;0\)</span>, aportar poca información independiente.</p>
+</section>
+</section>
+<section id="aplicación-reproducible-planificación-con-trees" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="aplicación-reproducible-planificación-con-trees"><span class="header-section-number">3.2</span> Aplicación reproducible: planificación con <code>trees</code></h2>
+<p><code>datasets::trees</code> contiene diámetro, altura y volumen de 31 cerezos negros talados. No documenta un muestreo probabilístico de bosques actuales. Aquí las 31 filas son una <strong>población finita didáctica de registros reales</strong>; el nuevo sorteo solo permite estudiar planificación y estimación dentro de ese marco.</p>
+<p>El objetivo es estimar el volumen medio con semiamplitud <span class="math inline">\(d=4\)</span> pies cúbicos y 95 % de confianza. Se anticipa <span class="math inline">\(DEFF=1.3\)</span> para representar una desviación respecto del MAS y respuesta completa <span class="math inline">\(r=0.85\)</span>. Esos dos valores son <strong>supuestos de planificación</strong>, no resultados de <code>trees</code>.</p>
+<section id="procedencia-piloto-y-auditoría" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="procedencia-piloto-y-auditoría"><span class="header-section-number">3.2.1</span> Procedencia, piloto y auditoría</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(trees, <span class="at">package =</span> <span class="st">"datasets"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>U <span class="ot">&lt;-</span> <span class="fu">transform</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  trees,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">seq_len</span>(<span class="fu">nrow</span>(trees)),</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">x_aux =</span> Girth<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> Height,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">grande =</span> <span class="fu">as.integer</span>(Volume <span class="sc">&gt;=</span> <span class="dv">30</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>N <span class="ot">&lt;-</span> <span class="fu">nrow</span>(U)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2101</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>id_piloto <span class="ot">&lt;-</span> <span class="fu">sample.int</span>(N, <span class="dv">8</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>piloto <span class="ot">&lt;-</span> U[id_piloto, ]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> N, <span class="at">n_piloto =</span> <span class="fu">nrow</span>(piloto), <span class="at">faltantes =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(U)),</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">ids_unicos =</span> <span class="fu">length</span>(<span class="fu">unique</span>(U<span class="sc">$</span>id)), <span class="at">duplicados =</span> <span class="fu">sum</span>(<span class="fu">duplicated</span>(trees)),</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">volumen_no_positivo =</span> <span class="fu">sum</span>(U<span class="sc">$</span>Volume <span class="sc">&lt;=</span> <span class="dv">0</span>), <span class="at">DE_piloto =</span> <span class="fu">sd</span>(piloto<span class="sc">$</span>Volume)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    N n_piloto faltantes ids_unicos duplicados volumen_no_positivo DE_piloto</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 31        8         0         31          0                   0  17.45361</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>piloto[<span class="fu">c</span>(<span class="st">"id"</span>, <span class="st">"Volume"</span>)]</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    id Volume</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7   7   15.6</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1   1   10.3</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13 13   21.4</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 28 28   58.3</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 30 30   51.0</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8   8   18.2</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15 15   19.1</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18 18   27.4</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>El piloto incluye los registros 7, 1, 13, 28, 30, 8, 15 y 18 y produce <span class="math inline">\(S=17.45\)</span> pies cúbicos. Es heterogéneo y pequeño: un árbol de volumen 58.3 tiene influencia apreciable. Además, en un estudio nuevo esas ocho unidades ya medidas deberían integrarse mediante un diseño previsto o reservarse; no se puede llamar “piloto independiente” después de escogerlo por sus resultados.</p>
+</section>
+<section id="funciones-transparentes-de-planificación" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="funciones-transparentes-de-planificación"><span class="header-section-number">3.2.2</span> Funciones transparentes de planificación</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>n_media <span class="ot">&lt;-</span> <span class="cf">function</span>(N, S, d, <span class="at">conf =</span> <span class="fl">0.95</span>, <span class="at">deff =</span> <span class="dv">1</span>, <span class="at">respuesta =</span> <span class="dv">1</span>) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(N <span class="sc">&gt;</span> <span class="dv">1</span>, S <span class="sc">&gt;=</span> <span class="dv">0</span>, d <span class="sc">&gt;</span> <span class="dv">0</span>, deff <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>            respuesta <span class="sc">&gt;</span> <span class="dv">0</span>, respuesta <span class="sc">&lt;=</span> <span class="dv">1</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> conf) <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  n0 <span class="ot">&lt;-</span> deff <span class="sc">*</span> z<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> S<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> d<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  n_completa <span class="ot">&lt;-</span> <span class="fu">min</span>(N, <span class="fu">ceiling</span>(n0 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> (n0 <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> N)))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  n_contactar <span class="ot">&lt;-</span> <span class="fu">min</span>(N, <span class="fu">ceiling</span>(n_completa <span class="sc">/</span> respuesta))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">n0 =</span> n0, <span class="at">n_completa =</span> n_completa, <span class="at">n_contactar =</span> n_contactar)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>n_proporcion <span class="ot">&lt;-</span> <span class="cf">function</span>(N, <span class="at">P =</span> <span class="fl">0.5</span>, d, <span class="at">conf =</span> <span class="fl">0.95</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>                         <span class="at">deff =</span> <span class="dv">1</span>, <span class="at">respuesta =</span> <span class="dv">1</span>) {</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(P <span class="sc">&gt;=</span> <span class="dv">0</span>, P <span class="sc">&lt;=</span> <span class="dv">1</span>)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">qnorm</span>(<span class="dv">1</span> <span class="sc">-</span> (<span class="dv">1</span> <span class="sc">-</span> conf) <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  n0 <span class="ot">&lt;-</span> deff <span class="sc">*</span> z<span class="sc">^</span><span class="dv">2</span> <span class="sc">*</span> P <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> P) <span class="sc">/</span> d<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  n_completa <span class="ot">&lt;-</span> <span class="fu">min</span>(N, <span class="fu">ceiling</span>(n0 <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> (n0 <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> N)))</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  n_contactar <span class="ot">&lt;-</span> <span class="fu">min</span>(N, <span class="fu">ceiling</span>(n_completa <span class="sc">/</span> respuesta))</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">n0 =</span> n0, <span class="at">n_completa =</span> n_completa, <span class="at">n_contactar =</span> n_contactar)</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>plan_media <span class="ot">&lt;-</span> <span class="fu">n_media</span>(N, <span class="fu">sd</span>(piloto<span class="sc">$</span>Volume), <span class="at">d =</span> <span class="dv">4</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>                      <span class="at">deff =</span> <span class="fl">1.3</span>, <span class="at">respuesta =</span> <span class="fl">0.85</span>)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>plan_prop <span class="ot">&lt;-</span> <span class="fu">n_proporcion</span>(N, <span class="at">P =</span> <span class="fl">0.5</span>, <span class="at">d =</span> <span class="fl">0.12</span>,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>                          <span class="at">deff =</span> <span class="fl">1.3</span>, <span class="at">respuesta =</span> <span class="fl">0.85</span>)</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">rbind</span>(<span class="at">media =</span> plan_media, <span class="at">proporcion =</span> plan_prop), <span class="dv">2</span>)</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               n0 n_completa n_contactar</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; media      95.08         24          29</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; proporcion 86.70         24          29</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Ambos objetivos exigen 24 respuestas completas y 29 contactos en este marco. Para la media, el tamaño inicial ajustado es 95.08, mayor que <span class="math inline">\(N\)</span>; la CPF lo reduce con fuerza. Para la proporción conservadora, <span class="math inline">\(n_0^*=86.70\)</span> y el entero final coincide. La coincidencia no es general: cambia con <span class="math inline">\(d\)</span>, <span class="math inline">\(S\)</span>, <span class="math inline">\(P\)</span> y el estimando. Contactar 29 de 31 registros deja poco margen para reemplazos y vuelve esencial definir de antemano cómo se tratará la no respuesta.</p>
+</section>
+<section id="auditoría-de-costo-y-precisión-alcanzable" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="auditoría-de-costo-y-precisión-alcanzable"><span class="header-section-number">3.2.3</span> Auditoría de costo y precisión alcanzable</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>C0 <span class="ot">&lt;-</span> <span class="dv">500</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>c_contacto <span class="ot">&lt;-</span> <span class="dv">35</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>presupuesto <span class="ot">&lt;-</span> <span class="dv">1500</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>n_max <span class="ot">&lt;-</span> <span class="fu">min</span>(N, <span class="fu">floor</span>((presupuesto <span class="sc">-</span> C0) <span class="sc">/</span> c_contacto))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>n_completas_esperadas <span class="ot">&lt;-</span> <span class="fu">floor</span>(<span class="fl">0.85</span> <span class="sc">*</span> n_max)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>costo_requerido <span class="ot">&lt;-</span> C0 <span class="sc">+</span> c_contacto <span class="sc">*</span> plan_media[<span class="st">"n_contactar"</span>]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n_contactar_max =</span> n_max,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">completas_esperadas =</span> n_completas_esperadas,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">completas_requeridas =</span> plan_media[<span class="st">"n_completa"</span>],</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">costo_requerido =</span> costo_requerido,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">deficit_presupuesto =</span> costo_requerido <span class="sc">-</span> presupuesto)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 n_contactar_max             completas_esperadas </span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                              28                              23 </span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; completas_requeridas.n_completa     costo_requerido.n_contactar </span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                              24                            1515 </span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; deficit_presupuesto.n_contactar </span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                              15</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>El presupuesto permite 28 contactos y unas 23 respuestas, una menos que la meta; faltan 15 unidades monetarias para el plan redondeado. Esa diferencia no debería ocultarse reduciendo <span class="math inline">\(n\)</span> sin recalcular precisión. Las opciones defendibles son ampliar presupuesto, aceptar una semiamplitud mayor, reducir costos sin cambiar el protocolo o justificar un diseño más eficiente.</p>
+</section>
+<section id="sensibilidad-a-supuestos" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="sensibilidad-a-supuestos"><span class="header-section-number">3.2.4</span> Sensibilidad a supuestos</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>escenarios <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">S =</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="fu">sd</span>(piloto<span class="sc">$</span>Volume), <span class="dv">22</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">d =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">DEFF =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">1.3</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">respuesta =</span> <span class="fu">c</span>(<span class="fl">0.75</span>, <span class="fl">0.85</span>, <span class="fl">0.95</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>planes <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(escenarios, <span class="dv">1</span>, <span class="cf">function</span>(a)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">n_media</span>(N, a[<span class="st">"S"</span>], a[<span class="st">"d"</span>], <span class="at">deff =</span> a[<span class="st">"DEFF"</span>],</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">respuesta =</span> a[<span class="st">"respuesta"</span>])[<span class="fu">c</span>(<span class="st">"n_completa"</span>, <span class="st">"n_contactar"</span>)]))</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>sensibilidad <span class="ot">&lt;-</span> <span class="fu">cbind</span>(escenarios, planes)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>sensibilidad[<span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">8</span>, <span class="dv">15</span>, <span class="dv">22</span>, <span class="dv">29</span>, <span class="dv">36</span>, <span class="dv">43</span>, <span class="dv">50</span>), ]</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           S d DEFF respuesta n_completa n_contactar</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  12.00000 3  1.0      0.75         21          28</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  17.45361 5  1.0      0.75         19          26</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15 22.00000 4  1.3      0.75         26          31</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 22 12.00000 4  1.0      0.85         17          20</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 29 17.45361 3  1.3      0.85         27          31</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 36 22.00000 5  1.3      0.85         24          29</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 43 12.00000 5  1.0      0.95         14          15</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 50 17.45361 4  1.3      0.95         24          26</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La precisión domina el esfuerzo porque <span class="math inline">\(d\)</span> entra al cuadrado. Una menor tasa de respuesta aumenta contactos, no información de quienes sí responden. Cuando la CPF acerca el plan a un censo, distintos supuestos pueden producir el mismo entero por el límite <span class="math inline">\(N\)</span>; eso no significa que sean equivalentes en una población grande.</p>
+</section>
+</section>
+<section id="deff-retrospectivo-con-veganbci" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="deff-retrospectivo-con-veganbci"><span class="header-section-number">3.3</span> DEFF retrospectivo con <code>vegan::BCI</code></h2>
+<p><code>vegan::BCI</code> contiene conteos de árboles con DAP de al menos 10 cm en 50 hectáreas contiguas de Barro Colorado <span class="citation" data-cites="condit2002beta harms2001habitat oksanen2024vegan">(<a href="../references.html#ref-condit2002beta" role="doc-biblioref">Condit et&nbsp;al. 2002</a>; <a href="../references.html#ref-harms2001habitat" role="doc-biblioref">Harms et&nbsp;al. 2001</a>; <a href="../references.html#ref-oksanen2024vegan" role="doc-biblioref">Oksanen et&nbsp;al. 2024</a>)</span>. Se usa el censo para comprobar cómo una agrupación espacial modifica el cálculo; no es un piloto independiente ni una recomendación para otro bosque.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"vegan"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stop</span>(<span class="st">"Se requiere el paquete 'vegan' para el ejemplo BCI."</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(BCI, BCI.env, <span class="at">package =</span> <span class="st">"vegan"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>tallos <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(BCI)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>columna <span class="ot">&lt;-</span> <span class="fu">as.integer</span>((BCI.env<span class="sc">$</span>UTM.EW <span class="sc">-</span> <span class="fu">min</span>(BCI.env<span class="sc">$</span>UTM.EW)) <span class="sc">/</span> <span class="dv">100</span> <span class="sc">+</span> <span class="dv">1</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">table</span>(columna)[<span class="dv">1</span>])</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>medias_col <span class="ot">&lt;-</span> <span class="fu">tapply</span>(tallos, columna, mean)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>MS_entre <span class="ot">&lt;-</span> L <span class="sc">*</span> <span class="fu">var</span>(medias_col)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>MS_dentro <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">tapply</span>(tallos, columna, var))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>rho <span class="ot">&lt;-</span> (MS_entre <span class="sc">-</span> MS_dentro) <span class="sc">/</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  (MS_entre <span class="sc">+</span> (L <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> MS_dentro)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>DEFF_bci <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> (L <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">*</span> rho</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">hectareas =</span> <span class="fu">length</span>(tallos), <span class="at">columnas =</span> <span class="fu">length</span>(<span class="fu">unique</span>(columna)),</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">L =</span> L, <span class="at">DE_tallos =</span> <span class="fu">sd</span>(tallos), <span class="at">ICC =</span> rho, <span class="at">DEFF =</span> DEFF_bci)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  hectareas   columnas          L  DE_tallos        ICC       DEFF </span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 50.0000000 10.0000000  5.0000000 42.5532128  0.2140439  1.8561755</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">n_media</span>(<span class="fu">length</span>(tallos), <span class="fu">sd</span>(tallos), <span class="at">d =</span> <span class="dv">10</span>, <span class="at">deff =</span> DEFF_bci)</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          n0  n_completa n_contactar </span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     129.116      37.000      37.000</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La ICC retrospectiva es 0.214 y el <code>DEFF</code> aproximado 1.856. Con una meta de ±10 tallos/ha, el cálculo pide 37 hectáreas completas. La magnitud muestra que cinco hectáreas de una misma franja no equivalen a cinco réplicas independientes. La incertidumbre de la ICC, la orientación de las franjas y el número mínimo de columnas deben examinarse antes de usarla para planear.</p>
+</section>
+<section id="razón-y-regresión-como-puente" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="razón-y-regresión-como-puente"><span class="header-section-number">3.4</span> Razón y regresión como puente</h2>
+<p>El tamaño de muestra basado solo en <span class="math inline">\(S_y\)</span> supone que no se aprovechará información auxiliar. Si se conoce el total poblacional <span class="math inline">\(X=\sum_Ux_i\)</span>, un auxiliar relacionado con <span class="math inline">\(y\)</span> puede reducir residuos y, por tanto, varianza.</p>
+<p>El estimador de razón del total es</p>
+<p><span class="math display">\[
+\widehat Y_R=X\frac{\sum_sy_i}{\sum_sx_i},
+\]</span></p>
+<p>y es apropiado cuando la relación es aproximadamente proporcional y pasa cerca del origen. El estimador de regresión es</p>
+<p><span class="math display">\[
+\widehat Y_{reg}=N\bar y_s+b(X-N\bar x_s),\qquad
+b=\frac{s_{xy}}{s_x^2}.
+\]</span></p>
+<p>Permite intercepto y funciona como puente hacia el estimador de regresión generalizada (GREG). Ambos son asistidos por modelos: la selección probabilística sostiene la inferencia, mientras el modelo de trabajo busca precisión <span class="citation" data-cites="sarndal1992model">(<a href="../references.html#ref-sarndal1992model" role="doc-biblioref">Särndal et&nbsp;al. 1992</a>)</span>.</p>
+<section id="mas-y-estimadores-asistidos" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="mas-y-estimadores-asistidos"><span class="header-section-number">3.4.1</span> MAS y estimadores asistidos</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2102</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">12</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>s <span class="ot">&lt;-</span> U[<span class="fu">sample.int</span>(N, n), ]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>X_aux <span class="ot">&lt;-</span> <span class="fu">sum</span>(U<span class="sc">$</span>x_aux)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">cov</span>(s<span class="sc">$</span>x_aux, s<span class="sc">$</span>Volume) <span class="sc">/</span> <span class="fu">var</span>(s<span class="sc">$</span>x_aux)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>r_hat <span class="ot">&lt;-</span> <span class="fu">sum</span>(s<span class="sc">$</span>Volume) <span class="sc">/</span> <span class="fu">sum</span>(s<span class="sc">$</span>x_aux)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>estimadores <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">verdad =</span> <span class="fu">sum</span>(U<span class="sc">$</span>Volume),</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">HT_MAS =</span> N <span class="sc">*</span> <span class="fu">mean</span>(s<span class="sc">$</span>Volume),</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">razon =</span> X_aux <span class="sc">*</span> r_hat,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">regresion =</span> N <span class="sc">*</span> <span class="fu">mean</span>(s<span class="sc">$</span>Volume) <span class="sc">+</span> b <span class="sc">*</span> (X_aux <span class="sc">-</span> N <span class="sc">*</span> <span class="fu">mean</span>(s<span class="sc">$</span>x_aux))</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>e_reg <span class="ot">&lt;-</span> <span class="fu">residuals</span>(<span class="fu">lm</span>(Volume <span class="sc">~</span> x_aux, <span class="at">data =</span> s))</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>EE <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">HT_MAS =</span> N <span class="sc">*</span> <span class="fu">sqrt</span>((<span class="dv">1</span> <span class="sc">-</span> n <span class="sc">/</span> N) <span class="sc">*</span> <span class="fu">var</span>(s<span class="sc">$</span>Volume) <span class="sc">/</span> n),</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">regresion_aprox =</span> N <span class="sc">*</span> <span class="fu">sqrt</span>((<span class="dv">1</span> <span class="sc">-</span> n <span class="sc">/</span> N) <span class="sc">*</span> <span class="fu">var</span>(e_reg) <span class="sc">/</span> n)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(estimadores, <span class="dv">2</span>)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    verdad    HT_MAS     razon regresion </span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    935.30    950.15    964.98    965.00</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">c</span>(EE, <span class="at">correlacion_marco =</span> <span class="fu">cor</span>(U<span class="sc">$</span>x_aux, U<span class="sc">$</span>Volume)), <span class="dv">2</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            HT_MAS   regresion_aprox correlacion_marco </span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            121.36             16.46              0.99</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>En esta realización, HT estima 950.15 pies cúbicos, razón 964.98 y regresión 965.00, frente al total finito 935.30. El auxiliar es muy fuerte (<span class="math inline">\(r=0.989\)</span> en las 31 filas) y el EE linealizado cae de 121.36 a 16.46. Ese EE es una aproximación basada en residuos y no incluye que el auxiliar se eligió al ver el marco; la ganancia debe validarse por repetición y diagnóstico, no por correlación solamente.</p>
+</section>
+</section>
+<section id="calibración-y-greg-transparentes-en-base-r" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="calibración-y-greg-transparentes-en-base-r"><span class="header-section-number">3.5</span> Calibración y GREG transparentes en base R</h2>
+<p>Partimos de pesos de diseño <span class="math inline">\(d_i=N/n\)</span>. La calibración lineal busca pesos <span class="math inline">\(w_i\)</span> cercanos a <span class="math inline">\(d_i\)</span> que satisfagan exactamente <span class="math inline">\(\sum_sw_i=N\)</span> y <span class="math inline">\(\sum_sw_ix_i=X\)</span>. Con <span class="math inline">\(a_i=(1,x_i)^T\)</span>,</p>
+<p><span class="math display">\[
+w_i=d_i(1+a_i^T\lambda),\qquad
+\lambda=\left(\sum_sd_ia_ia_i^T\right)^{-1}
+\left\{(N,X)^T-\sum_sd_ia_i\right\}.
+\]</span></p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>d_i <span class="ot">&lt;-</span> <span class="fu">rep</span>(N <span class="sc">/</span> n, n)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">cbind</span>(<span class="at">uno =</span> <span class="dv">1</span>, <span class="at">x_aux =</span> s<span class="sc">$</span>x_aux)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>totales_aux <span class="ot">&lt;-</span> <span class="fu">c</span>(N, X_aux)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="fu">solve</span>(<span class="fu">crossprod</span>(A, d_i <span class="sc">*</span> A),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>                totales_aux <span class="sc">-</span> <span class="fu">colSums</span>(d_i <span class="sc">*</span> A))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>w_cal <span class="ot">&lt;-</span> d_i <span class="sc">*</span> <span class="fu">drop</span>(<span class="dv">1</span> <span class="sc">+</span> A <span class="sc">%*%</span> lambda)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>Y_cal <span class="ot">&lt;-</span> <span class="fu">sum</span>(w_cal <span class="sc">*</span> s<span class="sc">$</span>Volume)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>comprobacion_cal <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">suma_pesos =</span> <span class="fu">sum</span>(w_cal), <span class="at">objetivo_N =</span> N,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">suma_x =</span> <span class="fu">sum</span>(w_cal <span class="sc">*</span> s<span class="sc">$</span>x_aux), <span class="at">objetivo_X =</span> X_aux,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">total_calibrado =</span> Y_cal,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">GREG =</span> estimadores[<span class="st">"regresion"</span>]</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(comprobacion_cal, <span class="dv">5</span>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      suma_pesos      objetivo_N          suma_x      objetivo_X total_calibrado </span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         31.0000         31.0000     444614.6900     444614.6900        965.0014 </span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  GREG.regresion </span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        965.0014</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>El total calibrado y GREG coinciden (965.0014) porque se calibró un intercepto y el auxiliar con distancia lineal. Esta equivalencia hace visible qué aporta el método: corrige HT por la diferencia entre los totales auxiliares de la muestra expandida y del marco. No es magia ni convierte un auxiliar en respuesta.</p>
+<section id="diagnóstico-de-pesos-y-tamaño-efectivo" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="diagnóstico-de-pesos-y-tamaño-efectivo"><span class="header-section-number">3.5.1</span> Diagnóstico de pesos y tamaño efectivo</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>diagnostico_pesos <span class="ot">&lt;-</span> <span class="cf">function</span>(w) {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  n_eff <span class="ot">&lt;-</span> <span class="fu">sum</span>(w)<span class="sc">^</span><span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(w<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">min =</span> <span class="fu">min</span>(w), <span class="at">q25 =</span> <span class="fu">unname</span>(<span class="fu">quantile</span>(w, <span class="fl">0.25</span>)),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mediana =</span> <span class="fu">median</span>(w), <span class="at">q75 =</span> <span class="fu">unname</span>(<span class="fu">quantile</span>(w, <span class="fl">0.75</span>)), <span class="at">max =</span> <span class="fu">max</span>(w),</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">CV =</span> <span class="fu">sd</span>(w) <span class="sc">/</span> <span class="fu">mean</span>(w), <span class="at">n =</span> <span class="fu">length</span>(w), <span class="at">n_efectivo =</span> n_eff,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">DEFF_Kish =</span> <span class="fu">length</span>(w) <span class="sc">/</span> n_eff)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">diagnostico_pesos</span>(w_cal), <span class="dv">3</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        min        q25    mediana        q75        max         CV          n </span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      2.491      2.532      2.554      2.656      2.701      0.030     12.000 </span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; n_efectivo  DEFF_Kish </span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     11.990      1.001</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s<span class="sc">$</span>x_aux, w_cal, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#386641"</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Auxiliar en la muestra"</span>, <span class="at">ylab =</span> <span class="st">"Peso calibrado"</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> N <span class="sc">/</span> n, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter02-planificacion_files/figure-html/plan-pesos-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Los pesos van de 2.491 a 2.701, su CV es 0.030 y <span class="math inline">\(n_{efectivo}=11.99\)</span> de 12; la penalización de Kish es casi uno. Son pesos estables en esta muestra. Un mínimo negativo, máximos extremos, CV alto o <span class="math inline">\(n_{efectivo}\ll n\)</span> exigirían revisar cobertura del auxiliar, especificación, límites de calibración o colapso de celdas. <code>DEFF_Kish</code> solo diagnostica variabilidad de pesos: no incorpora conglomeración, estratificación ni relación entre pesos y respuesta <span class="citation" data-cites="lumley2010complex">(<a href="../references.html#ref-lumley2010complex" role="doc-biblioref">Lumley 2010</a>)</span>.</p>
+</section>
+<section id="repetición-y-diagnóstico-del-modelo-de-trabajo" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="repetición-y-diagnóstico-del-modelo-de-trabajo"><span class="header-section-number">3.5.2</span> Repetición y diagnóstico del modelo de trabajo</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2104</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="dv">3000</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>rep_aux <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">replicate</span>(B, {</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> U[<span class="fu">sample.int</span>(N, n), ]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  b_z <span class="ot">&lt;-</span> <span class="fu">cov</span>(z<span class="sc">$</span>x_aux, z<span class="sc">$</span>Volume) <span class="sc">/</span> <span class="fu">var</span>(z<span class="sc">$</span>x_aux)</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">HT =</span> N <span class="sc">*</span> <span class="fu">mean</span>(z<span class="sc">$</span>Volume),</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">razon =</span> X_aux <span class="sc">*</span> <span class="fu">sum</span>(z<span class="sc">$</span>Volume) <span class="sc">/</span> <span class="fu">sum</span>(z<span class="sc">$</span>x_aux),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">GREG =</span> N <span class="sc">*</span> <span class="fu">mean</span>(z<span class="sc">$</span>Volume) <span class="sc">+</span> b_z <span class="sc">*</span> (X_aux <span class="sc">-</span> N <span class="sc">*</span> <span class="fu">mean</span>(z<span class="sc">$</span>x_aux)))</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>}))</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>verdad <span class="ot">&lt;-</span> <span class="fu">sum</span>(U<span class="sc">$</span>Volume)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>metricas <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(rep_aux, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">c</span>(</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">sesgo =</span> <span class="fu">mean</span>(x <span class="sc">-</span> verdad), <span class="at">DE =</span> <span class="fu">sd</span>(x),</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">RMSE =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((x <span class="sc">-</span> verdad)<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>)))</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(metricas, <span class="dv">2</span>)</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       sesgo     DE   RMSE</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; HT    -4.46 114.16 114.22</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; razon  0.33  17.49  17.49</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GREG   0.72  19.11  19.12</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(s<span class="sc">$</span>x_aux, s<span class="sc">$</span>Volume, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#386641"</span>,</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="fu">expression</span>(Girth<span class="sc">^</span><span class="dv">2</span> <span class="sc">%*%</span> Height), <span class="at">ylab =</span> <span class="st">"Volumen"</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="dv">0</span>, r_hat, <span class="at">col =</span> <span class="st">"#bc4749"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="fu">lm</span>(Volume <span class="sc">~</span> x_aux, <span class="at">data =</span> s), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">fitted</span>(<span class="fu">lm</span>(Volume <span class="sc">~</span> x_aux, <span class="at">data =</span> s)), e_reg, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Volumen ajustado"</span>, <span class="at">ylab =</span> <span class="st">"Residuo GREG"</span>)</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter02-planificacion_files/figure-html/plan-repeticion-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(op)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La repetición sobre las 31 filas compara mecanismos con el mismo <span class="math inline">\(n\)</span>. Razón y GREG reducen marcadamente DE y RMSE porque el auxiliar explica casi toda la variación del volumen. El sesgo de los estimadores no lineales es pequeño frente a su dispersión en este marco. La nube y los residuos deben revisarse por intercepto, curvatura y puntos influyentes: una correlación alta no garantiza una razón constante ni extrapolación segura.</p>
+</section>
+</section>
+<section id="muestreo-indirecto-y-multiplicidad" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="muestreo-indirecto-y-multiplicidad"><span class="header-section-number">3.6</span> Muestreo indirecto y multiplicidad</h2>
+<p>En muestreo indirecto las unidades objetivo se alcanzan mediante unidades de un marco distinto. Un animal puede usar varios bebederos; si se seleccionan bebederos, el mismo animal puede estar enlazado varias veces. Ignorar esa multiplicidad sobrecuenta a quienes tienen más enlaces.</p>
+<p>Sea <span class="math inline">\(m_i\)</span> el número de unidades del marco enlazadas con el animal <span class="math inline">\(i\)</span>. Si se seleccionan <span class="math inline">\(k\)</span> de <span class="math inline">\(M\)</span> sitios por MAS, cada enlace observado aporta <span class="math inline">\(y_i/m_i\)</span> y el total se estima con</p>
+<p><span class="math display">\[
+\widehat Y_{mult}=\frac{M}{k}
+\sum_{h\in s}\sum_{i:\,h\leftrightarrow i}\frac{y_i}{m_i}.
+\]</span></p>
+<p>El marco de enlaces debe permitir identificar al mismo individuo entre sitios y conocer <strong>todos</strong> sus enlaces dentro de la población definida <span class="citation" data-cites="thompson2012sampling">(<a href="../references.html#ref-thompson2012sampling" role="doc-biblioref">Thompson 2012</a>)</span>.</p>
+<section id="ejemplo-enlazado-transparente" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="ejemplo-enlazado-transparente"><span class="header-section-number">3.6.1</span> Ejemplo enlazado transparente</h3>
+<p>El siguiente ejemplo es <strong>completamente simulado</strong>. Ocho animales están enlazados con cinco sitios y <code>y=1</code> indica una condición biológica. Cada fila es un enlace, no un animal nuevo.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>enlaces <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">animal =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"C"</span>, <span class="st">"D"</span>, <span class="st">"D"</span>, <span class="st">"D"</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>             <span class="st">"E"</span>, <span class="st">"F"</span>, <span class="st">"F"</span>, <span class="st">"G"</span>, <span class="st">"H"</span>, <span class="st">"H"</span>),</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">sitio =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">5</span>, <span class="dv">1</span>, <span class="dv">3</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>y_animal <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="dv">1</span>, <span class="at">B =</span> <span class="dv">0</span>, <span class="at">C =</span> <span class="dv">1</span>, <span class="at">D =</span> <span class="dv">1</span>, <span class="at">E =</span> <span class="dv">0</span>, <span class="at">F =</span> <span class="dv">1</span>, <span class="at">G =</span> <span class="dv">1</span>, <span class="at">H =</span> <span class="dv">0</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>enlaces<span class="sc">$</span>y <span class="ot">&lt;-</span> <span class="fu">unname</span>(y_animal[enlaces<span class="sc">$</span>animal])</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>enlaces<span class="sc">$</span>m <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">table</span>(enlaces<span class="sc">$</span>animal)[enlaces<span class="sc">$</span>animal])</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">all</span>(<span class="fu">table</span>(enlaces<span class="sc">$</span>animal) <span class="sc">==</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>              enlaces<span class="sc">$</span>m[<span class="fu">match</span>(<span class="fu">names</span>(<span class="fu">table</span>(enlaces<span class="sc">$</span>animal)), enlaces<span class="sc">$</span>animal)]))</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>enlaces</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    animal sitio y m</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1       A     1 1 2</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2       A     2 1 2</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3       B     1 0 1</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4       C     2 1 2</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5       C     3 1 2</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6       D     3 1 3</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7       D     4 1 3</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8       D     5 1 3</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9       E     4 0 1</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10      F     2 1 2</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11      F     5 1 2</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12      G     5 1 1</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13      H     1 0 2</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14      H     3 0 2</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2103</span>)</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="dv">5</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>sitios_s <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">sample.int</span>(M, k))</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>observados <span class="ot">&lt;-</span> enlaces[enlaces<span class="sc">$</span>sitio <span class="sc">%in%</span> sitios_s, ]</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>Y_mult <span class="ot">&lt;-</span> M <span class="sc">/</span> k <span class="sc">*</span> <span class="fu">sum</span>(observados<span class="sc">$</span>y <span class="sc">/</span> observados<span class="sc">$</span>m)</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">sitios =</span> <span class="fu">paste</span>(sitios_s, <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimacion_multiplicidad =</span> Y_mult,</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">total_animales_con_condicion =</span> <span class="fu">sum</span>(y_animal))</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                       sitios     estimacion_multiplicidad </span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                       "2, 4"           "4.58333333333333" </span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; total_animales_con_condicion </span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                          "5"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Se seleccionan los sitios 2 y 4. La estimación es 4.583 frente al total simulado 5. No se espera igualdad en una muestra particular; el ajuste corrige la probabilidad mayor de observar animales con muchos enlaces.</p>
+</section>
+<section id="comprobación-exacta-e-incertidumbre" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="comprobación-exacta-e-incertidumbre"><span class="header-section-number">3.6.2</span> Comprobación exacta e incertidumbre</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>contrib_sitio <span class="ot">&lt;-</span> <span class="fu">tapply</span>(enlaces<span class="sc">$</span>y <span class="sc">/</span> enlaces<span class="sc">$</span>m, enlaces<span class="sc">$</span>sitio, sum)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>combinaciones <span class="ot">&lt;-</span> <span class="fu">combn</span>(M, k)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>estimaciones_mult <span class="ot">&lt;-</span> <span class="fu">apply</span>(combinaciones, <span class="dv">2</span>, <span class="cf">function</span>(h)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  M <span class="sc">/</span> k <span class="sc">*</span> <span class="fu">sum</span>(contrib_sitio[h]))</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">verdad =</span> <span class="fu">sum</span>(y_animal), <span class="at">media_exacta =</span> <span class="fu">mean</span>(estimaciones_mult),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">DE_diseno =</span> <span class="fu">sqrt</span>(<span class="fu">mean</span>((estimaciones_mult <span class="sc">-</span> <span class="fu">mean</span>(estimaciones_mult))<span class="sc">^</span><span class="dv">2</span>)),</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">minimo =</span> <span class="fu">min</span>(estimaciones_mult), <span class="at">maximo =</span> <span class="fu">max</span>(estimaciones_mult))</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       verdad media_exacta    DE_diseno       minimo       maximo </span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     5.000000     5.000000     1.767767     2.083333     8.333333</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La media de las diez muestras posibles es exactamente 5: el estimador es insesgado bajo el MAS de sitios y enlaces completos. Su DE de diseño es 1.77 si se usa el divisor poblacional sobre las diez muestras (la <code>sd()</code> muestral sería 1.86), con rango 2.08–8.33. La magnitud recuerda que solo se seleccionan dos sitios. En campo, enlaces omitidos, identificaciones duplicadas o <span class="math inline">\(m_i\)</span> medido solo dentro de la muestra introducen sesgo que esta enumeración no representa.</p>
+</section>
+</section>
+<section id="incertidumbre-auditoría-y-decisiones" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="incertidumbre-auditoría-y-decisiones"><span class="header-section-number">3.7</span> Incertidumbre, auditoría y decisiones</h2>
+<p>Una auditoría previa al trabajo de campo debe conservar, al menos:</p>
+<ul>
+<li>versión de la fórmula, <span class="math inline">\(N\)</span>, <span class="math inline">\(d\)</span>, confianza, <span class="math inline">\(S\)</span> o <span class="math inline">\(P\)</span> y fuente del piloto;</li>
+<li>unidades a las que corresponden <span class="math inline">\(S\)</span>, <code>DEFF</code>, respuesta y costo;</li>
+<li>tamaños sin CPF, con CPF, completos y a contactar;</li>
+<li>restricciones por dominio y mínimo de unidades primarias;</li>
+<li>totales auxiliares, fecha del marco y diagnóstico de pesos previsto;</li>
+<li>regla para no respuesta, sustituciones, enlaces y multiplicidad;</li>
+<li>escenarios alternativos y decisión tomada antes de observar la respuesta.</li>
+</ul>
+<p>El intervalo final debe usar el diseño realmente ejecutado, no el supuesto que produjo <span class="math inline">\(n\)</span>. Si la tasa de respuesta fue menor, cambiaron conglomerados o se calibraron pesos, la incertidumbre debe incorporar esos hechos. Alcanzar el tamaño nominal no repara cobertura incompleta, detección imperfecta o error de medición.</p>
+</section>
+<section id="ejercicios" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="ejercicios"><span class="header-section-number">3.8</span> Ejercicios</h2>
+<section id="teóricos" class="level3" data-number="3.8.1">
+<h3 data-number="3.8.1" class="anchored" data-anchor-id="teóricos"><span class="header-section-number">3.8.1</span> Teóricos</h3>
+<ol type="1">
+<li>Explique por qué reducir <span class="math inline">\(d\)</span> de 4 a 2 aproximadamente cuadruplica <span class="math inline">\(n_0\)</span>, pero puede no cuadruplicar <span class="math inline">\(n_{CPF}\)</span>.</li>
+<li>Distinga <code>DEFF</code> por conglomeración, <code>DEFF_Kish</code> por pesos y pérdida por no respuesta. ¿Por qué no deben sustituirse sin más unos por otros?</li>
+<li>Indique cuándo el estimador de razón sería menos defendible que GREG y qué gráfico usaría para justificar la decisión.</li>
+<li>Demuestre que cada animal aporta en total <span class="math inline">\(y_i\)</span> al sumar <span class="math inline">\(y_i/m_i\)</span> sobre sus <span class="math inline">\(m_i\)</span> enlaces.</li>
+</ol>
+</section>
+<section id="numéricos" class="level3" data-number="3.8.2">
+<h3 data-number="3.8.2" class="anchored" data-anchor-id="numéricos"><span class="header-section-number">3.8.2</span> Numéricos</h3>
+<ol type="1">
+<li>Para <span class="math inline">\(N=800\)</span>, <span class="math inline">\(S=12\)</span>, <span class="math inline">\(d=2\)</span>, confianza 95 %, <code>DEFF = 1.5</code> y respuesta 80 %, calcule <span class="math inline">\(n_0^*\)</span>, respuestas completas y contactos.</li>
+<li>Para una proporción esperada de 0.2, <span class="math inline">\(N=400\)</span> y <span class="math inline">\(d=0.04\)</span>, compare el tamaño con el cálculo conservador <span class="math inline">\(P=0.5\)</span>.</li>
+<li>Con <span class="math inline">\(C_0=1200\)</span>, <span class="math inline">\(c=45\)</span> y presupuesto 9000, determine el máximo de contactos y si alcanza el resultado del ejercicio 1.</li>
+</ol>
+</section>
+<section id="en-r" class="level3" data-number="3.8.3">
+<h3 data-number="3.8.3" class="anchored" data-anchor-id="en-r"><span class="header-section-number">3.8.3</span> En R</h3>
+<ol type="1">
+<li>Modifique <code>n_media()</code> para devolver la semiamplitud esperada del entero final.</li>
+<li>Repita <code>rep_aux</code> con <code>x_aux = Girth</code>; compare sesgo, DE y RMSE.</li>
+<li>Fuerce una meta auxiliar alejada de la muestra, examine pesos negativos y explique por qué una igualdad de calibración puede ser numéricamente correcta y científicamente indefendible.</li>
+<li>En la red simulada, compare el estimador ajustado con <span class="math inline">\(M/k\)</span> por el número de filas positivas sin dividir por <code>m</code>. Enumere las diez muestras y cuantifique el sesgo del estimador ingenuo.</li>
+</ol>
+</section>
+</section>
+<section id="comprobación-reproducible" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="comprobación-reproducible"><span class="header-section-number">3.9</span> Comprobación reproducible</h2>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  plan_media[<span class="st">"n_completa"</span>] <span class="sc">==</span> <span class="dv">24</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  plan_media[<span class="st">"n_contactar"</span>] <span class="sc">==</span> <span class="dv">29</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abs</span>(<span class="fu">sum</span>(w_cal) <span class="sc">-</span> N) <span class="sc">&lt;</span> <span class="fl">1e-8</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abs</span>(<span class="fu">sum</span>(w_cal <span class="sc">*</span> s<span class="sc">$</span>x_aux) <span class="sc">-</span> X_aux) <span class="sc">&lt;</span> <span class="fl">1e-6</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abs</span>(Y_cal <span class="sc">-</span> estimadores[<span class="st">"regresion"</span>]) <span class="sc">&lt;</span> <span class="fl">1e-8</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diagnostico_pesos</span>(w_cal)[<span class="st">"n_efectivo"</span>] <span class="sc">&lt;=</span> n <span class="sc">+</span> <span class="fl">1e-10</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">abs</span>(<span class="fu">mean</span>(estimaciones_mult) <span class="sc">-</span> <span class="fu">sum</span>(y_animal)) <span class="sc">&lt;</span> <span class="fl">1e-12</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">list</span>(</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">datos =</span> <span class="fu">c</span>(<span class="st">"datasets::trees"</span>, <span class="st">"vegan::BCI"</span>, <span class="st">"red de enlaces simulada"</span>),</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">semillas =</span> <span class="fu">c</span>(<span class="at">piloto =</span> <span class="dv">2101</span>, <span class="at">auxiliar =</span> <span class="dv">2102</span>, <span class="at">multiplicidad =</span> <span class="dv">2103</span>,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>                <span class="at">repeticion =</span> <span class="dv">2104</span>),</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">R =</span> R.version.string,</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">vegan =</span> <span class="fu">as.character</span>(utils<span class="sc">::</span><span class="fu">packageVersion</span>(<span class="st">"vegan"</span>))</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $datos</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "datasets::trees"         "vegan::BCI"             </span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3] "red de enlaces simulada"</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $semillas</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        piloto      auxiliar multiplicidad    repeticion </span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          2101          2102          2103          2104 </span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $R</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "R version 4.5.2 (2025-10-31)"</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $vegan</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "2.7.5"</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="interpretación" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="interpretación"><span class="header-section-number">3.10</span> Interpretación</h2>
+<p>En la población didáctica de 31 árboles, una DE piloto de 17.45, precisión de ±4, <code>DEFF = 1.3</code> y 85 % de respuesta conducen a 24 mediciones completas y 29 contactos. La incertidumbre sobre <span class="math inline">\(S\)</span>, el diseño y la respuesta es sustantiva; por eso el análisis de sensibilidad forma parte del resultado, no un apéndice. El presupuesto propuesto queda corto por 15 unidades monetarias.</p>
+<p>La información auxiliar reduce mucho el error de muestreo en <code>trees</code>, y la calibración reproduce GREG con restricciones verificables y pesos estables. Esa ganancia está limitada al marco y a la relación observada; no corrige el origen histórico desconocido de los datos. En BCI, la dependencia entre hectáreas de una franja eleva el esfuerzo aproximado. En la red simulada, la multiplicidad es una propiedad de los enlaces y debe entrar en el estimador. En los tres casos, una cifra final sin supuestos, unidad, diagnóstico y mecanismo de repetición resulta incompleta.</p>
+</section>
+<section id="actividad-propuesta-para-el-lector" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="actividad-propuesta-para-el-lector"><span class="header-section-number">3.11</span> Actividad propuesta para el lector</h2>
+<p>Diseñe un estudio para estimar la riqueza media por hectárea en <code>vegan::BCI</code> con una semiamplitud elegida y justificada. Use un subconjunto reproducible de diez hectáreas como piloto, pero evalúe retrospectivamente el plan contra las 50 solo después de fijarlo. Compare MAS y franjas como conglomerados; estime ICC y <code>DEFF</code>, imponga un mínimo de seis unidades primarias, añada tres escenarios de respuesta y una función de costo con viaje y medición. Use tallos totales como auxiliar, construya GREG y pesos calibrados en base R, diagnostique extremos y tamaño efectivo, y repita ambos diseños sobre el censo para comparar sesgo, RMSE y cobertura. Entregue una recomendación con magnitud, incertidumbre, supuestos, factibilidad y límites de generalización.</p>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-condit2002beta" class="csl-entry" role="listitem">
+Condit, Richard, Nigel Pitman, Egbert G. Leigh, et&nbsp;al. 2002. <span>«Beta-Diversity in Tropical Forest Trees»</span>. <em>Science</em> 295 (5555): 666-69. <a href="https://doi.org/10.1126/science.1066854">https://doi.org/10.1126/science.1066854</a>.
+</div>
+<div id="ref-harms2001habitat" class="csl-entry" role="listitem">
+Harms, Kyle E., Richard Condit, Stephen P. Hubbell, y Robin B. Foster. 2001. <span>«Habitat Associations of Trees and Shrubs in a 50-ha Neotropical Forest Plot»</span>. <em>Journal of Ecology</em> 89 (6): 947-59. <a href="https://doi.org/10.1111/j.1365-2745.2001.00615.x">https://doi.org/10.1111/j.1365-2745.2001.00615.x</a>.
+</div>
+<div id="ref-lohr2022sampling" class="csl-entry" role="listitem">
+Lohr, Sharon L. 2022. <em>Sampling: Design and Analysis</em>. 3.ª ed. CRC Press. <a href="https://doi.org/10.1201/9780429298899">https://doi.org/10.1201/9780429298899</a>.
+</div>
+<div id="ref-lumley2010complex" class="csl-entry" role="listitem">
+Lumley, Thomas. 2010. <em>Complex Surveys: A Guide to Analysis Using R</em>. Wiley.
+</div>
+<div id="ref-oksanen2024vegan" class="csl-entry" role="listitem">
+Oksanen, Jari, Gavin L. Simpson, F. Guillaume Blanchet, et&nbsp;al. 2024. <em>vegan: Community Ecology Package</em>. <a href="https://CRAN.R-project.org/package=vegan">https://CRAN.R-project.org/package=vegan</a>.
+</div>
+<div id="ref-sarndal1992model" class="csl-entry" role="listitem">
+Särndal, Carl-Erik, Bengt Swensson, y Jan Wretman. 1992. <em>Model Assisted Survey Sampling</em>. Springer-Verlag.
+</div>
+<div id="ref-thompson2012sampling" class="csl-entry" role="listitem">
+Thompson, Steven K. 2012. <em>Sampling</em>. 3.ª ed. Wiley.
+</div>
+<div id="ref-valliant2013practical" class="csl-entry" role="listitem">
+Valliant, Richard, Jill A. Dever, y Frauke Kreuter. 2013. <em>Practical Tools for Designing and Weighting Survey Samples</em>. Springer.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/chapter02.html" class="pagination-link" aria-label="Diseños probabilísticos para poblaciones biológicas">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Diseños probabilísticos para poblaciones biológicas</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/chapter03.html" class="pagination-link" aria-label="Parcelas, cuadrantes e intercepción">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Muestreo ecológico con R</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Jonathan Florez Giraldo</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

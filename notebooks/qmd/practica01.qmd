@@ -1,0 +1,262 @@
+---
+title: "Práctica 1: Planificación, calibración y multiplicidad"
+subtitle: "Tamaño de muestra y diagnóstico reproducible en base R"
+execute:
+  enabled: true
+  warning: false
+  message: false
+---
+
+## Presentación
+
+Esta práctica es autocontenida. Usa los 31 registros reales de
+`datasets::trees` como población finita didáctica y una red pequeña **simulada**
+para muestreo indirecto. No depende de objetos creados en otro capítulo y solo
+requiere base R.
+
+Los bloques incompletos están marcados con `# COMPLETAR`, contienen `____` y no
+se ejecutan al renderizar (`eval: false`). Reemplace cada hueco, ejecute el bloque
+y contraste con el callout final. Informe siempre magnitud, incertidumbre,
+supuestos y límites; acertar un número sin interpretarlo no completa la práctica.
+
+## Bloque 0. Marco y piloto
+
+```{r}
+data(trees, package = "datasets")
+U <- transform(
+  trees,
+  id = seq_len(nrow(trees)),
+  x_aux = Girth^2 * Height,
+  grande = as.integer(Volume >= 30)
+)
+N <- nrow(U)
+
+set.seed(2101)
+piloto <- U[sample.int(N, 8), ]
+c(N = N, n_piloto = nrow(piloto), DE_piloto = sd(piloto$Volume),
+  proporcion_grande = mean(piloto$grande), faltantes = sum(is.na(U)))
+```
+
+**Auditoría.** Explique por qué estas 31 filas no representan todos los cerezos
+negros y por qué la DE del piloto es una entrada incierta, aunque el cálculo sea
+reproducible.
+
+## Bloque 1. Media, proporción, CPF y no respuesta
+
+Complete las dos funciones. Aplique `DEFF` antes de la CPF y redondee hacia
+arriba; el número a contactar no puede exceder $N$.
+
+```{r}
+#| eval: false
+# COMPLETAR
+n_media <- function(N, S, d, conf = 0.95, deff = 1, respuesta = 1) {
+  z <- ____
+  n0 <- ____
+  n_completa <- min(N, ceiling(____))
+  n_contactar <- min(N, ceiling(____))
+  c(n0 = n0, n_completa = n_completa, n_contactar = n_contactar)
+}
+
+n_proporcion <- function(N, P = 0.5, d, conf = 0.95,
+                         deff = 1, respuesta = 1) {
+  z <- ____
+  n0 <- ____
+  n_completa <- min(N, ceiling(____))
+  n_contactar <- min(N, ceiling(____))
+  c(n0 = n0, n_completa = n_completa, n_contactar = n_contactar)
+}
+
+plan_media <- n_media(N, sd(piloto$Volume), d = 4,
+                      deff = 1.3, respuesta = 0.85)
+plan_prop <- n_proporcion(N, P = 0.5, d = 0.12,
+                          deff = 1.3, respuesta = 0.85)
+round(rbind(media = plan_media, proporcion = plan_prop), 2)
+```
+
+**Preguntas.** ¿Por qué se usa $P=0.5$? ¿Qué corrige la CPF y qué no corrige?
+¿Por qué dividir por 0.85 no elimina sesgo de no respuesta?
+
+## Bloque 2. Costo y sensibilidad
+
+```{r}
+#| eval: false
+# COMPLETAR: máximo de contactos y costo del plan para la media.
+C0 <- 500
+c_contacto <- 35
+presupuesto <- 1500
+n_max <- min(N, floor(____))
+costo_requerido <- ____
+c(n_max = n_max, costo_requerido = costo_requerido,
+  diferencia = costo_requerido - presupuesto)
+
+# COMPLETAR: calcule n completa y a contactar en todos los escenarios.
+escenarios <- expand.grid(
+  S = c(12, sd(piloto$Volume), 22),
+  d = c(3, 4, 5),
+  DEFF = c(1, 1.3),
+  respuesta = c(0.75, 0.85, 0.95)
+)
+planes <- t(apply(escenarios, 1, function(a)
+  n_media(____, ____, ____, deff = ____, respuesta = ____)[
+    c("n_completa", "n_contactar")]))
+sensibilidad <- cbind(escenarios, planes)
+head(sensibilidad)
+```
+
+**Gráfica.** Dibuje `n_contactar` frente a `d`, con un color por `DEFF`, para
+$S=17.45$ aproximadamente y respuesta 0.85.
+
+**Análisis.** Describa la magnitud del déficit presupuestal. Identifique qué
+supuesto domina el tamaño y por qué algunos escenarios terminan en el mismo
+entero cuando $N=31$.
+
+## Bloque 3. Razón, regresión y calibración
+
+```{r}
+#| eval: false
+# COMPLETAR: estimadores del total y residuos para el EE aproximado.
+set.seed(2102)
+n <- 12
+s <- U[sample.int(N, n), ]
+X_aux <- sum(U$x_aux)
+b <- ____
+r_hat <- ____
+
+estimadores <- c(
+  verdad = sum(U$Volume),
+  HT = ____,
+  razon = ____,
+  GREG = ____
+)
+e_reg <- residuals(lm(____, data = s))
+EE <- c(
+  HT = N * sqrt((1 - n / N) * var(s$Volume) / n),
+  GREG_aprox = ____
+)
+round(estimadores, 2)
+round(EE, 2)
+```
+
+Calibre simultáneamente al número de unidades y al total auxiliar.
+
+```{r}
+#| eval: false
+# COMPLETAR: lambda, pesos y total calibrado.
+d_i <- rep(N / n, n)
+A <- cbind(uno = 1, x_aux = s$x_aux)
+objetivo <- c(N, X_aux)
+lambda <- solve(____, ____)
+w_cal <- ____
+Y_cal <- ____
+
+c(suma_w = sum(w_cal), N = N,
+  suma_wx = sum(w_cal * s$x_aux), X = X_aux,
+  calibrado = Y_cal, GREG = estimadores["GREG"])
+```
+
+**Diagnóstico.** Calcule mínimo, máximo, CV, tamaño efectivo de Kish
+$(\sum w)^2/\sum w^2$ y `DEFF_Kish = n/n_efectivo`. ¿Hay pesos negativos o
+extremos? ¿Por qué ese `DEFF` no mide dependencia espacial?
+
+## Bloque 4. Repetición y precisión asistida
+
+```{r}
+#| eval: false
+# COMPLETAR los tres estimadores en cada MAS y las métricas por columna.
+set.seed(2104)
+B <- 3000
+rep_aux <- t(replicate(B, {
+  z <- U[sample.int(N, n), ]
+  b_z <- ____
+  c(HT = ____,
+    razon = ____,
+    GREG = ____)
+}))
+
+verdad <- sum(U$Volume)
+metricas <- t(apply(rep_aux, 2, function(x) c(
+  sesgo = ____,
+  DE = ____,
+  RMSE = ____
+)))
+round(metricas, 2)
+```
+
+**Gráficas.** Dibuje diagramas de caja de los tres estimadores con una línea en
+el total verdadero. Para la muestra `s`, grafique volumen contra auxiliar, añada
+la recta de razón forzada al origen y la recta de regresión con intercepto; haga
+un segundo panel con residuos.
+
+**Análisis.** Compare la magnitud del sesgo con la DE y el RMSE. Explique por qué
+la ganancia de GREG está condicionada a que el auxiliar sea conocido en el marco
+y mantenga una relación estable con volumen.
+
+## Bloque 5. Muestreo indirecto y multiplicidad
+
+Esta red es **simulada**. Cada fila es un enlace animal-sitio.
+
+```{r}
+enlaces <- data.frame(
+  animal = c("A", "A", "B", "C", "C", "D", "D", "D",
+             "E", "F", "F", "G", "H", "H"),
+  sitio = c(1, 2, 1, 2, 3, 3, 4, 5, 4, 2, 5, 5, 1, 3)
+)
+y_animal <- c(A = 1, B = 0, C = 1, D = 1, E = 0, F = 1, G = 1, H = 0)
+enlaces$y <- unname(y_animal[enlaces$animal])
+```
+
+```{r}
+#| eval: false
+# COMPLETAR: multiplicidad, muestra, estimador y enumeración exacta.
+enlaces$m <- ____
+set.seed(2103)
+M <- 5
+k <- 2
+sitios_s <- sort(sample.int(M, k))
+observados <- enlaces[enlaces$sitio %in% sitios_s, ]
+Y_mult <- ____
+
+contrib_sitio <- tapply(____, enlaces$sitio, sum)
+combinaciones <- combn(M, k)
+estimaciones_mult <- apply(combinaciones, 2, function(h) ____)
+c(sitios = paste(sitios_s, collapse = ","), estimacion = Y_mult,
+  verdad = sum(y_animal), media_exacta = mean(estimaciones_mult),
+  DE_diseno = sqrt(mean((estimaciones_mult - mean(estimaciones_mult))^2)))
+```
+
+**Preguntas.** ¿Por qué dividir por `m` evita que el animal D cuente tres veces?
+¿Por qué 4.583 no es un error de implementación aunque la verdad sea 5? ¿Qué
+ocurriría si `m` solo contara los sitios seleccionados?
+
+## Síntesis y comprobación
+
+Escriba un informe de 150--200 palabras que incluya:
+
+- tamaños para media y proporción, costo y factibilidad;
+- magnitud de la ganancia o pérdida de precisión de GREG frente a HT;
+- incertidumbre de muestreo y supuestos no representados por ella;
+- diagnóstico de pesos y límites de generalización de `trees`;
+- interpretación de la estimación por multiplicidad y su carácter simulado.
+
+::: {.callout-note collapse="true"}
+## Resultados breves de comprobación
+
+**Bloque 0.** $N=31$, piloto de 8, DE piloto 17.454 y sin faltantes.
+
+**Bloque 1.** Media: $n_0^*=95.08$, 24 completas y 29 contactos. Proporción:
+$n_0^*=86.70$, 24 completas y 29 contactos.
+
+**Bloque 2.** El presupuesto permite 28 contactos. El plan cuesta 1515: déficit
+de 15.
+
+**Bloque 3.** Total verdadero 935.30; HT 950.15; razón 964.98; GREG y calibrado
+965.00. EE aproximados: 121.36 para HT y 16.46 para GREG. Pesos 2.491--2.701,
+CV 0.030, $n_{efectivo}=11.990$ y `DEFF_Kish` aproximadamente 1.001.
+
+**Bloque 4.** Sesgo, DE y RMSE, respectivamente: HT (-4.46, 114.16, 114.22),
+razón (0.33, 17.49, 17.49) y GREG (0.72, 19.11, 19.12). Los valores cambian si
+se modifican semilla, $B$ o fórmula.
+
+**Bloque 5.** Sitios 2 y 4; estimación 4.583; media exacta de las diez muestras
+igual a 5; DE de diseño 1.768 (divisor poblacional), rango 2.083--8.333.
+:::

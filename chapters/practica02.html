@@ -8,7 +8,7 @@
 
 <meta name="description" content="Fundamentos estadísticos, métodos de campo y proyectos reproducibles para el estudio de poblaciones, comunidades e interacciones biológicas.">
 
-<title>13&nbsp; Práctica 2: Diseños probabilísticos en R – Muestreo ecológico</title>
+<title>17&nbsp; Práctica 2: Diseños probabilísticos en R – Muestreo ecológico</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -73,7 +73,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../chapters/practica03.html" rel="next">
-<link href="../chapters/chapter12.html" rel="prev">
+<link href="../chapters/practica01.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -83,7 +83,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-3fee61de2b36a07911a09d94e160f21d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-7cffdf8bbe0ff56ccfce34d1b7d2026d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-f95d08478d6d2965eb675d4638296471.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -153,7 +153,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/practica02.html">Prácticas</a></li><li class="breadcrumb-item"><a href="../chapters/practica02.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/practica01.html">Prácticas</a></li><li class="breadcrumb-item"><a href="../chapters/practica02.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -232,6 +232,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Diseños probabilísticos para poblaciones biológicas</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter02-planificacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Planificación del tamaño de muestra</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -246,19 +252,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transectos y muestreo por distancias</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transectos y muestreo por distancias</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter05.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Métodos de censo por organismos y hábitats</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Métodos de censo por organismos y hábitats</span></span></a>
   </div>
 </li>
       </ul>
@@ -275,13 +281,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Remoción, captura-recaptura e índices de abundancia</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Remoción, captura-recaptura e índices de abundancia</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ocupación y detección imperfecta</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Ocupación y detección imperfecta</span></span></a>
   </div>
 </li>
       </ul>
@@ -298,13 +304,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter08.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Estudios comparativos, intervenciones y sesgos</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estudios comparativos, intervenciones y sesgos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter08-epidemiologia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Diseños epidemiológicos y tiempo hasta evento</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter09.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Monitoreo ecológico y análisis de tendencias</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Monitoreo ecológico y análisis de tendencias</span></span></a>
   </div>
 </li>
       </ul>
@@ -321,13 +333,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter10.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter11.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter11-interacciones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Uso de recursos e interacciones ecológicas</span></span></a>
   </div>
 </li>
       </ul>
@@ -344,7 +362,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></span></a>
   </div>
 </li>
       </ul>
@@ -360,14 +378,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/practica01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Práctica 1: Planificación, calibración y multiplicidad</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/practica02.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/practica03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Práctica 3: Parcelas, cuadrantes e intercepción</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Práctica 3: Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Práctica 4: Epidemiología y tiempo hasta evento</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Práctica 5: Recursos e interacciones</span></span></a>
   </div>
 </li>
       </ul>
@@ -405,23 +441,23 @@ window.Quarto = {
     <h2 id="toc-title">Contenido</h2>
    
   <ul>
-  <li><a href="#presentación" id="toc-presentación" class="nav-link active" data-scroll-target="#presentación"><span class="header-section-number">13.1</span> Presentación</a></li>
-  <li><a href="#bloque-0.-arranque-autocontenido" id="toc-bloque-0.-arranque-autocontenido" class="nav-link" data-scroll-target="#bloque-0.-arranque-autocontenido"><span class="header-section-number">13.2</span> Bloque 0. Arranque autocontenido</a></li>
-  <li><a href="#bloque-1.-auxiliar-y-tamaño-de-muestra" id="toc-bloque-1.-auxiliar-y-tamaño-de-muestra" class="nav-link" data-scroll-target="#bloque-1.-auxiliar-y-tamaño-de-muestra"><span class="header-section-number">13.3</span> Bloque 1. Auxiliar y tamaño de muestra</a></li>
-  <li><a href="#bloque-2.-estratificación-asignación-y-ganancia-de-precisión" id="toc-bloque-2.-estratificación-asignación-y-ganancia-de-precisión" class="nav-link" data-scroll-target="#bloque-2.-estratificación-asignación-y-ganancia-de-precisión"><span class="header-section-number">13.4</span> Bloque 2. Estratificación: asignación y ganancia de precisión</a></li>
-  <li><a href="#bloque-3.-sistemático-arranques-y-sensibilidad-al-orden" id="toc-bloque-3.-sistemático-arranques-y-sensibilidad-al-orden" class="nav-link" data-scroll-target="#bloque-3.-sistemático-arranques-y-sensibilidad-al-orden"><span class="header-section-number">13.5</span> Bloque 3. Sistemático: arranques y sensibilidad al orden</a></li>
-  <li><a href="#bloque-4.-conglomerados-orientación-de-las-unidades-primarias" id="toc-bloque-4.-conglomerados-orientación-de-las-unidades-primarias" class="nav-link" data-scroll-target="#bloque-4.-conglomerados-orientación-de-las-unidades-primarias"><span class="header-section-number">13.6</span> Bloque 4. Conglomerados: orientación de las unidades primarias</a></li>
-  <li><a href="#bloque-5.-auxiliar-razón-frente-a-regresión" id="toc-bloque-5.-auxiliar-razón-frente-a-regresión" class="nav-link" data-scroll-target="#bloque-5.-auxiliar-razón-frente-a-regresión"><span class="header-section-number">13.7</span> Bloque 5. Auxiliar: razón frente a regresión</a></li>
-  <li><a href="#síntesis-y-comprobación" id="toc-síntesis-y-comprobación" class="nav-link" data-scroll-target="#síntesis-y-comprobación"><span class="header-section-number">13.8</span> Síntesis y comprobación</a></li>
+  <li><a href="#presentación" id="toc-presentación" class="nav-link active" data-scroll-target="#presentación"><span class="header-section-number">17.1</span> Presentación</a></li>
+  <li><a href="#bloque-0.-arranque-autocontenido" id="toc-bloque-0.-arranque-autocontenido" class="nav-link" data-scroll-target="#bloque-0.-arranque-autocontenido"><span class="header-section-number">17.2</span> Bloque 0. Arranque autocontenido</a></li>
+  <li><a href="#bloque-1.-auxiliar-y-tamaño-de-muestra" id="toc-bloque-1.-auxiliar-y-tamaño-de-muestra" class="nav-link" data-scroll-target="#bloque-1.-auxiliar-y-tamaño-de-muestra"><span class="header-section-number">17.3</span> Bloque 1. Auxiliar y tamaño de muestra</a></li>
+  <li><a href="#bloque-2.-estratificación-asignación-y-ganancia-de-precisión" id="toc-bloque-2.-estratificación-asignación-y-ganancia-de-precisión" class="nav-link" data-scroll-target="#bloque-2.-estratificación-asignación-y-ganancia-de-precisión"><span class="header-section-number">17.4</span> Bloque 2. Estratificación: asignación y ganancia de precisión</a></li>
+  <li><a href="#bloque-3.-sistemático-arranques-y-sensibilidad-al-orden" id="toc-bloque-3.-sistemático-arranques-y-sensibilidad-al-orden" class="nav-link" data-scroll-target="#bloque-3.-sistemático-arranques-y-sensibilidad-al-orden"><span class="header-section-number">17.5</span> Bloque 3. Sistemático: arranques y sensibilidad al orden</a></li>
+  <li><a href="#bloque-4.-conglomerados-orientación-de-las-unidades-primarias" id="toc-bloque-4.-conglomerados-orientación-de-las-unidades-primarias" class="nav-link" data-scroll-target="#bloque-4.-conglomerados-orientación-de-las-unidades-primarias"><span class="header-section-number">17.6</span> Bloque 4. Conglomerados: orientación de las unidades primarias</a></li>
+  <li><a href="#bloque-5.-auxiliar-razón-frente-a-regresión" id="toc-bloque-5.-auxiliar-razón-frente-a-regresión" class="nav-link" data-scroll-target="#bloque-5.-auxiliar-razón-frente-a-regresión"><span class="header-section-number">17.7</span> Bloque 5. Auxiliar: razón frente a regresión</a></li>
+  <li><a href="#síntesis-y-comprobación" id="toc-síntesis-y-comprobación" class="nav-link" data-scroll-target="#síntesis-y-comprobación"><span class="header-section-number">17.8</span> Síntesis y comprobación</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/practica02.html">Prácticas</a></li><li class="breadcrumb-item"><a href="../chapters/practica02.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/practica01.html">Prácticas</a></li><li class="breadcrumb-item"><a href="../chapters/practica02.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></h1>
+<h1 class="title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></h1>
 <p class="subtitle lead">Estimación por repetición, gráficas y análisis de resultados</p>
 </div>
 
@@ -439,15 +475,15 @@ window.Quarto = {
 </header>
 
 
-<section id="presentación" class="level2" data-number="13.1">
-<h2 data-number="13.1" class="anchored" data-anchor-id="presentación"><span class="header-section-number">13.1</span> Presentación</h2>
+<section id="presentación" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="presentación"><span class="header-section-number">17.1</span> Presentación</h2>
 <p>Esta práctica trabaja con los dos censos usados en el capítulo 2: los 31 árboles de <code>datasets::trees</code> y las 50 hectáreas del censo de Barro Colorado (<code>vegan::BCI</code>). El documento es autocontenido: construye todos los objetos que necesita, por lo que se resuelve en una sesión nueva de R sin depender del resto del capítulo.</p>
 <p><strong>Materiales.</strong> Una instalación de R con el paquete <code>vegan</code>. No se requieren otros paquetes.</p>
 <p><strong>Cómo trabajar.</strong> La práctica es de construcción guiada: el código de cada bloque está incompleto. Los huecos están marcados con <code># COMPLETAR</code> y, en el texto, con <code>____</code> dentro del código. Debe reemplazarlos por la expresión correcta, ejecutar el bloque y comprobar contra el cuadro de comprobación (colapsado, al final). Después trace las gráficas pedidas (escríbalas usted mismo), responda las preguntas de análisis y resuelva la tarea de exploración de cada bloque, que exige modificar y volver a ejecutar. En la entrega incluya el código completado, las gráficas y las respuestas.</p>
 <p><strong>Convención del texto.</strong> Se usa <code>#&gt;</code> para la salida de R. Las semillas están fijadas para que sus resultados coincidan con la comprobación.</p>
 </section>
-<section id="bloque-0.-arranque-autocontenido" class="level2" data-number="13.2">
-<h2 data-number="13.2" class="anchored" data-anchor-id="bloque-0.-arranque-autocontenido"><span class="header-section-number">13.2</span> Bloque 0. Arranque autocontenido</h2>
+<section id="bloque-0.-arranque-autocontenido" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="bloque-0.-arranque-autocontenido"><span class="header-section-number">17.2</span> Bloque 0. Arranque autocontenido</h2>
 <p>Construya los marcos y las verdades poblacionales. Este bloque está completo; ejecútelo y verifique los valores.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(trees, <span class="at">package =</span> <span class="st">"datasets"</span>)</span>
@@ -533,8 +569,8 @@ window.Quarto = {
 <span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                       5.00                     429.14</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="bloque-1.-auxiliar-y-tamaño-de-muestra" class="level2" data-number="13.3">
-<h2 data-number="13.3" class="anchored" data-anchor-id="bloque-1.-auxiliar-y-tamaño-de-muestra"><span class="header-section-number">13.3</span> Bloque 1. Auxiliar y tamaño de muestra</h2>
+<section id="bloque-1.-auxiliar-y-tamaño-de-muestra" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="bloque-1.-auxiliar-y-tamaño-de-muestra"><span class="header-section-number">17.3</span> Bloque 1. Auxiliar y tamaño de muestra</h2>
 <p>Compare, por repetición, el error del estimador MAS y del estimador de razón para tres tamaños de muestra (<span class="math inline">\(n = 6, 10, 15\)</span>). La razón usa el auxiliar <span class="math inline">\(x = \mathrm{DAP}^2\cdot\mathrm{altura}\)</span>, conocido para las 31 unidades. Complete los RMSE dentro de la repetición.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: en cada repetición "MAS" y "razon" son filas de rep_k con las B</span></span>
@@ -569,8 +605,8 @@ window.Quarto = {
 </ol>
 <p><strong>Tarea de exploración.</strong> Repita con <code>c(6, 8, 10, 15, 20)</code> y calcule también el sesgo de cada método (promedio de la desviación respecto de la verdad). ¿Qué le dice el cociente entre RMSE sobre el papel del auxiliar a medida que crece <span class="math inline">\(n\)</span>?</p>
 </section>
-<section id="bloque-2.-estratificación-asignación-y-ganancia-de-precisión" class="level2" data-number="13.4">
-<h2 data-number="13.4" class="anchored" data-anchor-id="bloque-2.-estratificación-asignación-y-ganancia-de-precisión"><span class="header-section-number">13.4</span> Bloque 2. Estratificación: asignación y ganancia de precisión</h2>
+<section id="bloque-2.-estratificación-asignación-y-ganancia-de-precisión" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="bloque-2.-estratificación-asignación-y-ganancia-de-precisión"><span class="header-section-number">17.4</span> Bloque 2. Estratificación: asignación y ganancia de precisión</h2>
 <p>Estime el total de volumen con un MAS y con las asignaciones proporcional y de Neyman. Complete el estimador por estratos y la muestra dentro de cada estrato.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: total y varianza por estrato (usar N_h, n_h y var(z)).</span></span>
@@ -662,8 +698,8 @@ window.Quarto = {
 </ol>
 <p><strong>Tarea de exploración.</strong> Repita la repetición con <code>n_total = 12</code> (recalcule <code>nh</code> y <code>nh_neyman</code> con <code>asignar_enteros(as.numeric(Nh), 12)</code>). ¿Cómo cambia la ventaja relativa del proporcional frente al MAS? Además, estime <code>S_h</code> con una mini-muestra de tres unidades por estrato (un “piloto”) y construya la asignación de Neyman con esas DE; compare con la de Neyman “censal” y explique la diferencia.</p>
 </section>
-<section id="bloque-3.-sistemático-arranques-y-sensibilidad-al-orden" class="level2" data-number="13.5">
-<h2 data-number="13.5" class="anchored" data-anchor-id="bloque-3.-sistemático-arranques-y-sensibilidad-al-orden"><span class="header-section-number">13.5</span> Bloque 3. Sistemático: arranques y sensibilidad al orden</h2>
+<section id="bloque-3.-sistemático-arranques-y-sensibilidad-al-orden" class="level2" data-number="17.5">
+<h2 data-number="17.5" class="anchored" data-anchor-id="bloque-3.-sistemático-arranques-y-sensibilidad-al-orden"><span class="header-section-number">17.5</span> Bloque 3. Sistemático: arranques y sensibilidad al orden</h2>
 <p>En el marco ordenado de las 31 unidades, enumere los 31 arranques del estimador sistemático del total en tres órdenes. Complete la función de selección.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: desplazamientos = floor((0:(n_k - 1)) * N_k / n_k) y los órdenes.</span></span>
@@ -708,8 +744,8 @@ window.Quarto = {
 </ol>
 <p><strong>Tarea de exploración.</strong> Añada un cuarto orden por <code>Height</code> y comente dónde cae en el ranking de DE de diseño. Después, genere la realización sistemática con arranque 31 (la sorteada en el capítulo) sobre el orden por diámetro y estime el total con un MAS de diez unidades por repetición (1000 veces); compare la DE empírica de ambos con la DE de diseño sistemática.</p>
 </section>
-<section id="bloque-4.-conglomerados-orientación-de-las-unidades-primarias" class="level2" data-number="13.6">
-<h2 data-number="13.6" class="anchored" data-anchor-id="bloque-4.-conglomerados-orientación-de-las-unidades-primarias"><span class="header-section-number">13.6</span> Bloque 4. Conglomerados: orientación de las unidades primarias</h2>
+<section id="bloque-4.-conglomerados-orientación-de-las-unidades-primarias" class="level2" data-number="17.6">
+<h2 data-number="17.6" class="anchored" data-anchor-id="bloque-4.-conglomerados-orientación-de-las-unidades-primarias"><span class="header-section-number">17.6</span> Bloque 4. Conglomerados: orientación de las unidades primarias</h2>
 <p>Sobre el censo de Barro Colorado, compare dos particiones que observan 20 hectáreas: (a) diez columnas de cinco hectáreas, seleccionando cuatro columnas; (b) cinco filas de diez hectáreas, seleccionando dos filas. Complete la ICC y la enumeración del diseño.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: la variable continua para la ICC, rho y DEFF (MS_entre y MS_dentro</span></span>
@@ -773,8 +809,8 @@ window.Quarto = {
 </ol>
 <p><strong>Tarea de exploración.</strong> En la orientación de columnas, submuestree solo <span class="math inline">\(l=3\)</span> de las cinco hectáreas de cada columna seleccionada (dos etapas) y compare la DE empírica de la media con la de una etapa que censa las cinco. Reporte qué componente de varianza añade la segunda etapa y en qué condición desaparece.</p>
 </section>
-<section id="bloque-5.-auxiliar-razón-frente-a-regresión" class="level2" data-number="13.7">
-<h2 data-number="13.7" class="anchored" data-anchor-id="bloque-5.-auxiliar-razón-frente-a-regresión"><span class="header-section-number">13.7</span> Bloque 5. Auxiliar: razón frente a regresión</h2>
+<section id="bloque-5.-auxiliar-razón-frente-a-regresión" class="level2" data-number="17.7">
+<h2 data-number="17.7" class="anchored" data-anchor-id="bloque-5.-auxiliar-razón-frente-a-regresión"><span class="header-section-number">17.7</span> Bloque 5. Auxiliar: razón frente a regresión</h2>
 <p>Compare los estimadores de razón y de regresión del total de volumen. Complete las pendientes y las métricas.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: la razón muestral Rhat (cociente de los totales muestrales), su</span></span>
@@ -812,8 +848,8 @@ window.Quarto = {
 </ol>
 <p><strong>Tarea de exploración.</strong> Repita el bloque usando como auxiliar solo el diámetro (<code>x_G = Girth</code>) y compare el RMSE con el del auxiliar completo <code>x_aux</code>. ¿Qué le dice la diferencia sobre la calidad del auxiliar?</p>
 </section>
-<section id="síntesis-y-comprobación" class="level2" data-number="13.8">
-<h2 data-number="13.8" class="anchored" data-anchor-id="síntesis-y-comprobación"><span class="header-section-number">13.8</span> Síntesis y comprobación</h2>
+<section id="síntesis-y-comprobación" class="level2" data-number="17.8">
+<h2 data-number="17.8" class="anchored" data-anchor-id="síntesis-y-comprobación"><span class="header-section-number">17.8</span> Síntesis y comprobación</h2>
 <p>Reúna los RMSE de los métodos evaluados sobre <code>trees</code> (el mismo estimando: el total de volumen), calculándolos desde los objetos de los bloques anteriores, sin escribir números.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># COMPLETAR: ensamble la tabla desde metricas_estrat, sensibilidad y rep_r5.</span></span>
@@ -1269,13 +1305,13 @@ window.Quarto = {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../chapters/chapter12.html" class="pagination-link" aria-label="Proyecto completo de muestreo ecológico">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></span>
+      <a href="../chapters/practica01.html" class="pagination-link" aria-label="Práctica 1: Planificación, calibración y multiplicidad">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Práctica 1: Planificación, calibración y multiplicidad</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../chapters/practica03.html" class="pagination-link" aria-label="Práctica 3: Parcelas, cuadrantes e intercepción">
-        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Práctica 3: Parcelas, cuadrantes e intercepción</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Práctica 3: Parcelas, cuadrantes e intercepción</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

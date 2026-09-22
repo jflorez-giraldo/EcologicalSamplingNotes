@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Fundamentos estadísticos, métodos de campo y proyectos reproducibles para el estudio de poblaciones, comunidades e interacciones biológicas.">
+
+<title>14&nbsp; Uso de recursos e interacciones ecológicas – Muestreo ecológico</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/chapter12.html" rel="next">
+<link href="../chapters/chapter11.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-3fee61de2b36a07911a09d94e160f21d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f95d08478d6d2965eb675d4638296471.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter10.html">Parte V — Poblaciones y comunidades</a></li><li class="breadcrumb-item"><a href="../chapters/chapter11-interacciones.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Uso de recursos e interacciones ecológicas</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Muestreo ecológico</a> 
+        <div class="sidebar-tools-main">
+    <a href="../ecological-sampling.pdf" title="Descargar PDF" class="quarto-navigation-tool px-1" aria-label="Descargar PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Presentación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reading-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cómo usar este libro</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../literature-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Marco bibliográfico</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-catalog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Catálogo de datos reales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte I — Fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Del problema ecológico al diseño</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Diseños probabilísticos para poblaciones biológicas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter02-planificacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Planificación del tamaño de muestra</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte II — Métodos de campo</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transectos y muestreo por distancias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Métodos de censo por organismos y hábitats</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte III — Estimación de poblaciones</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Remoción, captura-recaptura e índices de abundancia</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Ocupación y detección imperfecta</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte IV — Comparación y seguimiento</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estudios comparativos, intervenciones y sesgos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter08-epidemiologia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Diseños epidemiológicos y tiempo hasta evento</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Monitoreo ecológico y análisis de tendencias</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte V — Poblaciones y comunidades</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter11-interacciones.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Uso de recursos e interacciones ecológicas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte VI — Síntesis</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Prácticas</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Práctica 1: Planificación, calibración y multiplicidad</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Práctica 3: Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Práctica 4: Epidemiología y tiempo hasta evento</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Práctica 5: Recursos e interacciones</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Material complementario</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Material complementario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referencias</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contenido</h2>
+   
+  <ul>
+  <li><a href="#diseño-y-estimandos" id="toc-diseño-y-estimandos" class="nav-link active" data-scroll-target="#diseño-y-estimandos"><span class="header-section-number">14.1</span> Diseño y estimandos</a></li>
+  <li><a href="#uso-frente-a-disponibilidad" id="toc-uso-frente-a-disponibilidad" class="nav-link" data-scroll-target="#uso-frente-a-disponibilidad"><span class="header-section-number">14.2</span> Uso frente a disponibilidad</a>
+  <ul class="collapse">
+  <li><a href="#datos-didácticos-auditoría-y-exploración" id="toc-datos-didácticos-auditoría-y-exploración" class="nav-link" data-scroll-target="#datos-didácticos-auditoría-y-exploración"><span class="header-section-number">14.2.1</span> Datos didácticos, auditoría y exploración</a></li>
+  <li><a href="#razones-amplitud-y-solapamiento" id="toc-razones-amplitud-y-solapamiento" class="nav-link" data-scroll-target="#razones-amplitud-y-solapamiento"><span class="header-section-number">14.2.2</span> Razones, amplitud y solapamiento</a></li>
+  <li><a href="#incertidumbre-por-individuo" id="toc-incertidumbre-por-individuo" class="nav-link" data-scroll-target="#incertidumbre-por-individuo"><span class="header-section-number">14.2.3</span> Incertidumbre por individuo</a></li>
+  <li><a href="#curva-de-selección-simulada" id="toc-curva-de-selección-simulada" class="nav-link" data-scroll-target="#curva-de-selección-simulada"><span class="header-section-number">14.2.4</span> Curva de selección simulada</a></li>
+  <li><a href="#diagnóstico-y-sensibilidad-de-selección" id="toc-diagnóstico-y-sensibilidad-de-selección" class="nav-link" data-scroll-target="#diagnóstico-y-sensibilidad-de-selección"><span class="header-section-number">14.2.5</span> Diagnóstico y sensibilidad de selección</a></li>
+  </ul></li>
+  <li><a href="#competencia-interespecífica" id="toc-competencia-interespecífica" class="nav-link" data-scroll-target="#competencia-interespecífica"><span class="header-section-number">14.3</span> Competencia interespecífica</a>
+  <ul class="collapse">
+  <li><a href="#simulación-y-equilibrio-condicional" id="toc-simulación-y-equilibrio-condicional" class="nav-link" data-scroll-target="#simulación-y-equilibrio-condicional"><span class="header-section-number">14.3.1</span> Simulación y equilibrio condicional</a></li>
+  </ul></li>
+  <li><a href="#depredación-y-respuesta-funcional" id="toc-depredación-y-respuesta-funcional" class="nav-link" data-scroll-target="#depredación-y-respuesta-funcional"><span class="header-section-number">14.4</span> Depredación y respuesta funcional</a>
+  <ul class="collapse">
+  <li><a href="#ensayo-de-alimentación-simulado" id="toc-ensayo-de-alimentación-simulado" class="nav-link" data-scroll-target="#ensayo-de-alimentación-simulado"><span class="header-section-number">14.4.1</span> Ensayo de alimentación simulado</a></li>
+  <li><a href="#modelo-presa-depredador" id="toc-modelo-presa-depredador" class="nav-link" data-scroll-target="#modelo-presa-depredador"><span class="header-section-number">14.4.2</span> Modelo presa-depredador</a></li>
+  </ul></li>
+  <li><a href="#relaciones-tróficas-como-matriz-consumidor-recurso" id="toc-relaciones-tróficas-como-matriz-consumidor-recurso" class="nav-link" data-scroll-target="#relaciones-tróficas-como-matriz-consumidor-recurso"><span class="header-section-number">14.5</span> Relaciones tróficas como matriz consumidor-recurso</a>
+  <ul class="collapse">
+  <li><a href="#detección-y-sensibilidad-de-la-red" id="toc-detección-y-sensibilidad-de-la-red" class="nav-link" data-scroll-target="#detección-y-sensibilidad-de-la-red"><span class="header-section-number">14.5.1</span> Detección y sensibilidad de la red</a></li>
+  </ul></li>
+  <li><a href="#interpretación-integrada" id="toc-interpretación-integrada" class="nav-link" data-scroll-target="#interpretación-integrada"><span class="header-section-number">14.6</span> Interpretación integrada</a></li>
+  <li><a href="#actividad-propuesta" id="toc-actividad-propuesta" class="nav-link" data-scroll-target="#actividad-propuesta"><span class="header-section-number">14.7</span> Actividad propuesta</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter10.html">Parte V — Poblaciones y comunidades</a></li><li class="breadcrumb-item"><a href="../chapters/chapter11-interacciones.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Uso de recursos e interacciones ecológicas</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Uso de recursos e interacciones ecológicas</span></h1>
+<p class="subtitle lead">Selección, competencia, depredación y redes tróficas</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="chapter-actions" aria-label="Recursos del capítulo">
+  <a class="chapter-action" href="../notebooks/qmd/chapter11-interacciones.qmd" download="">
+    <i class="bi bi-file-earmark-code" aria-hidden="true"></i>
+    <span>Descargar QMD</span>
+  </a>
+  <a class="chapter-action" href="../notebooks/ipynb/chapter11-interacciones.ipynb" download="">
+    <i class="bi bi-journal-code" aria-hidden="true"></i>
+    <span>Descargar IPYNB</span>
+  </a>
+  <a class="chapter-action chapter-action-pdf" href="../ecological-sampling.pdf" download="">
+    <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
+    <span>Descargar libro en PDF</span>
+  </a>
+</div>
+
+<p>Las interacciones no se observan todas de la misma manera. Una localización de un animal informa uso; un ensayo de alimentación informa consumo bajo condiciones controladas; una serie temporal mezcla procesos demográficos; y una matriz trófica registra vínculos detectados. En cada caso deben declararse la unidad, el universo disponible, el intervalo y el proceso de observación antes de atribuir un mecanismo <span class="citation" data-cites="manly2002resource begon2006ecology">(<a href="../references.html#ref-manly2002resource" role="doc-biblioref">Manly et&nbsp;al. 2002</a>; <a href="../references.html#ref-begon2006ecology" role="doc-biblioref">Begon et&nbsp;al. 2006</a>)</span>.</p>
+<section id="diseño-y-estimandos" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="diseño-y-estimandos"><span class="header-section-number">14.1</span> Diseño y estimandos</h2>
+<p>Este capítulo distingue cuatro preguntas y sus estimandos:</p>
+<ol type="1">
+<li><strong>Selección:</strong> proporción de uso, razón selección/disponibilidad, amplitud y solapamiento para una población, periodo y definición de disponibilidad.</li>
+<li><strong>Competencia:</strong> trayectoria y equilibrio que implica un modelo con parámetros dados; estimar sus coeficientes exigiría abundancias repetidas o un experimento.</li>
+<li><strong>Depredación:</strong> consumo esperado frente a densidad de presas y dinámica condicional de presas y depredadores.</li>
+<li><strong>Red trófica:</strong> número de vínculos, grados, conectancia, nivel trófico y omnivoría de una matriz consumidor-recurso definida.</li>
+</ol>
+<div class="callout callout-style-simple callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Importante</span>Coocurrencia no prueba competencia
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Una asociación espacial negativa puede deberse a ambiente, detectabilidad, historia o dispersión; una asociación positiva puede persistir aunque haya competencia si ambas especies responden al mismo hábitat. La coocurrencia genera hipótesis, pero no identifica el signo ni la intensidad de una interacción. Para probar competencia se requieren predicciones mecanísticas y, cuando sea posible, manipulación, series temporales o controles de los factores compartidos.</p>
+</div>
+</div>
+</section>
+<section id="uso-frente-a-disponibilidad" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="uso-frente-a-disponibilidad"><span class="header-section-number">14.2</span> Uso frente a disponibilidad</h2>
+<p>Sea <span class="math inline">\(u_j\)</span> la fracción de registros usados en el recurso <span class="math inline">\(j\)</span> y <span class="math inline">\(a_j\)</span> su fracción disponible. La razón de selección es</p>
+<p><span class="math display">\[
+w_j=\frac{u_j}{a_j}.
+\]</span></p>
+<p><span class="math inline">\(w_j&gt;1\)</span> indica uso mayor que la disponibilidad definida, no preferencia innata. Cambiar el área accesible, la estación o la resolución cambia <span class="math inline">\(a_j\)</span> y, por tanto, el estimando. Las localizaciones sucesivas tampoco son réplicas independientes: el individuo es la unidad para inferencia poblacional <span class="citation" data-cites="manly2002resource">(<a href="../references.html#ref-manly2002resource" role="doc-biblioref">Manly et&nbsp;al. 2002</a>)</span>.</p>
+<section id="datos-didácticos-auditoría-y-exploración" class="level3" data-number="14.2.1">
+<h3 data-number="14.2.1" class="anchored" data-anchor-id="datos-didácticos-auditoría-y-exploración"><span class="header-section-number">14.2.1</span> Datos didácticos, auditoría y exploración</h3>
+<p>Los siguientes conteos son <strong>datos didácticos explícitos</strong>, no un estudio real. Representan localizaciones de ocho individuos por especie durante una estación. La disponibilidad procede de una cartografía hipotética común del área accesible.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>habitat <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"bosque"</span>, <span class="st">"matorral"</span>, <span class="st">"pastizal"</span>, <span class="st">"humedal"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>availability <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">bosque =</span> <span class="fl">0.40</span>, <span class="at">matorral =</span> <span class="fl">0.25</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">pastizal =</span> <span class="fl">0.25</span>, <span class="at">humedal =</span> <span class="fl">0.10</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>use_A <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">A01 =</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">8</span>, <span class="dv">3</span>, <span class="dv">1</span>), <span class="at">A02 =</span> <span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">9</span>, <span class="dv">4</span>, <span class="dv">1</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">A03 =</span> <span class="fu">c</span>(<span class="dv">20</span>, <span class="dv">6</span>, <span class="dv">3</span>, <span class="dv">1</span>), <span class="at">A04 =</span> <span class="fu">c</span>(<span class="dv">17</span>, <span class="dv">8</span>, <span class="dv">4</span>, <span class="dv">1</span>),</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">A05 =</span> <span class="fu">c</span>(<span class="dv">15</span>, <span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">1</span>), <span class="at">A06 =</span> <span class="fu">c</span>(<span class="dv">19</span>, <span class="dv">7</span>, <span class="dv">3</span>, <span class="dv">1</span>),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">A07 =</span> <span class="fu">c</span>(<span class="dv">16</span>, <span class="dv">8</span>, <span class="dv">5</span>, <span class="dv">1</span>), <span class="at">A08 =</span> <span class="fu">c</span>(<span class="dv">18</span>, <span class="dv">7</span>, <span class="dv">4</span>, <span class="dv">1</span>))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>use_B <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">B01 =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">14</span>, <span class="dv">3</span>), <span class="at">B02 =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">9</span>, <span class="dv">14</span>, <span class="dv">3</span>),</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">B03 =</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">13</span>, <span class="dv">4</span>), <span class="at">B04 =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">9</span>, <span class="dv">12</span>, <span class="dv">4</span>),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="at">B05 =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">8</span>, <span class="dv">15</span>, <span class="dv">3</span>), <span class="at">B06 =</span> <span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">12</span>, <span class="dv">4</span>),</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">B07 =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">14</span>, <span class="dv">4</span>), <span class="at">B08 =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">9</span>, <span class="dv">13</span>, <span class="dv">4</span>))</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(use_A) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(use_B) <span class="ot">&lt;-</span> habitat</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>audit_resources <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">species =</span> <span class="dv">2</span>, <span class="at">individuals =</span> <span class="fu">nrow</span>(use_A) <span class="sc">+</span> <span class="fu">nrow</span>(use_B),</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">missing =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(use_A)) <span class="sc">+</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(use_B)),</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">negative =</span> <span class="fu">sum</span>(use_A <span class="sc">&lt;</span> <span class="dv">0</span>) <span class="sc">+</span> <span class="fu">sum</span>(use_B <span class="sc">&lt;</span> <span class="dv">0</span>),</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">availability_sum =</span> <span class="fu">sum</span>(availability),</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">unequal_fixes =</span> <span class="fu">sum</span>(<span class="fu">rowSums</span>(use_A) <span class="sc">!=</span> <span class="dv">30</span>) <span class="sc">+</span> <span class="fu">sum</span>(<span class="fu">rowSums</span>(use_B) <span class="sc">!=</span> <span class="dv">30</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>audit_resources</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          species      individuals          missing         negative </span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                2               16                0                0 </span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; availability_sum    unequal_fixes </span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                1                0</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(audit_resources[<span class="fu">c</span>(<span class="st">"missing"</span>, <span class="st">"negative"</span>, <span class="st">"unequal_fixes"</span>)] <span class="sc">==</span> <span class="dv">0</span>,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>          <span class="fu">isTRUE</span>(<span class="fu">all.equal</span>(<span class="fu">sum</span>(availability), <span class="dv">1</span>)))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>use_prop <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">especie_A =</span> <span class="fu">colSums</span>(use_A) <span class="sc">/</span> <span class="fu">sum</span>(use_A),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">especie_B =</span> <span class="fu">colSums</span>(use_B) <span class="sc">/</span> <span class="fu">sum</span>(use_B)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">t</span>(<span class="fu">rbind</span>(<span class="at">disponible =</span> availability, use_prop)), <span class="at">beside =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#adb5bd"</span>, <span class="st">"#386641"</span>, <span class="st">"#bc6c25"</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Proporción"</span>, <span class="at">xlab =</span> <span class="st">"Hábitat"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">c</span>(<span class="st">"Disponible"</span>, <span class="st">"Especie A"</span>, <span class="st">"Especie B"</span>),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">args.legend =</span> <span class="fu">list</span>(<span class="at">x =</span> <span class="st">"topright"</span>, <span class="at">bty =</span> <span class="st">"n"</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter11-interacciones_files/figure-html/ch11i-recursos-exploracion-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>La gráfica compara escalas compatibles, pero no aporta todavía incertidumbre ni controla que los registros estén agrupados por individuo.</p>
+</section>
+<section id="razones-amplitud-y-solapamiento" class="level3" data-number="14.2.2">
+<h3 data-number="14.2.2" class="anchored" data-anchor-id="razones-amplitud-y-solapamiento"><span class="header-section-number">14.2.2</span> Razones, amplitud y solapamiento</h3>
+<p>La amplitud de Levins para proporciones de uso <span class="math inline">\(p_j\)</span> es <span class="math inline">\(B=1/\sum p_j^2\)</span>. Su versión estandarizada <span class="math inline">\(B_A=(B-1)/(R-1)\)</span> varía entre cero y uno para <span class="math inline">\(R\)</span> recursos. El solapamiento de Pianka entre especies <span class="math inline">\(x\)</span> y <span class="math inline">\(y\)</span> es</p>
+<p><span class="math display">\[
+O_{xy}=\frac{\sum_j p_{xj}p_{yj}}
+{\sqrt{\sum_jp_{xj}^2\sum_jp_{yj}^2}}.
+\]</span></p>
+<p>Ambos índices describen las categorías y disponibilidad estudiadas; no prueban competencia <span class="citation" data-cites="krebs1999ecological">(<a href="../references.html#ref-krebs1999ecological" role="doc-biblioref">Krebs 1999</a>)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>selection_ratio <span class="ot">&lt;-</span> <span class="fu">sweep</span>(use_prop, <span class="dv">2</span>, availability, <span class="st">"/"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>levins_std <span class="ot">&lt;-</span> <span class="cf">function</span>(p) {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> p <span class="sc">/</span> <span class="fu">sum</span>(p)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  (<span class="dv">1</span> <span class="sc">/</span> <span class="fu">sum</span>(p<span class="sc">^</span><span class="dv">2</span>) <span class="sc">-</span> <span class="dv">1</span>) <span class="sc">/</span> (<span class="fu">length</span>(p) <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>pianka <span class="ot">&lt;-</span> <span class="cf">function</span>(x, y) <span class="fu">sum</span>(x <span class="sc">*</span> y) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">sum</span>(x<span class="sc">^</span><span class="dv">2</span>) <span class="sc">*</span> <span class="fu">sum</span>(y<span class="sc">^</span><span class="dv">2</span>))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>resource_estimates <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  selection_ratio,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">amplitud =</span> <span class="fu">c</span>(<span class="at">A =</span> <span class="fu">levins_std</span>(use_prop[<span class="dv">1</span>, ]),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">B =</span> <span class="fu">levins_std</span>(use_prop[<span class="dv">2</span>, ]), <span class="cn">NA</span>, <span class="cn">NA</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>selection_ratio</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             bosque matorral pastizal   humedal</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; especie_A 1.447917 1.050000 0.500000 0.3333333</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; especie_B 0.406250 1.083333 1.783333 1.2083333</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">amplitud_A =</span> <span class="fu">levins_std</span>(use_prop[<span class="dv">1</span>, ]),</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">amplitud_B =</span> <span class="fu">levins_std</span>(use_prop[<span class="dv">2</span>, ]),</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">solapamiento =</span> <span class="fu">pianka</span>(use_prop[<span class="dv">1</span>, ], use_prop[<span class="dv">2</span>, ]))</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   amplitud_A   amplitud_B solapamiento </span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    0.4582887    0.7312043    0.6195497</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="incertidumbre-por-individuo" class="level3" data-number="14.2.3">
+<h3 data-number="14.2.3" class="anchored" data-anchor-id="incertidumbre-por-individuo"><span class="header-section-number">14.2.3</span> Incertidumbre por individuo</h3>
+<p>El bootstrap remuestrea individuos completos y conserva juntas sus localizaciones. La disponibilidad cartográfica se trata como fija; si procediera de una muestra, también habría que propagar su incertidumbre.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>resource_metrics <span class="ot">&lt;-</span> <span class="cf">function</span>(A, B, <span class="at">avail =</span> availability) {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  pa <span class="ot">&lt;-</span> <span class="fu">colSums</span>(A) <span class="sc">/</span> <span class="fu">sum</span>(A)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  pb <span class="ot">&lt;-</span> <span class="fu">colSums</span>(B) <span class="sc">/</span> <span class="fu">sum</span>(B)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="fu">setNames</span>(pa <span class="sc">/</span> avail, <span class="fu">paste0</span>(<span class="st">"wA_"</span>, <span class="fu">names</span>(avail))),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">setNames</span>(pb <span class="sc">/</span> avail, <span class="fu">paste0</span>(<span class="st">"wB_"</span>, <span class="fu">names</span>(avail))),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">breadth_A =</span> <span class="fu">levins_std</span>(pa), <span class="at">breadth_B =</span> <span class="fu">levins_std</span>(pb),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">overlap =</span> <span class="fu">pianka</span>(pa, pb))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1101</span>)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>B_boot <span class="ot">&lt;-</span> <span class="dv">999</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>boot_resources <span class="ot">&lt;-</span> <span class="fu">replicate</span>(B_boot, {</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  A_b <span class="ot">&lt;-</span> use_A[<span class="fu">sample</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(use_A)), <span class="at">replace =</span> <span class="cn">TRUE</span>), , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  B_b <span class="ot">&lt;-</span> use_B[<span class="fu">sample</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(use_B)), <span class="at">replace =</span> <span class="cn">TRUE</span>), , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">resource_metrics</span>(A_b, B_b)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>resource_ci <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(boot_resources, <span class="dv">1</span>, quantile, <span class="fu">c</span>(.<span class="dv">025</span>, .<span class="dv">5</span>, .<span class="dv">975</span>)))</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(resource_ci, <span class="dv">3</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              2.5%   50% 97.5%</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; wA_bosque   1.354 1.448 1.542</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; wA_matorral 0.950 1.050 1.150</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; wA_pastizal 0.450 0.500 0.567</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; wA_humedal  0.333 0.333 0.333</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; wB_bosque   0.365 0.406 0.448</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; wB_matorral 1.017 1.083 1.150</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; wB_pastizal 1.700 1.783 1.867</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; wB_humedal  1.083 1.208 1.292</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; breadth_A   0.408 0.460 0.506</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; breadth_B   0.685 0.731 0.771</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; overlap     0.573 0.622 0.663</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Los intervalos reflejan heterogeneidad entre los individuos didácticos, no error cartográfico, selección de la población ni autocorrelación dentro del individuo.</p>
+</section>
+<section id="curva-de-selección-simulada" class="level3" data-number="14.2.4">
+<h3 data-number="14.2.4" class="anchored" data-anchor-id="curva-de-selección-simulada"><span class="header-section-number">14.2.4</span> Curva de selección simulada</h3>
+<p>Con un recurso continuo puede modelarse la selección relativa. Este bloque es una <strong>simulación</strong>: genera puntos disponibles y puntos usados con peso <span class="math inline">\(\exp(1.4x-1.8x^2)\)</span>. En un diseño uso-disponibilidad, la curva logística depende de cuántos puntos disponibles se muestrearon; su forma y razones son relativas, no probabilidades absolutas de uso.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1102</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>n_available <span class="ot">&lt;-</span> <span class="dv">1000</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>n_used <span class="ot">&lt;-</span> <span class="dv">250</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>x_available <span class="ot">&lt;-</span> <span class="fu">runif</span>(n_available, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>candidate <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="dv">20000</span>, <span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>weights <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fl">1.4</span> <span class="sc">*</span> candidate <span class="sc">-</span> <span class="fl">1.8</span> <span class="sc">*</span> candidate<span class="sc">^</span><span class="dv">2</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>x_used <span class="ot">&lt;-</span> <span class="fu">sample</span>(candidate, n_used, <span class="at">replace =</span> <span class="cn">TRUE</span>, <span class="at">prob =</span> weights)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>selection_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">used =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">0</span>, n_available), <span class="fu">rep</span>(<span class="dv">1</span>, n_used)),</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="fu">c</span>(x_available, x_used)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>selection_fit <span class="ot">&lt;-</span> <span class="fu">glm</span>(used <span class="sc">~</span> x <span class="sc">+</span> <span class="fu">I</span>(x<span class="sc">^</span><span class="dv">2</span>), <span class="at">family =</span> <span class="fu">binomial</span>(), <span class="at">data =</span> selection_data)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x =</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="at">length.out =</span> <span class="dv">200</span>))</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>relative_selection <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">predict</span>(selection_fit, grid, <span class="at">type =</span> <span class="st">"link"</span>))</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>grid<span class="sc">$</span>relative_selection <span class="ot">&lt;-</span> grid<span class="sc">$</span>relative_selection <span class="sc">/</span> <span class="fu">max</span>(grid<span class="sc">$</span>relative_selection)</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(grid<span class="sc">$</span>x, grid<span class="sc">$</span>relative_selection, <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"#386641"</span>,</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Gradiente del recurso"</span>, <span class="at">ylab =</span> <span class="st">"Selección relativa"</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="fu">rug</span>(x_used, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="fu">adjustcolor</span>(<span class="st">"#bc6c25"</span>, .<span class="dv">25</span>))</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter11-interacciones_files/figure-html/ch11i-curva-simulada-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(<span class="fu">summary</span>(selection_fit))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              Estimate Std. Error    z value     Pr(&gt;|z|)</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; (Intercept) -1.150444  0.1013385 -11.352489 7.208150e-30</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; x            1.256527  0.1786403   7.033837 2.009294e-12</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; I(x^2)      -1.415512  0.3082553  -4.592011 4.389960e-06</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="diagnóstico-y-sensibilidad-de-selección" class="level3" data-number="14.2.5">
+<h3 data-number="14.2.5" class="anchored" data-anchor-id="diagnóstico-y-sensibilidad-de-selección"><span class="header-section-number">14.2.5</span> Diagnóstico y sensibilidad de selección</h3>
+<p>Una omisión por individuo revela influencia; una disponibilidad alternativa revela dependencia del área accesible. Esta segunda comparación no es una prueba de cuál mapa es correcto.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>loo_A <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">vapply</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(use_A)), <span class="cf">function</span>(i) {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> <span class="fu">colSums</span>(use_A[<span class="sc">-</span>i, , <span class="at">drop =</span> <span class="cn">FALSE</span>]) <span class="sc">/</span> <span class="fu">sum</span>(use_A[<span class="sc">-</span>i, ])</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  p <span class="sc">/</span> availability</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>}, <span class="fu">numeric</span>(<span class="fu">length</span>(availability))))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(loo_A) <span class="ot">&lt;-</span> habitat</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>availability_alt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">bosque =</span> .<span class="dv">34</span>, <span class="at">matorral =</span> .<span class="dv">28</span>, <span class="at">pastizal =</span> .<span class="dv">28</span>, <span class="at">humedal =</span> .<span class="dv">10</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>sensitivity_resources <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">original =</span> use_prop[<span class="dv">1</span>, ] <span class="sc">/</span> availability,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">alternative_map =</span> use_prop[<span class="dv">1</span>, ] <span class="sc">/</span> availability_alt,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">loo_min =</span> <span class="fu">apply</span>(loo_A, <span class="dv">2</span>, min),</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">loo_max =</span> <span class="fu">apply</span>(loo_A, <span class="dv">2</span>, max)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(sensitivity_resources, <span class="dv">3</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 bosque matorral pastizal humedal</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; original         1.448    1.050    0.500   0.333</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alternative_map  1.703    0.938    0.446   0.333</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; loo_min          1.417    1.010    0.476   0.333</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; loo_max          1.476    1.086    0.514   0.333</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="competencia-interespecífica" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="competencia-interespecífica"><span class="header-section-number">14.3</span> Competencia interespecífica</h2>
+<p>El modelo de Lotka-Volterra para dos competidores es</p>
+<p><span class="math display">\[
+\frac{dN_1}{dt}=r_1N_1\left(1-\frac{N_1+\alpha_{12}N_2}{K_1}\right),\qquad
+\frac{dN_2}{dt}=r_2N_2\left(1-\frac{N_2+\alpha_{21}N_1}{K_2}\right).
+\]</span></p>
+<p><span class="math inline">\(\alpha_{12}\)</span> expresa el efecto per cápita de la especie 2 en unidades de la especie 1. El modelo supone ambiente constante, mezcla homogénea y coeficientes fijos; no incluye estructura espacial, edades, recursos explícitos ni demora <span class="citation" data-cites="begon2006ecology">(<a href="../references.html#ref-begon2006ecology" role="doc-biblioref">Begon et&nbsp;al. 2006</a>)</span>.</p>
+<section id="simulación-y-equilibrio-condicional" class="level3" data-number="14.3.1">
+<h3 data-number="14.3.1" class="anchored" data-anchor-id="simulación-y-equilibrio-condicional"><span class="header-section-number">14.3.1</span> Simulación y equilibrio condicional</h3>
+<p>El integrador siguiente es Euler explícito y todas las trayectorias de esta sección son <strong>simulaciones</strong>, no ajustes a datos. Para coexistencia interior, <span class="math inline">\(N_1^*=(K_1-\alpha_{12}K_2)/(1-\alpha_{12}\alpha_{21})\)</span> y análogamente para <span class="math inline">\(N_2^*\)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>simulate_competition <span class="ot">&lt;-</span> <span class="cf">function</span>(r, K, alpha, initial, <span class="at">dt =</span> <span class="fl">0.02</span>, <span class="at">duration =</span> <span class="dv">80</span>) {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  time <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, duration, <span class="at">by =</span> dt)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  N <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA_real_</span>, <span class="fu">length</span>(time), <span class="dv">2</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">"especie_1"</span>, <span class="st">"especie_2"</span>)))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  N[<span class="dv">1</span>, ] <span class="ot">&lt;-</span> initial</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(time)) {</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">&lt;-</span> N[i <span class="sc">-</span> <span class="dv">1</span>, ]</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    growth <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>      r[<span class="dv">1</span>] <span class="sc">*</span> n[<span class="dv">1</span>] <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> (n[<span class="dv">1</span>] <span class="sc">+</span> alpha[<span class="dv">1</span>] <span class="sc">*</span> n[<span class="dv">2</span>]) <span class="sc">/</span> K[<span class="dv">1</span>]),</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      r[<span class="dv">2</span>] <span class="sc">*</span> n[<span class="dv">2</span>] <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> (n[<span class="dv">2</span>] <span class="sc">+</span> alpha[<span class="dv">2</span>] <span class="sc">*</span> n[<span class="dv">1</span>]) <span class="sc">/</span> K[<span class="dv">2</span>])</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    N[i, ] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="dv">0</span>, n <span class="sc">+</span> dt <span class="sc">*</span> growth)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(time, N)</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>competition_parameters <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">r =</span> <span class="fu">c</span>(.<span class="dv">55</span>, .<span class="dv">45</span>), <span class="at">K =</span> <span class="fu">c</span>(<span class="dv">100</span>, <span class="dv">80</span>),</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>                               <span class="at">alpha =</span> <span class="fu">c</span>(.<span class="dv">7</span>, .<span class="dv">5</span>), <span class="at">initial =</span> <span class="fu">c</span>(<span class="dv">12</span>, <span class="dv">10</span>))</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>competition <span class="ot">&lt;-</span> <span class="fu">do.call</span>(simulate_competition, competition_parameters)</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(competition<span class="sc">$</span>time, competition[<span class="fu">c</span>(<span class="st">"especie_1"</span>, <span class="st">"especie_2"</span>)], <span class="at">type =</span> <span class="st">"l"</span>,</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#386641"</span>, <span class="st">"#bc6c25"</span>),</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Tiempo"</span>, <span class="at">ylab =</span> <span class="st">"Abundancia simulada"</span>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"right"</span>, <span class="fu">c</span>(<span class="st">"Especie 1"</span>, <span class="st">"Especie 2"</span>), <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#386641"</span>, <span class="st">"#bc6c25"</span>), <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter11-interacciones_files/figure-html/ch11i-competencia-simulacion-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">with</span>(competition_parameters, <span class="fu">c</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">N1_star =</span> (K[<span class="dv">1</span>] <span class="sc">-</span> alpha[<span class="dv">1</span>] <span class="sc">*</span> K[<span class="dv">2</span>]) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">prod</span>(alpha)),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">N2_star =</span> (K[<span class="dv">2</span>] <span class="sc">-</span> alpha[<span class="dv">2</span>] <span class="sc">*</span> K[<span class="dv">1</span>]) <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">-</span> <span class="fu">prod</span>(alpha))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  N1_star  N2_star </span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 67.69231 46.15385</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>competition_coarse <span class="ot">&lt;-</span> <span class="fu">do.call</span>(simulate_competition,</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(competition_parameters, <span class="fu">list</span>(<span class="at">dt =</span> <span class="fl">0.2</span>)))</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>competition_sensitivity <span class="ot">&lt;-</span> <span class="fu">rbind</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">dt_002 =</span> <span class="fu">unlist</span>(competition[<span class="fu">nrow</span>(competition), <span class="sc">-</span><span class="dv">1</span>]),</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dt_02 =</span> <span class="fu">unlist</span>(competition_coarse[<span class="fu">nrow</span>(competition_coarse), <span class="sc">-</span><span class="dv">1</span>]),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">alpha_plus_10 =</span> <span class="fu">unlist</span>(<span class="fu">do.call</span>(simulate_competition,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">modifyList</span>(competition_parameters,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">list</span>(<span class="at">alpha =</span> <span class="fl">1.1</span> <span class="sc">*</span> competition_parameters<span class="sc">$</span>alpha)))[<span class="dv">4001</span>, <span class="sc">-</span><span class="dv">1</span>])</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(competition_sensitivity, <span class="dv">3</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               especie_1 especie_2</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; dt_002           67.693    46.153</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; dt_02            67.693    46.154</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alpha_plus_10    66.610    43.364</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La concordancia entre pasos temporales diagnostica error numérico en este caso. Cambiar <span class="math inline">\(\alpha\)</span> examina sensibilidad estructural, no incertidumbre estimada. Una serie observada exigiría un modelo de observación y réplicas para separar ruido de proceso y error de conteo.</p>
+</section>
+</section>
+<section id="depredación-y-respuesta-funcional" class="level2" data-number="14.4">
+<h2 data-number="14.4" class="anchored" data-anchor-id="depredación-y-respuesta-funcional"><span class="header-section-number">14.4</span> Depredación y respuesta funcional</h2>
+<p>Las respuestas funcionales describen consumo por depredador durante un intervalo. Una forma tipo I es lineal, <span class="math inline">\(f(N)=aN\)</span>; la tipo II de Holling se satura,</p>
+<p><span class="math display">\[
+f(N)=\frac{aNT}{1+ahN},
+\]</span></p>
+<p>donde <span class="math inline">\(a\)</span> es búsqueda, <span class="math inline">\(h\)</span> tiempo de manejo y <span class="math inline">\(T\)</span> duración. Una tipo III sustituye la búsqueda lineal por una dependencia sigmoidea, por ejemplo <span class="math inline">\(f(N)=aN^2T/(1+ahN^2)\)</span>. La elección no debe basarse solo en cuál curva parece más suave <span class="citation" data-cites="begon2006ecology">(<a href="../references.html#ref-begon2006ecology" role="doc-biblioref">Begon et&nbsp;al. 2006</a>)</span>.</p>
+<section id="ensayo-de-alimentación-simulado" class="level3" data-number="14.4.1">
+<h3 data-number="14.4.1" class="anchored" data-anchor-id="ensayo-de-alimentación-simulado"><span class="header-section-number">14.4.1</span> Ensayo de alimentación simulado</h3>
+<p>Se simulan cinco arenas por densidad con parámetros conocidos <span class="math inline">\(a=0.08\)</span>, <span class="math inline">\(h=0.12\)</span> y <span class="math inline">\(T=1\)</span>. El conteo se limita por las presas ofrecidas. La arena es la réplica.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1103</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>feeding <span class="ot">&lt;-</span> <span class="fu">expand.grid</span>(<span class="at">prey =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">80</span>), <span class="at">arena =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>true_a <span class="ot">&lt;-</span> .<span class="dv">08</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>true_h <span class="ot">&lt;-</span> .<span class="dv">12</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>feeding<span class="sc">$</span>expected <span class="ot">&lt;-</span> <span class="fu">with</span>(feeding,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  true_a <span class="sc">*</span> prey <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> true_a <span class="sc">*</span> true_h <span class="sc">*</span> prey))</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>feeding<span class="sc">$</span>eaten <span class="ot">&lt;-</span> <span class="fu">mapply</span>(<span class="cf">function</span>(n, mu) {</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rbinom</span>(<span class="dv">1</span>, n, <span class="fu">min</span>(mu <span class="sc">/</span> n, .<span class="dv">999</span>))</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>}, feeding<span class="sc">$</span>prey, feeding<span class="sc">$</span>expected)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>audit_feeding <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">rows =</span> <span class="fu">nrow</span>(feeding), <span class="at">missing =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(feeding)),</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>                   <span class="at">impossible =</span> <span class="fu">sum</span>(feeding<span class="sc">$</span>eaten <span class="sc">&lt;</span> <span class="dv">0</span> <span class="sc">|</span> feeding<span class="sc">$</span>eaten <span class="sc">&gt;</span> feeding<span class="sc">$</span>prey),</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>                   <span class="at">arenas_per_density =</span> <span class="fu">min</span>(<span class="fu">table</span>(feeding<span class="sc">$</span>prey)))</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>audit_feeding</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;               rows            missing         impossible arenas_per_density </span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 30                  0                  0                  5</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="fu">aggregate</span>(eaten <span class="sc">~</span> prey, feeding, <span class="cf">function</span>(x) <span class="fu">c</span>(<span class="at">mean =</span> <span class="fu">mean</span>(x), <span class="at">sd =</span> <span class="fu">sd</span>(x)))</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   prey eaten.mean  eaten.sd</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1    2  0.4000000 0.5477226</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2    5  0.4000000 0.5477226</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3   10  0.6000000 0.8944272</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4   20  1.6000000 1.1401754</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5   40  1.8000000 1.3038405</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6   80  3.2000000 2.1679483</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fit_type2 <span class="ot">&lt;-</span> <span class="fu">nls</span>(eaten <span class="sc">~</span> a <span class="sc">*</span> prey <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> a <span class="sc">*</span> h <span class="sc">*</span> prey), <span class="at">data =</span> feeding,</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">start =</span> <span class="fu">list</span>(<span class="at">a =</span> .<span class="dv">05</span>, <span class="at">h =</span> .<span class="dv">1</span>), <span class="at">algorithm =</span> <span class="st">"port"</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">lower =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="fl">1e-6</span>, <span class="at">h =</span> <span class="fl">1e-6</span>))</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(fit_type2)<span class="sc">$</span>coefficients</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     Estimate Std. Error  t value   Pr(&gt;|t|)</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; a 0.08238516 0.03774624 2.182606 0.03761149</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; h 0.17037624 0.10013001 1.701550 0.09992039</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>feeding<span class="sc">$</span>fitted <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit_type2)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(eaten <span class="sc">~</span> prey, feeding, <span class="at">pch =</span> <span class="dv">16</span>, <span class="at">col =</span> <span class="fu">adjustcolor</span>(<span class="st">"#386641"</span>, .<span class="dv">45</span>),</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Presas ofrecidas"</span>, <span class="at">ylab =</span> <span class="st">"Presas consumidas"</span>)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="fu">curve</span>(<span class="fu">coef</span>(fit_type2)[<span class="st">"a"</span>] <span class="sc">*</span> x <span class="sc">/</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>        (<span class="dv">1</span> <span class="sc">+</span> <span class="fu">coef</span>(fit_type2)[<span class="st">"a"</span>] <span class="sc">*</span> <span class="fu">coef</span>(fit_type2)[<span class="st">"h"</span>] <span class="sc">*</span> x),</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">lwd =</span> <span class="dv">3</span>, <span class="at">col =</span> <span class="st">"#bc6c25"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter11-interacciones_files/figure-html/ch11i-funcional-estimacion-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1104</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>arena_groups <span class="ot">&lt;-</span> <span class="fu">split</span>(feeding, feeding<span class="sc">$</span>prey)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>boot_functional <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">499</span>, {</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  z <span class="ot">&lt;-</span> <span class="fu">do.call</span>(rbind, <span class="fu">lapply</span>(arena_groups, <span class="cf">function</span>(g)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    g[<span class="fu">sample</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(g)), <span class="at">replace =</span> <span class="cn">TRUE</span>), ]))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">try</span>(<span class="fu">nls</span>(eaten <span class="sc">~</span> a <span class="sc">*</span> prey <span class="sc">/</span> (<span class="dv">1</span> <span class="sc">+</span> a <span class="sc">*</span> h <span class="sc">*</span> prey), <span class="at">data =</span> z,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                 <span class="at">start =</span> <span class="fu">as.list</span>(<span class="fu">coef</span>(fit_type2)), <span class="at">algorithm =</span> <span class="st">"port"</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">lower =</span> <span class="fu">c</span>(<span class="at">a =</span> <span class="fl">1e-6</span>, <span class="at">h =</span> <span class="fl">1e-6</span>)), <span class="at">silent =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">inherits</span>(fit, <span class="st">"try-error"</span>)) <span class="fu">c</span>(<span class="at">a =</span> <span class="cn">NA</span>, <span class="at">h =</span> <span class="cn">NA</span>) <span class="cf">else</span> <span class="fu">coef</span>(fit)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="fu">t</span>(<span class="fu">apply</span>(boot_functional, <span class="dv">1</span>, quantile, <span class="fu">c</span>(.<span class="dv">025</span>, .<span class="dv">5</span>, .<span class="dv">975</span>), <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         2.5%        50%     97.5%</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; a 0.04269563 0.08502883 0.2060680</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; h 0.00000100 0.16906093 0.4606595</span></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>functional_diagnostics <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual_mean =</span> <span class="fu">mean</span>(<span class="fu">residuals</span>(fit_type2)),</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual_sd =</span> <span class="fu">sd</span>(<span class="fu">residuals</span>(fit_type2)),</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">residual_prey_correlation =</span> <span class="fu">cor</span>(<span class="fu">residuals</span>(fit_type2), feeding<span class="sc">$</span>prey),</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">failed_bootstrap =</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">complete.cases</span>(<span class="fu">t</span>(boot_functional)))</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(functional_diagnostics, <span class="dv">3</span>)</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             residual_mean               residual_sd residual_prey_correlation </span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     0.038                     1.141                    -0.029 </span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          failed_bootstrap </span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                     0.000</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Los residuos y fallos de convergencia deben informarse. Estos intervalos reflejan variación entre arenas dentro de cada densidad simulada; no incluyen depredadores, temperaturas o duraciones nuevas.</p>
+</section>
+<section id="modelo-presa-depredador" class="level3" data-number="14.4.2">
+<h3 data-number="14.4.2" class="anchored" data-anchor-id="modelo-presa-depredador"><span class="header-section-number">14.4.2</span> Modelo presa-depredador</h3>
+<p>El modelo clásico usa</p>
+<p><span class="math display">\[
+\frac{dN}{dt}=rN-aNP,\qquad
+\frac{dP}{dt}=eaNP-mP.
+\]</span></p>
+<p>Los parámetros del bloque siguiente son <strong>supuestos para simulación</strong>. El modelo no incorpora capacidad de carga, saturación ni estocasticidad.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>simulate_predator_prey <span class="ot">&lt;-</span> <span class="cf">function</span>(r, a, e, m, initial, <span class="at">dt =</span> .<span class="dv">01</span>, <span class="at">duration =</span> <span class="dv">80</span>) {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  time <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">0</span>, duration, <span class="at">by =</span> dt)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="cn">NA_real_</span>, <span class="fu">length</span>(time), <span class="dv">2</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="cn">NULL</span>, <span class="fu">c</span>(<span class="st">"presa"</span>, <span class="st">"depredador"</span>)))</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  X[<span class="dv">1</span>, ] <span class="ot">&lt;-</span> initial</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">length</span>(time)) {</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> X[i <span class="sc">-</span> <span class="dv">1</span>, ]</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    change <span class="ot">&lt;-</span> <span class="fu">c</span>(r <span class="sc">*</span> x[<span class="dv">1</span>] <span class="sc">-</span> a <span class="sc">*</span> x[<span class="dv">1</span>] <span class="sc">*</span> x[<span class="dv">2</span>],</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>                e <span class="sc">*</span> a <span class="sc">*</span> x[<span class="dv">1</span>] <span class="sc">*</span> x[<span class="dv">2</span>] <span class="sc">-</span> m <span class="sc">*</span> x[<span class="dv">2</span>])</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    X[i, ] <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="dv">0</span>, x <span class="sc">+</span> dt <span class="sc">*</span> change)</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.frame</span>(time, X)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>pp <span class="ot">&lt;-</span> <span class="fu">simulate_predator_prey</span>(<span class="at">r =</span> .<span class="dv">6</span>, <span class="at">a =</span> .<span class="dv">025</span>, <span class="at">e =</span> .<span class="dv">2</span>, <span class="at">m =</span> .<span class="dv">2</span>,</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>                             <span class="at">initial =</span> <span class="fu">c</span>(<span class="dv">35</span>, <span class="dv">8</span>))</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a><span class="fu">matplot</span>(pp<span class="sc">$</span>time, pp[<span class="fu">c</span>(<span class="st">"presa"</span>, <span class="st">"depredador"</span>)], <span class="at">type =</span> <span class="st">"l"</span>, <span class="at">lty =</span> <span class="dv">1</span>,</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#457b9d"</span>, <span class="st">"#e76f51"</span>),</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Tiempo"</span>, <span class="at">ylab =</span> <span class="st">"Abundancia simulada"</span>)</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">c</span>(<span class="st">"Presa"</span>, <span class="st">"Depredador"</span>), <span class="at">lty =</span> <span class="dv">1</span>, <span class="at">lwd =</span> <span class="dv">2</span>,</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#457b9d"</span>, <span class="st">"#e76f51"</span>), <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter11-interacciones_files/figure-html/ch11i-presa-depredador-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>El desfase entre máximos es una predicción del modelo, no evidencia suficiente de depredación en una serie real. Una sensibilidad útil compara pasos temporales y una respuesta tipo II; si cambia la persistencia, la conclusión depende de la forma funcional elegida.</p>
+</section>
+</section>
+<section id="relaciones-tróficas-como-matriz-consumidor-recurso" class="level2" data-number="14.5">
+<h2 data-number="14.5" class="anchored" data-anchor-id="relaciones-tróficas-como-matriz-consumidor-recurso"><span class="header-section-number">14.5</span> Relaciones tróficas como matriz consumidor-recurso</h2>
+<p>La matriz <span class="math inline">\(M\)</span> tendrá consumidores en filas y recursos en columnas; <span class="math inline">\(M_{ij}=1\)</span> si el consumidor <span class="math inline">\(i\)</span> consume el recurso <span class="math inline">\(j\)</span>. Los datos siguientes son una <strong>red didáctica explícita</strong>, no observaciones de campo.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>taxa <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"pasto"</span>, <span class="st">"insecto"</span>, <span class="st">"conejo"</span>, <span class="st">"rana"</span>, <span class="st">"zorro"</span>, <span class="st">"halcon"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>web <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>L, <span class="fu">length</span>(taxa), <span class="fu">length</span>(taxa), <span class="at">dimnames =</span> <span class="fu">list</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">consumidor =</span> taxa, <span class="at">recurso =</span> taxa))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>web[<span class="fu">cbind</span>(<span class="fu">c</span>(<span class="st">"insecto"</span>, <span class="st">"conejo"</span>, <span class="st">"rana"</span>, <span class="st">"zorro"</span>, <span class="st">"zorro"</span>, <span class="st">"halcon"</span>, <span class="st">"halcon"</span>),</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>          <span class="fu">c</span>(<span class="st">"pasto"</span>, <span class="st">"pasto"</span>, <span class="st">"insecto"</span>, <span class="st">"conejo"</span>, <span class="st">"rana"</span>, <span class="st">"conejo"</span>, <span class="st">"rana"</span>))] <span class="ot">&lt;-</span> <span class="dv">1</span>L</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>audit_web <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">taxa =</span> <span class="fu">nrow</span>(web), <span class="at">links =</span> <span class="fu">sum</span>(web), <span class="at">missing =</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(web)),</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">nonbinary =</span> <span class="fu">sum</span>(<span class="sc">!</span>web <span class="sc">%in%</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>), <span class="at">self_links =</span> <span class="fu">sum</span>(<span class="fu">diag</span>(web)))</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>audit_web</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       taxa      links    missing  nonbinary self_links </span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;          6          7          0          0          0</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(audit_web[<span class="fu">c</span>(<span class="st">"missing"</span>, <span class="st">"nonbinary"</span>, <span class="st">"self_links"</span>)] <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>web</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           recurso</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; consumidor pasto insecto conejo rana zorro halcon</span></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    pasto       0       0      0    0     0      0</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    insecto     1       0      0    0     0      0</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    conejo      1       0      0    0     0      0</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    rana        0       1      0    0     0      0</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    zorro       0       0      1    1     0      0</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    halcon      0       0      1    1     0      0</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>El grado de entrada aquí es el número de recursos de un consumidor (generalidad), y el grado de salida es el número de consumidores de un recurso (vulnerabilidad). Con <span class="math inline">\(S\)</span> taxones, sin autoconsumo posible, <span class="math inline">\(C=L/[S(S-1)]\)</span>. Otra convención usa <span class="math inline">\(S^2\)</span>; siempre debe declararse <span class="citation" data-cites="dormann2008bipartite">(<a href="../references.html#ref-dormann2008bipartite" role="doc-biblioref">Dormann et&nbsp;al. 2008</a>)</span>.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fu">nrow</span>(web)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>L <span class="ot">&lt;-</span> <span class="fu">sum</span>(web)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>degree_table <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">taxon =</span> taxa,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">resources =</span> <span class="fu">rowSums</span>(web),</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">consumers =</span> <span class="fu">colSums</span>(web)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>connectance <span class="ot">&lt;-</span> L <span class="sc">/</span> (S <span class="sc">*</span> (S <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Red acíclica didáctica: basales en 1; consumidores, 1 + media de sus recursos.</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>trophic_level <span class="ot">&lt;-</span> <span class="fu">setNames</span>(<span class="fu">rep</span>(<span class="cn">NA_real_</span>, S), taxa)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>trophic_level[<span class="fu">colSums</span>(web) <span class="sc">&gt;</span> <span class="dv">0</span> <span class="sc">&amp;</span> <span class="fu">rowSums</span>(web) <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (iteration <span class="cf">in</span> <span class="fu">seq_len</span>(S)) {</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (consumer <span class="cf">in</span> taxa[<span class="fu">rowSums</span>(web) <span class="sc">&gt;</span> <span class="dv">0</span>]) {</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>    resources <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which</span>(web[consumer, ] <span class="sc">==</span> <span class="dv">1</span>))</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">all</span>(<span class="sc">!</span><span class="fu">is.na</span>(trophic_level[resources])))</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>      trophic_level[consumer] <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">+</span> <span class="fu">mean</span>(trophic_level[resources])</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>omnivory <span class="ot">&lt;-</span> <span class="fu">sapply</span>(taxa, <span class="cf">function</span>(consumer) {</span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  resources <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">which</span>(web[consumer, ] <span class="sc">==</span> <span class="dv">1</span>))</span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">length</span>(resources) <span class="sc">&lt;</span> <span class="dv">2</span>) <span class="fu">return</span>(<span class="dv">0</span>)</span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">var</span>(trophic_level[resources])</span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>degree_table<span class="sc">$</span>trophic_level <span class="ot">&lt;-</span> trophic_level[degree_table<span class="sc">$</span>taxon]</span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>degree_table<span class="sc">$</span>omnivory <span class="ot">&lt;-</span> omnivory[degree_table<span class="sc">$</span>taxon]</span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>degree_table</span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;           taxon resources consumers trophic_level omnivory</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pasto     pasto         0         2           1.0      0.0</span></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; insecto insecto         1         1           2.0      0.0</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; conejo   conejo         1         2           2.0      0.0</span></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; rana       rana         1         2           3.0      0.0</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; zorro     zorro         2         0           3.5      0.5</span></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; halcon   halcon         2         0           3.5      0.5</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">links =</span> L, <span class="at">connectance =</span> connectance)</span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;       links connectance </span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   7.0000000   0.2333333</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="detección-y-sensibilidad-de-la-red" class="level3" data-number="14.5.1">
+<h3 data-number="14.5.1" class="anchored" data-anchor-id="detección-y-sensibilidad-de-la-red"><span class="header-section-number">14.5.1</span> Detección y sensibilidad de la red</h3>
+<p>En campo, un cero puede ser interacción no detectada. Los conteos siguientes son <strong>didácticos</strong> para doce visitas; el umbral define qué vínculos entran en la red.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>interaction_counts <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>L, S, S, <span class="at">dimnames =</span> <span class="fu">dimnames</span>(web))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>interaction_counts[web <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">9</span>, <span class="dv">7</span>, <span class="dv">6</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">1</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>network_metrics <span class="ot">&lt;-</span> <span class="cf">function</span>(counts, threshold) {</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  A <span class="ot">&lt;-</span> <span class="dv">1</span>L <span class="sc">*</span> (counts <span class="sc">&gt;=</span> threshold)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">diag</span>(A) <span class="ot">&lt;-</span> <span class="dv">0</span>L</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">threshold =</span> threshold, <span class="at">links =</span> <span class="fu">sum</span>(A),</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">connectance =</span> <span class="fu">sum</span>(A) <span class="sc">/</span> (<span class="fu">nrow</span>(A) <span class="sc">*</span> (<span class="fu">nrow</span>(A) <span class="sc">-</span> <span class="dv">1</span>)),</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">mean_resources =</span> <span class="fu">mean</span>(<span class="fu">rowSums</span>(A)),</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">isolated =</span> <span class="fu">sum</span>(<span class="fu">rowSums</span>(A) <span class="sc">+</span> <span class="fu">colSums</span>(A) <span class="sc">==</span> <span class="dv">0</span>))</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>network_sensitivity <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">vapply</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="cf">function</span>(k)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">network_metrics</span>(interaction_counts, k), <span class="fu">numeric</span>(<span class="dv">5</span>)))</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>network_sensitivity</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      threshold links connectance mean_resources isolated</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1,]         1     7   0.2333333      1.1666667        0</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [2,]         2     6   0.2000000      1.0000000        0</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [3,]         3     5   0.1666667      0.8333333        1</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Elevar el umbral elimina vínculos raros y reduce conectancia. No demuestra que esos vínculos sean falsos: muestra dependencia del esfuerzo y la regla de clasificación. Comparar redes exige estandarizar visitas, métodos, taxonomía y periodo, o modelar explícitamente detección.</p>
+</section>
+</section>
+<section id="interpretación-integrada" class="level2" data-number="14.6">
+<h2 data-number="14.6" class="anchored" data-anchor-id="interpretación-integrada"><span class="header-section-number">14.6</span> Interpretación integrada</h2>
+<ul>
+<li>Selección compara uso con una disponibilidad definida; no basta informar uso.</li>
+<li>Amplitud y solapamiento son índices descriptivos sensibles a categorías, disponibilidad y escala. Solapamiento alto no demuestra competencia.</li>
+<li>Lotka-Volterra hace explícitas hipótesis y escenarios, pero sus coeficientes no se deducen de una correlación o una sola trayectoria.</li>
+<li>Una respuesta funcional requiere densidades manipuladas, réplicas y un intervalo común; el modelo presa-depredador añade supuestos demográficos.</li>
+<li>Grado, conectancia, nivel trófico y omnivoría dependen de la orientación de la matriz, la resolución taxonómica y los vínculos detectados.</li>
+<li>Simulación, estimación y observación deben rotularse por separado.</li>
+</ul>
+</section>
+<section id="actividad-propuesta" class="level2" data-number="14.7">
+<h2 data-number="14.7" class="anchored" data-anchor-id="actividad-propuesta"><span class="header-section-number">14.7</span> Actividad propuesta</h2>
+<ol type="1">
+<li>Cambie la disponibilidad del bosque entre 0.30 y 0.50, redistribuyendo la diferencia entre matorral y pastizal. Grafique cómo cambia <span class="math inline">\(w_{bosque}\)</span>.</li>
+<li>Simule competencia con <span class="math inline">\(\alpha_{12}=1.4\)</span> y <span class="math inline">\(\alpha_{21}=0.5\)</span> desde tres condiciones iniciales. Distinga exclusión estable de dependencia inicial.</li>
+<li>Compare residuos de respuestas funcionales tipo I y II para <code>feeding</code>; evite decidir solo con <span class="math inline">\(R^2\)</span> y discuta saturación y límites biológicos.</li>
+<li>Añada el vínculo <code>halcon -&gt; insecto</code>, recalcule niveles y omnivoría y explique por qué una sola interacción altera más que el número de vínculos.</li>
+<li>Diseñe un estudio capaz de separar competencia de respuestas compartidas al ambiente. Defina unidad, réplica, manipulación o serie, observación e incertidumbre.</li>
+</ol>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-begon2006ecology" class="csl-entry" role="listitem">
+Begon, Michael, Colin R. Townsend, y John L. Harper. 2006. <em>Ecology: From Individuals to Ecosystems</em>. 4.ª ed. Blackwell Publishing.
+</div>
+<div id="ref-dormann2008bipartite" class="csl-entry" role="listitem">
+Dormann, Carsten F., Bernd Gruber, y Jochen Fründ. 2008. <span>«Introducing the bipartite Package: Analysing Ecological Networks»</span>. <em>R News</em> 8 (2): 8-11.
+</div>
+<div id="ref-krebs1999ecological" class="csl-entry" role="listitem">
+Krebs, Charles J. 1999. <em>Ecological Methodology</em>. 2.ª ed. Benjamin/Cummings.
+</div>
+<div id="ref-manly2002resource" class="csl-entry" role="listitem">
+Manly, Bryan F. J., Lyman L. McDonald, Dana L. Thomas, Trent L. McDonald, y Wallace P. Erickson. 2002. <em>Resource Selection by Animals: Statistical Design and Analysis for Field Studies</em>. 2.ª ed. Kluwer Academic Publishers.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/chapter11.html" class="pagination-link" aria-label="Riqueza, diversidad y composición de comunidades">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/chapter12.html" class="pagination-link" aria-label="Proyecto completo de muestreo ecológico">
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Muestreo ecológico con R</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Jonathan Florez Giraldo</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

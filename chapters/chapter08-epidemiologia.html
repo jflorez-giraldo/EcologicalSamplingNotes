@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="description" content="Fundamentos estadísticos, métodos de campo y proyectos reproducibles para el estudio de poblaciones, comunidades e interacciones biológicas.">
+
+<title>10&nbsp; Diseños epidemiológicos y tiempo hasta evento – Muestreo ecológico</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/chapter09.html" rel="next">
+<link href="../chapters/chapter08.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-3fee61de2b36a07911a09d94e160f21d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-f95d08478d6d2965eb675d4638296471.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "language": {
+    "search-no-results-text": "No se han encontrado resultados",
+    "search-matching-documents-text": "documentos encontrados",
+    "search-copy-link-title": "Copiar el enlace en la búsqueda",
+    "search-hide-matches-text": "Ocultar resultados adicionales",
+    "search-more-match-text": "resultado adicional en este documento",
+    "search-more-matches-text": "resultados adicionales en este documento",
+    "search-clear-button-title": "Borrar",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancelar",
+    "search-submit-button-title": "Enviar",
+    "search-label": "Buscar"
+  }
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar docked quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter08.html">Parte IV — Comparación y seguimiento</a></li><li class="breadcrumb-item"><a href="../chapters/chapter08-epidemiologia.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Diseños epidemiológicos y tiempo hasta evento</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Muestreo ecológico</a> 
+        <div class="sidebar-tools-main">
+    <a href="../ecological-sampling.pdf" title="Descargar PDF" class="quarto-navigation-tool px-1" aria-label="Descargar PDF"><i class="bi bi-file-pdf"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Buscar"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Presentación</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../preface.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prefacio</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../reading-guide.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Cómo usar este libro</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../literature-review.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Marco bibliográfico</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../data-catalog.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Catálogo de datos reales</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte I — Fundamentos</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Del problema ecológico al diseño</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Diseños probabilísticos para poblaciones biológicas</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter02-planificacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Planificación del tamaño de muestra</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte II — Métodos de campo</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transectos y muestreo por distancias</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Métodos de censo por organismos y hábitats</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte III — Estimación de poblaciones</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter06.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Remoción, captura-recaptura e índices de abundancia</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter07.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Ocupación y detección imperfecta</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Parte IV — Comparación y seguimiento</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter08.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estudios comparativos, intervenciones y sesgos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter08-epidemiologia.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Diseños epidemiológicos y tiempo hasta evento</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter09.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Monitoreo ecológico y análisis de tendencias</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte V — Poblaciones y comunidades</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter10.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter11.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter11-interacciones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Uso de recursos e interacciones ecológicas</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false">
+ <span class="menu-text">Parte VI — Síntesis</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter12.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false">
+ <span class="menu-text">Prácticas</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Práctica 1: Planificación, calibración y multiplicidad</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica02.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica03.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Práctica 3: Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Práctica 4: Epidemiología y tiempo hasta evento</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Práctica 5: Recursos e interacciones</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+ <span class="menu-text">Material complementario</span></a>
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Alternar sección">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Material complementario</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Referencias</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contenido</h2>
+   
+  <ul>
+  <li><a href="#pregunta-diseño-y-estimando" id="toc-pregunta-diseño-y-estimando" class="nav-link active" data-scroll-target="#pregunta-diseño-y-estimando"><span class="header-section-number">10.1</span> Pregunta, diseño y estimando</a></li>
+  <li><a href="#medidas-de-frecuencia-y-efecto" id="toc-medidas-de-frecuencia-y-efecto" class="nav-link" data-scroll-target="#medidas-de-frecuencia-y-efecto"><span class="header-section-number">10.2</span> Medidas de frecuencia y efecto</a></li>
+  <li><a href="#flujo-reproducible-y-auditoría" id="toc-flujo-reproducible-y-auditoría" class="nav-link" data-scroll-target="#flujo-reproducible-y-auditoría"><span class="header-section-number">10.3</span> Flujo reproducible y auditoría</a></li>
+  <li><a href="#aplicación-1-caso-control-agregado-con-esoph" id="toc-aplicación-1-caso-control-agregado-con-esoph" class="nav-link" data-scroll-target="#aplicación-1-caso-control-agregado-con-esoph"><span class="header-section-number">10.4</span> Aplicación 1: caso-control agregado con <code>esoph</code></a>
+  <ul class="collapse">
+  <li><a href="#pregunta-diseño-y-alcance" id="toc-pregunta-diseño-y-alcance" class="nav-link" data-scroll-target="#pregunta-diseño-y-alcance"><span class="header-section-number">10.4.1</span> Pregunta, diseño y alcance</a></li>
+  <li><a href="#importación-auditoría-y-exploración" id="toc-importación-auditoría-y-exploración" class="nav-link" data-scroll-target="#importación-auditoría-y-exploración"><span class="header-section-number">10.4.2</span> Importación, auditoría y exploración</a></li>
+  <li><a href="#estimación-e-incertidumbre" id="toc-estimación-e-incertidumbre" class="nav-link" data-scroll-target="#estimación-e-incertidumbre"><span class="header-section-number">10.4.3</span> Estimación e incertidumbre</a></li>
+  <li><a href="#diagnóstico-y-sensibilidad" id="toc-diagnóstico-y-sensibilidad" class="nav-link" data-scroll-target="#diagnóstico-y-sensibilidad"><span class="header-section-number">10.4.4</span> Diagnóstico y sensibilidad</a></li>
+  </ul></li>
+  <li><a href="#aplicación-2-tiempo-hasta-evento-con-survivallung" id="toc-aplicación-2-tiempo-hasta-evento-con-survivallung" class="nav-link" data-scroll-target="#aplicación-2-tiempo-hasta-evento-con-survivallung"><span class="header-section-number">10.5</span> Aplicación 2: tiempo hasta evento con <code>survival::lung</code></a>
+  <ul class="collapse">
+  <li><a href="#censura-y-estimando" id="toc-censura-y-estimando" class="nav-link" data-scroll-target="#censura-y-estimando"><span class="header-section-number">10.5.1</span> Censura y estimando</a></li>
+  <li><a href="#auditoría-y-kaplan-meier" id="toc-auditoría-y-kaplan-meier" class="nav-link" data-scroll-target="#auditoría-y-kaplan-meier"><span class="header-section-number">10.5.2</span> Auditoría y Kaplan-Meier</a></li>
+  <li><a href="#cox-diagnóstico-y-sensibilidad" id="toc-cox-diagnóstico-y-sensibilidad" class="nav-link" data-scroll-target="#cox-diagnóstico-y-sensibilidad"><span class="header-section-number">10.5.3</span> Cox, diagnóstico y sensibilidad</a></li>
+  </ul></li>
+  <li><a href="#ejercicios-y-actividad" id="toc-ejercicios-y-actividad" class="nav-link" data-scroll-target="#ejercicios-y-actividad"><span class="header-section-number">10.6</span> Ejercicios y actividad</a></li>
+  <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis"><span class="header-section-number">10.7</span> Síntesis</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter08.html">Parte IV — Comparación y seguimiento</a></li><li class="breadcrumb-item"><a href="../chapters/chapter08-epidemiologia.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Diseños epidemiológicos y tiempo hasta evento</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Diseños epidemiológicos y tiempo hasta evento</span></h1>
+<p class="subtitle lead">Frecuencia, asociación y supervivencia reproducible</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="chapter-actions" aria-label="Recursos del capítulo">
+  <a class="chapter-action" href="../notebooks/qmd/chapter08-epidemiologia.qmd" download="">
+    <i class="bi bi-file-earmark-code" aria-hidden="true"></i>
+    <span>Descargar QMD</span>
+  </a>
+  <a class="chapter-action" href="../notebooks/ipynb/chapter08-epidemiologia.ipynb" download="">
+    <i class="bi bi-journal-code" aria-hidden="true"></i>
+    <span>Descargar IPYNB</span>
+  </a>
+  <a class="chapter-action chapter-action-pdf" href="../ecological-sampling.pdf" download="">
+    <i class="bi bi-file-earmark-pdf" aria-hidden="true"></i>
+    <span>Descargar libro en PDF</span>
+  </a>
+</div>
+
+<p>La epidemiología compara estados de salud, exposiciones y tiempos. Una tabla o modelo no identifica por sí solo el diseño: importan cómo entraron las unidades, cuándo se midió la exposición, quién podía convertirse en caso y cuánto tiempo estuvo bajo observación <span class="citation" data-cites="woodward2014epidemiology lash2021modern">(<a href="../references.html#ref-woodward2014epidemiology" role="doc-biblioref">Woodward 2014</a>; <a href="../references.html#ref-lash2021modern" role="doc-biblioref">Lash et&nbsp;al. 2021</a>)</span>.</p>
+<section id="pregunta-diseño-y-estimando" class="level2" data-number="10.1">
+<h2 data-number="10.1" class="anchored" data-anchor-id="pregunta-diseño-y-estimando"><span class="header-section-number">10.1</span> Pregunta, diseño y estimando</h2>
+<p>Antes de analizar, escriba una frase con población, exposición o intervención, comparador, desenlace y horizonte. Después identifique el mecanismo de selección y el estimando. Esta secuencia evita calcular una medida que el diseño no puede identificar.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Diseño</th>
+<th>Selección y temporalidad</th>
+<th>Estimandos naturales</th>
+<th>Riesgo principal</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Transversal</td>
+<td>estado y exposición en un corte</td>
+<td>prevalencia, razón o diferencia de prevalencias</td>
+<td>temporalidad ambigua</td>
+</tr>
+<tr class="even">
+<td>Cohorte</td>
+<td>libres o en riesgo, seguidos desde exposición</td>
+<td>incidencia acumulada, tasa, RD, RR, razón de tasas</td>
+<td>pérdidas y exposición cambiante</td>
+</tr>
+<tr class="odd">
+<td>Caso-control</td>
+<td>casos por desenlace y controles de la población fuente</td>
+<td>OR de exposición</td>
+<td>control que no representa la fuente</td>
+</tr>
+<tr class="even">
+<td>Ensayo</td>
+<td>intervención asignada y seguimiento prospectivo</td>
+<td>efecto ITT: RD, RR, diferencia media o tiempo</td>
+<td>incumplimiento, pérdidas, desenmascaramiento</td>
+</tr>
+<tr class="odd">
+<td>Cuasi-experimento</td>
+<td>intervención sin aleatorización, con comparación temporal o externa</td>
+<td>cambio atribuible bajo supuestos del diseño</td>
+<td>tendencias o eventos concurrentes</td>
+</tr>
+</tbody>
+</table>
+<p>El diseño transversal estima carga existente, no incidencia sin información de tiempo. Una cohorte establece exposición antes del evento. En caso-control se muestrea según el desenlace: la proporción de casos está fijada por diseño y no estima riesgo poblacional; el odds ratio sí puede estimar el OR de la población fuente bajo selección válida. Ensayos y cuasi-experimentos se desarrollan en el capítulo anterior <span class="citation" data-cites="hulley2013designing">(<a href="../references.html#ref-hulley2013designing" role="doc-biblioref">Hulley et&nbsp;al. 2013</a>)</span>.</p>
+</section>
+<section id="medidas-de-frecuencia-y-efecto" class="level2" data-number="10.2">
+<h2 data-number="10.2" class="anchored" data-anchor-id="medidas-de-frecuencia-y-efecto"><span class="header-section-number">10.2</span> Medidas de frecuencia y efecto</h2>
+<p>Para <span class="math inline">\(N\)</span> personas observadas en un momento, la prevalencia es <span class="math inline">\(P=C/N\)</span>. En una cohorte cerrada inicialmente libre del evento, el riesgo o incidencia acumulada es <span class="math inline">\(I=E/N_0\)</span>. Si los seguimientos difieren, la tasa de incidencia usa persona-tiempo:</p>
+<p><span class="math display">\[
+IR=\frac{E}{\sum_i T_i}.
+\]</span></p>
+<p>Una persona aporta tiempo mientras está en riesgo. Una tasa tiene unidades (eventos por persona-año); no es una probabilidad. Para expuestos (<span class="math inline">\(1\)</span>) y no expuestos (<span class="math inline">\(0\)</span>):</p>
+<p><span class="math display">\[
+RD=I_1-I_0,\qquad RR=\frac{I_1}{I_0},\qquad
+IRR=\frac{IR_1}{IR_0}.
+\]</span></p>
+<p>La diferencia de riesgos expresa casos adicionales o evitados y apoya decisiones absolutas. RR e IRR son relativos y deben acompañarse por riesgos o tasas base. En una tabla <span class="math inline">\(2\times2\)</span> con casos expuestos <span class="math inline">\(a\)</span>, controles expuestos <span class="math inline">\(b\)</span>, casos no expuestos <span class="math inline">\(c\)</span> y controles no expuestos <span class="math inline">\(d\)</span>,</p>
+<p><span class="math display">\[
+OR=\frac{a/c}{b/d}=\frac{ad}{bc}.
+\]</span></p>
+<p>El OR no es el RR. Se aproxima a este cuando el evento es raro y la selección es compatible; con eventos frecuentes puede parecer mucho más extremo. Tampoco se puede obtener RD de un caso-control convencional sin información externa del riesgo basal.</p>
+</section>
+<section id="flujo-reproducible-y-auditoría" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="flujo-reproducible-y-auditoría"><span class="header-section-number">10.3</span> Flujo reproducible y auditoría</h2>
+<p>Un análisis defendible deja rastro de ocho decisiones:</p>
+<ol type="1">
+<li>Formular pregunta, diseño, población fuente y estimando.</li>
+<li>Identificar unidad, elegibilidad, origen de datos y diccionario.</li>
+<li>Auditar duplicados, rangos, faltantes, denominadores y cronología.</li>
+<li>Explorar conteos y distribuciones preservando estratos y tiempo.</li>
+<li>Estimar magnitud e incertidumbre en una escala interpretable.</li>
+<li>Diagnosticar la forma del modelo y observaciones influyentes.</li>
+<li>Evaluar sensibilidad a codificación, ajuste, faltantes y supuestos.</li>
+<li>Interpretar alcance, sesgos y relevancia, no solo valores <span class="math inline">\(p\)</span>.</li>
+</ol>
+</section>
+<section id="aplicación-1-caso-control-agregado-con-esoph" class="level2" data-number="10.4">
+<h2 data-number="10.4" class="anchored" data-anchor-id="aplicación-1-caso-control-agregado-con-esoph"><span class="header-section-number">10.4</span> Aplicación 1: caso-control agregado con <code>esoph</code></h2>
+<section id="pregunta-diseño-y-alcance" class="level3" data-number="10.4.1">
+<h3 data-number="10.4.1" class="anchored" data-anchor-id="pregunta-diseño-y-alcance"><span class="header-section-number">10.4.1</span> Pregunta, diseño y alcance</h3>
+<p><code>datasets::esoph</code> contiene 88 estratos de un estudio caso-control sobre cáncer esofágico en Ille-et-Vilaine, Francia. Registra casos y controles por edad, consumo de alcohol y tabaco. La pregunta es cómo cambian los <em>odds</em> de ser caso entre categorías de consumo, ajustando por edad y por el otro consumo. El estimando es un OR condicional al conjunto de estratos; no es prevalencia, riesgo ni efecto causal garantizado.</p>
+</section>
+<section id="importación-auditoría-y-exploración" class="level3" data-number="10.4.2">
+<h3 data-number="10.4.2" class="anchored" data-anchor-id="importación-auditoría-y-exploración"><span class="header-section-number">10.4.2</span> Importación, auditoría y exploración</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> datasets<span class="sc">::</span>esoph</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>d[<span class="fu">c</span>(<span class="st">"agegp"</span>, <span class="st">"alcgp"</span>, <span class="st">"tobgp"</span>)] <span class="ot">&lt;-</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(d[<span class="fu">c</span>(<span class="st">"agegp"</span>, <span class="st">"alcgp"</span>, <span class="st">"tobgp"</span>)], factor, <span class="at">ordered =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(d) <span class="sc">==</span> <span class="dv">88</span>L, <span class="sc">!</span><span class="fu">anyNA</span>(d),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>          <span class="fu">all</span>(d<span class="sc">$</span>ncases <span class="sc">&gt;=</span> <span class="dv">0</span>), <span class="fu">all</span>(d<span class="sc">$</span>ncontrols <span class="sc">&gt;=</span> <span class="dv">0</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>          <span class="fu">all</span>(d<span class="sc">$</span>ncases <span class="sc">+</span> d<span class="sc">$</span>ncontrols <span class="sc">&gt;</span> <span class="dv">0</span>))</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">filas =</span> <span class="fu">nrow</span>(d), <span class="at">casos =</span> <span class="fu">sum</span>(d<span class="sc">$</span>ncases), <span class="at">controles =</span> <span class="fu">sum</span>(d<span class="sc">$</span>ncontrols))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     filas     casos controles </span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        88       200       775</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(<span class="fu">cbind</span>(<span class="at">casos =</span> ncases, <span class="at">controles =</span> ncontrols) <span class="sc">~</span> alcgp, d)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            </span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alcgp       casos controles</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0-39g/day    29       386</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   40-79        75       280</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   80-119       51        87</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   120+         45        22</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">xtabs</span>(ncases <span class="sc">~</span> alcgp <span class="sc">+</span> tobgp, d)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;            tobgp</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alcgp       0-9g/day 10-19 20-29 30+</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0-39g/day        9    10     5   5</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   40-79           34    17    15   9</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   80-119          19    19     6   7</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   120+            16    12     7  10</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Los 200 casos y 775 controles no son una muestra transversal de 975 personas: su cociente depende del muestreo de casos y controles. Las celdas con cero son información válida, pero celdas pequeñas pueden producir residuos grandes e intervalos amplios.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>p_muestral <span class="ot">&lt;-</span> <span class="fu">with</span>(d, ncases <span class="sc">/</span> (ncases <span class="sc">+</span> ncontrols))</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>cols <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"#d9ed92"</span>, <span class="st">"#99d98c"</span>, <span class="st">"#52b69a"</span>, <span class="st">"#168aad"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(<span class="fu">split</span>(p_muestral, d<span class="sc">$</span>alcgp), <span class="at">col =</span> cols,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Alcohol"</span>, <span class="at">ylab =</span> <span class="st">"Casos / (casos + controles)"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter08-epidemiologia_files/figure-html/epi-esoph-exploracion-1.png" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption>Proporción de casos dentro de las unidades muestreadas por estrato; no estima prevalencia poblacional.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="estimación-e-incertidumbre" class="level3" data-number="10.4.3">
+<h3 data-number="10.4.3" class="anchored" data-anchor-id="estimación-e-incertidumbre"><span class="header-section-number">10.4.3</span> Estimación e incertidumbre</h3>
+<p>La regresión binomial para conteos agrupados modela los odds de caso dentro de cada celda. Las categorías menores son referencias.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fit_esoph <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">cbind</span>(ncases, ncontrols) <span class="sc">~</span> agegp <span class="sc">+</span> alcgp <span class="sc">+</span> tobgp,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">family =</span> binomial, <span class="at">data =</span> d)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ci_esoph <span class="ot">&lt;-</span> <span class="fu">confint.default</span>(fit_esoph)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>or_esoph <span class="ot">&lt;-</span> <span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">OR =</span> <span class="fu">coef</span>(fit_esoph), ci_esoph))</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(or_esoph[<span class="fu">grep</span>(<span class="st">"^(alcgp|tobgp)"</span>, <span class="fu">rownames</span>(or_esoph)), ], <span class="dv">2</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                OR 2.5 % 97.5 %</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alcgp40-79   4.20  2.57   6.85</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alcgp80-119  7.25  4.15  12.66</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; alcgp120+   36.70 17.26  78.06</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tobgp10-19   1.55  0.99   2.42</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tobgp20-29   1.67  0.98   2.85</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; tobgp30+     5.16  2.63  10.13</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Ajustados por edad y tabaco, los odds aumentan de forma marcada con alcohol: frente a 0–39 g/día, el OR estimado es aproximadamente 4.20 para 40–79, 7.25 para 80–119 y 36.70 para 120+ g/día. Para tabaco 30+ frente a 0–9 g/día, el OR ajustado es cerca de 5.16. Los intervalos cuantifican imprecisión y son especialmente amplios en categorías con poca información. Estas asociaciones no son riesgos absolutos y pueden reflejar confusión residual, clasificación y selección de controles.</p>
+</section>
+<section id="diagnóstico-y-sensibilidad" class="level3" data-number="10.4.4">
+<h3 data-number="10.4.4" class="anchored" data-anchor-id="diagnóstico-y-sensibilidad"><span class="header-section-number">10.4.4</span> Diagnóstico y sensibilidad</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dispersion <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="at">deviance =</span> <span class="fu">deviance</span>(fit_esoph),</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">df =</span> <span class="fu">df.residual</span>(fit_esoph),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">ratio =</span> <span class="fu">deviance</span>(fit_esoph) <span class="sc">/</span> <span class="fu">df.residual</span>(fit_esoph))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>dispersion</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; deviance       df    ratio </span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 82.33687 76.00000  1.08338</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>diag_esoph <span class="ot">&lt;-</span> <span class="fu">transform</span>(d,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">pearson =</span> <span class="fu">residuals</span>(fit_esoph, <span class="at">type =</span> <span class="st">"pearson"</span>),</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">cook =</span> <span class="fu">cooks.distance</span>(fit_esoph))</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>diag_esoph[<span class="fu">order</span>(<span class="sc">-</span><span class="fu">abs</span>(diag_esoph<span class="sc">$</span>pearson)),</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>           <span class="fu">c</span>(<span class="st">"agegp"</span>, <span class="st">"alcgp"</span>, <span class="st">"tobgp"</span>, <span class="st">"ncases"</span>, <span class="st">"ncontrols"</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>             <span class="st">"pearson"</span>, <span class="st">"cook"</span>)][<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    agegp     alcgp    tobgp ncases ncontrols  pearson       cook</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13 25-34      120+    10-19      1         0 4.167211 0.09772045</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17 35-44 0-39g/day    10-19      1        13 2.135526 0.01259810</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 50 55-64 0-39g/day      30+      4         2 2.070156 0.08740520</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 21 35-44     40-79    10-19      3        20 1.951522 0.07701442</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 28 35-44      120+ 0-9g/day      2         1 1.925160 0.04025067</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>fit_esoph_quasi <span class="ot">&lt;-</span> <span class="fu">update</span>(fit_esoph, <span class="at">family =</span> quasibinomial)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">binomial_SE =</span> <span class="fu">coef</span>(<span class="fu">summary</span>(fit_esoph))[<span class="st">"alcgp120+"</span>, <span class="st">"Std. Error"</span>],</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">quasi_SE =</span> <span class="fu">coef</span>(<span class="fu">summary</span>(fit_esoph_quasi))[<span class="st">"alcgp120+"</span>, <span class="st">"Std. Error"</span>])</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; binomial_SE    quasi_SE </span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   0.3850381   0.4109124</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Una razón devianza/grados de libertad cercana a 1 apoya, sin demostrar, la variación binomial. Los residuos localizan celdas que el patrón aditivo describe mal; Cook mide influencia sobre el ajuste, no error de registro. La sensibilidad cuasibinomial ensancha errores si existe sobredispersión. También conviene probar una interacción alcohol-tabaco solo si fue planteada y hay información por celda, sin seleccionar el relato por significancia.</p>
+</section>
+</section>
+<section id="aplicación-2-tiempo-hasta-evento-con-survivallung" class="level2" data-number="10.5">
+<h2 data-number="10.5" class="anchored" data-anchor-id="aplicación-2-tiempo-hasta-evento-con-survivallung"><span class="header-section-number">10.5</span> Aplicación 2: tiempo hasta evento con <code>survival::lung</code></h2>
+<section id="censura-y-estimando" class="level3" data-number="10.5.1">
+<h3 data-number="10.5.1" class="anchored" data-anchor-id="censura-y-estimando"><span class="header-section-number">10.5.1</span> Censura y estimando</h3>
+<p><code>survival::lung</code> sigue 228 pacientes con cáncer pulmonar avanzado. <code>time</code> son días; <code>status = 2</code> indica muerte y <code>status = 1</code>, censura. Una observación censurada informa que el evento no ocurrió hasta su último tiempo conocido, no que la persona sobrevivió para siempre. Kaplan-Meier estima <span class="math inline">\(S(t)=P(T&gt;t)\)</span> bajo censura no informativa condicional al diseño <span class="citation" data-cites="kleinbaum2012survival therneau2024survival">(<a href="../references.html#ref-kleinbaum2012survival" role="doc-biblioref">Kleinbaum y Klein 2012</a>; <a href="../references.html#ref-therneau2024survival" role="doc-biblioref">Therneau 2024</a>)</span>.</p>
+<p>Esto es <strong>supervivencia de individuos hasta un evento clínico</strong>, distinta de la supervivencia demográfica usada en modelos poblacionales: allí puede estimarse probabilidad de permanecer vivo y disponible entre censos, a menudo confundida con emigración o detección. Ni Kaplan-Meier ni Cox corrigen automáticamente esos procesos ecológicos <span class="citation" data-cites="williams2002analysis">(<a href="../references.html#ref-williams2002analysis" role="doc-biblioref">Williams et&nbsp;al. 2002</a>)</span>.</p>
+</section>
+<section id="auditoría-y-kaplan-meier" class="level3" data-number="10.5.2">
+<h3 data-number="10.5.2" class="anchored" data-anchor-id="auditoría-y-kaplan-meier"><span class="header-section-number">10.5.2</span> Auditoría y Kaplan-Meier</h3>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>lung <span class="ot">&lt;-</span> survival<span class="sc">::</span>lung</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>lung<span class="sc">$</span>event <span class="ot">&lt;-</span> lung<span class="sc">$</span>status <span class="sc">==</span> <span class="dv">2</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>lung<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">factor</span>(lung<span class="sc">$</span>sex, <span class="at">levels =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Hombre"</span>, <span class="st">"Mujer"</span>))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="fu">stopifnot</span>(<span class="fu">nrow</span>(lung) <span class="sc">==</span> <span class="dv">228</span>L, <span class="fu">all</span>(lung<span class="sc">$</span>time <span class="sc">&gt;</span> <span class="dv">0</span>),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>          <span class="fu">all</span>(lung<span class="sc">$</span>status <span class="sc">%in%</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>))</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">personas =</span> <span class="fu">nrow</span>(lung), <span class="at">eventos =</span> <span class="fu">sum</span>(lung<span class="sc">$</span>event),</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">censuras =</span> <span class="fu">sum</span>(<span class="sc">!</span>lung<span class="sc">$</span>event))</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; personas  eventos censuras </span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      228      165       63</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(lung))</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;      inst      time    status       age       sex   ph.ecog  ph.karno pat.karno </span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         1         0         0         0         0         1         1         3 </span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  meal.cal   wt.loss     event </span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        47        14         0</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La auditoría muestra faltantes en covariables, pero no en tiempo, estado, edad o sexo usados aquí. Borrar filas por variables que no entran al modelo cambiaría innecesariamente la población analítica.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>km_sex <span class="ot">&lt;-</span> survival<span class="sc">::</span><span class="fu">survfit</span>(survival<span class="sc">::</span><span class="fu">Surv</span>(time, event) <span class="sc">~</span> sex, <span class="at">data =</span> lung)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(km_sex, <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#355070"</span>, <span class="st">"#b56576"</span>), <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">mark.time =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Días"</span>, <span class="at">ylab =</span> <span class="st">"Probabilidad de supervivencia"</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">conf.int =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>, <span class="fu">levels</span>(lung<span class="sc">$</span>sex), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#355070"</span>, <span class="st">"#b56576"</span>),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">lwd =</span> <span class="dv">2</span>, <span class="at">bty =</span> <span class="st">"n"</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter08-epidemiologia_files/figure-html/epi-lung-km-1.png" class="img-fluid figure-img" style="width:90.0%"></p>
+<figcaption>Supervivencia Kaplan-Meier por sexo; las marcas indican censura.</figcaption>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>km_sex</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Call: survfit(formula = survival::Surv(time, event) ~ sex, data = lung)</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;              n events median 0.95LCL 0.95UCL</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sex=Hombre 138    112    270     212     310</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sex=Mujer   90     53    426     348     550</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La mediana estimada es 270 días para hombres y 426 para mujeres, con intervalos de 95 % de 212–310 y 348–550 días, respectivamente. A 365 días, la supervivencia estimada es aproximadamente 0.34 y 0.53. Son descripciones de estos pacientes y su mecanismo de seguimiento, no tasas de supervivencia de toda la población.</p>
+</section>
+<section id="cox-diagnóstico-y-sensibilidad" class="level3" data-number="10.5.3">
+<h3 data-number="10.5.3" class="anchored" data-anchor-id="cox-diagnóstico-y-sensibilidad"><span class="header-section-number">10.5.3</span> Cox, diagnóstico y sensibilidad</h3>
+<p>El modelo de Cox compara tasas instantáneas mediante <em>hazard ratios</em> (HR) sin especificar el riesgo basal. Un HR no es un RR acumulado ni una diferencia en días de vida.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fit_cox <span class="ot">&lt;-</span> survival<span class="sc">::</span><span class="fu">coxph</span>(survival<span class="sc">::</span><span class="fu">Surv</span>(time, event) <span class="sc">~</span> age <span class="sc">+</span> sex,</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">data =</span> lung, <span class="at">x =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">HR =</span> <span class="fu">coef</span>(fit_cox), <span class="fu">confint</span>(fit_cox))), <span class="dv">3</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             HR 2.5 % 97.5 %</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; age      1.017 0.999  1.036</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sexMujer 0.599 0.431  0.831</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>diagnostico_ph <span class="ot">&lt;-</span> survival<span class="sc">::</span><span class="fu">cox.zph</span>(fit_cox)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>diagnostico_ph</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;        chisq df    p</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; age    0.209  1 0.65</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; sex    2.608  1 0.11</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; GLOBAL 2.771  2 0.25</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A edad igual, el HR de mujeres frente a hombres es cerca de 0.60 (IC 95 % 0.43–0.83): su tasa instantánea estimada es 40 % menor. El HR por año de edad es 1.017 (IC 95 % aproximadamente 0.999–1.036), una diferencia pequeña e incierta por año. Esto no demuestra un efecto biológico del sexo: el estudio no asignó sexo y puede haber confusión por estado clínico o tratamiento.</p>
+<p><code>cox.zph()</code> evalúa asociación entre residuos de Schoenfeld y tiempo. Aquí no ofrece evidencia fuerte contra riesgos proporcionales, pero con 165 eventos no puede certificar el supuesto. Deben graficarse los residuos y considerar una interacción con tiempo si el patrón es sistemático.</p>
+<div class="cell" data-layout-align="center">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>op <span class="ot">&lt;-</span> <span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(diagnostico_ph, <span class="at">var =</span> <span class="st">"sex"</span>, <span class="at">resid =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Proporcionalidad: sexo"</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>mart <span class="ot">&lt;-</span> <span class="fu">residuals</span>(fit_cox, <span class="at">type =</span> <span class="st">"martingale"</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lung<span class="sc">$</span>age, mart, <span class="at">pch =</span> <span class="dv">21</span>, <span class="at">bg =</span> <span class="st">"#6d597a"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Edad"</span>, <span class="at">ylab =</span> <span class="st">"Residuo de martingala"</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(<span class="fu">lowess</span>(lung<span class="sc">$</span>age, mart), <span class="at">col =</span> <span class="st">"#e56b6f"</span>, <span class="at">lwd =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="chapter08-epidemiologia_files/figure-html/epi-lung-sensibilidad-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:90.0%"></p>
+</figure>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(op)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>cc_ecog <span class="ot">&lt;-</span> <span class="fu">complete.cases</span>(lung[<span class="fu">c</span>(<span class="st">"time"</span>, <span class="st">"event"</span>, <span class="st">"age"</span>, <span class="st">"sex"</span>, <span class="st">"ph.ecog"</span>)])</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>fit_cox_misma_muestra <span class="ot">&lt;-</span> survival<span class="sc">::</span><span class="fu">coxph</span>(</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  survival<span class="sc">::</span><span class="fu">Surv</span>(time, event) <span class="sc">~</span> age <span class="sc">+</span> sex, <span class="at">data =</span> lung[cc_ecog, ])</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>fit_cox_ecog <span class="ot">&lt;-</span> survival<span class="sc">::</span><span class="fu">coxph</span>(</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  survival<span class="sc">::</span><span class="fu">Surv</span>(time, event) <span class="sc">~</span> age <span class="sc">+</span> sex <span class="sc">+</span> ph.ecog, <span class="at">data =</span> lung[cc_ecog, ])</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">n =</span> <span class="fu">sum</span>(cc_ecog),</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">HR_sexo_basico =</span> <span class="fu">exp</span>(<span class="fu">coef</span>(fit_cox_misma_muestra)[<span class="st">"sexMujer"</span>]),</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">HR_sexo_ECOG =</span> <span class="fu">exp</span>(<span class="fu">coef</span>(fit_cox_ecog)[<span class="st">"sexMujer"</span>]))</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                       n HR_sexo_basico.sexMujer   HR_sexo_ECOG.sexMujer </span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             227.0000000               0.6031530               0.5754446</span></span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>La curva suavizada revisa si edad necesita otra forma funcional. Añadir ECOG es una sensibilidad a estado funcional. Los dos modelos se ajustan sobre las mismas 227 filas para no confundir el cambio por ajuste con el debido a excluir una observación; el HR de sexo cambia aproximadamente de 0.60 a 0.58. Esto no elimina confusión por variables no registradas.</p>
+</section>
+</section>
+<section id="ejercicios-y-actividad" class="level2" data-number="10.6">
+<h2 data-number="10.6" class="anchored" data-anchor-id="ejercicios-y-actividad"><span class="header-section-number">10.6</span> Ejercicios y actividad</h2>
+<ol type="1">
+<li>Clasifique cinco preguntas propias como transversal, cohorte, caso-control, ensayo o cuasi-experimento. Para cada una escriba población, comparador, horizonte y estimando.</li>
+<li>Construya una tabla <span class="math inline">\(2\times2\)</span> con riesgos 0.20 y 0.10 en 100 personas por grupo. Calcule RD, RR y OR; explique por qué responden preguntas distintas.</li>
+<li>En <code>esoph</code>, ajuste interacción <code>alcgp * tobgp</code>, revise celdas y compare OR e intervalos con el modelo aditivo. ¿La complejidad está respaldada por datos?</li>
+<li>Extraiga de <code>km_sex</code> supervivencia e intervalos a 180 y 365 días. Comunique diferencia absoluta por sexo sin convertirla en causal.</li>
+<li>Repita Cox en el subconjunto completo para <code>ph.ecog</code>, comparando primero el modelo básico en esa misma muestra. Separe cambio por ajuste de cambio por exclusión de filas.</li>
+</ol>
+<p><strong>Actividad integradora.</strong> Entregue una página reproducible sobre uno de los dos datos. Debe contener pregunta/diseño/estimando, auditoría, una exploración, estimación con intervalo, diagnóstico, sensibilidad y una conclusión de tres frases: magnitud, incertidumbre y límites. Una lista de valores <span class="math inline">\(p\)</span> no constituye análisis de resultados.</p>
+</section>
+<section id="síntesis" class="level2" data-number="10.7">
+<h2 data-number="10.7" class="anchored" data-anchor-id="síntesis"><span class="header-section-number">10.7</span> Síntesis</h2>
+<ul>
+<li>El mecanismo de selección determina qué frecuencia o efecto puede estimarse.</li>
+<li>Prevalencia, riesgo, tasa, RD, RR, IRR y OR no son intercambiables.</li>
+<li>Persona-tiempo resuelve seguimientos desiguales; no convierte una tasa en riesgo.</li>
+<li>Censura aporta seguimiento parcial y requiere un supuesto sobre su mecanismo.</li>
+<li>Kaplan-Meier describe <span class="math inline">\(S(t)\)</span>; Cox estima HR bajo proporcionalidad y forma funcional adecuada.</li>
+<li>Diagnóstico y sensibilidad delimitan la conclusión; no reparan selección, confusión ni mala definición del estimando.</li>
+</ul>
+
+
+<div id="refs" class="references csl-bib-body hanging-indent" role="list" style="display: none">
+<div id="ref-hulley2013designing" class="csl-entry" role="listitem">
+Hulley, Stephen B., Steven R. Cummings, Warren S. Browner, Deborah G. Grady, y Thomas B. Newman. 2013. <em>Designing Clinical Research</em>. 4.ª ed. Lippincott Williams &amp; Wilkins.
+</div>
+<div id="ref-kleinbaum2012survival" class="csl-entry" role="listitem">
+Kleinbaum, David G., y Mitchel Klein. 2012. <em>Survival Analysis: A Self-Learning Text</em>. 3.ª ed. Springer.
+</div>
+<div id="ref-lash2021modern" class="csl-entry" role="listitem">
+Lash, Timothy L., Tyler J. VanderWeele, Sebastien Haneuse, y Kenneth J. Rothman. 2021. <em>Modern Epidemiology</em>. 4.ª ed. Wolters Kluwer.
+</div>
+<div id="ref-therneau2024survival" class="csl-entry" role="listitem">
+Therneau, Terry M. 2024. <em>A Package for Survival Analysis in R</em>. <a href="https://CRAN.R-project.org/package=survival">https://CRAN.R-project.org/package=survival</a>.
+</div>
+<div id="ref-williams2002analysis" class="csl-entry" role="listitem">
+Williams, Byron K., James D. Nichols, y Michael J. Conroy. 2002. <em>Analysis and Management of Animal Populations</em>. Academic Press.
+</div>
+<div id="ref-woodward2014epidemiology" class="csl-entry" role="listitem">
+Woodward, Mark. 2014. <em>Epidemiology: Study Design and Data Analysis</em>. 3.ª ed. Chapman; Hall/CRC.
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copiado");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copiado");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/chapter08.html" class="pagination-link" aria-label="Estudios comparativos, intervenciones y sesgos">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estudios comparativos, intervenciones y sesgos</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/chapter09.html" class="pagination-link" aria-label="Monitoreo ecológico y análisis de tendencias">
+        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Monitoreo ecológico y análisis de tendencias</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Muestreo ecológico con R</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>Jonathan Florez Giraldo</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>

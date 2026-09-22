@@ -1,0 +1,24 @@
+dataset:
+  title: "Acorn Woodpecker Survivorship Data"
+  version: "popbio 2.8"
+  source_url: "https://cran.r-project.org/package=popbio"
+  accessed: "2026-09-21"
+  license: "GPL-2, package popbio"
+  citation: "popbio::woodpecker; Stacey and Taper (1992)"
+  raw_files: ["package:popbio/woodpecker"]
+study:
+  purpose: "Comparar supervivencia anual juvenil y adulta."
+  target_population: "Carpinteros belloteros de la población de Water Canyon observada."
+  sampling_frame: "Individuos iniciales resumidos por estadio y año."
+  sampling_unit: "Año por estadio."
+  observation_unit: "Conteo inicial y número superviviente."
+  selection_mechanism: "Seguimiento observacional; no generalizable automáticamente."
+  observation_process: "Reconstrucción anual de supervivientes."
+  geographic_scope: "Water Canyon, Nuevo México."
+  temporal_scope: "1975--1983."
+processing:
+  script: "chapters/chapter10.qmd"
+  output_files: []
+  exclusions: []
+  transformations: ["Agregación por estadio", "Intervalos binomiales"]
+  missing_data: "El objeto se audita y no contiene faltantes."

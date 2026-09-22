@@ -8,7 +8,7 @@
 
 <meta name="description" content="Fundamentos estadísticos, métodos de campo y proyectos reproducibles para el estudio de poblaciones, comunidades e interacciones biológicas.">
 
-<title>11&nbsp; Riqueza, diversidad y composición de comunidades – Muestreo ecológico</title>
+<title>13&nbsp; Riqueza, diversidad y composición de comunidades – Muestreo ecológico</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -91,7 +91,7 @@ div.csl-indent {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/chapter12.html" rel="next">
+<link href="../chapters/chapter11-interacciones.html" rel="next">
 <link href="../chapters/chapter10.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -102,7 +102,7 @@ div.csl-indent {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-3fee61de2b36a07911a09d94e160f21d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-7cffdf8bbe0ff56ccfce34d1b7d2026d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-f95d08478d6d2965eb675d4638296471.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -172,7 +172,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter10.html">Parte V — Poblaciones y comunidades</a></li><li class="breadcrumb-item"><a href="../chapters/chapter11.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter10.html">Parte V — Poblaciones y comunidades</a></li><li class="breadcrumb-item"><a href="../chapters/chapter11.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Alternar barra lateral" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Buscar" onclick="window.quartoOpenSearch();">
@@ -251,6 +251,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Diseños probabilísticos para poblaciones biológicas</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter02-planificacion.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Planificación del tamaño de muestra</span></span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -265,19 +271,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Parcelas, cuadrantes e intercepción</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter04.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Transectos y muestreo por distancias</span></span></a>
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Transectos y muestreo por distancias</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter05.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Métodos de censo por organismos y hábitats</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Métodos de censo por organismos y hábitats</span></span></a>
   </div>
 </li>
       </ul>
@@ -294,13 +300,13 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter06.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Remoción, captura-recaptura e índices de abundancia</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Remoción, captura-recaptura e índices de abundancia</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter07.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Ocupación y detección imperfecta</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Ocupación y detección imperfecta</span></span></a>
   </div>
 </li>
       </ul>
@@ -317,13 +323,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter08.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Estudios comparativos, intervenciones y sesgos</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Estudios comparativos, intervenciones y sesgos</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter08-epidemiologia.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Diseños epidemiológicos y tiempo hasta evento</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter09.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Monitoreo ecológico y análisis de tendencias</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Monitoreo ecológico y análisis de tendencias</span></span></a>
   </div>
 </li>
       </ul>
@@ -340,13 +352,19 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter10.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter11.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/chapter11-interacciones.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Uso de recursos e interacciones ecológicas</span></span></a>
   </div>
 </li>
       </ul>
@@ -363,7 +381,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/chapter12.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></span></a>
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></span></a>
   </div>
 </li>
       </ul>
@@ -379,14 +397,32 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/practica01.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Práctica 1: Planificación, calibración y multiplicidad</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/practica02.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Práctica 2: Diseños probabilísticos en R</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/practica03.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Práctica 3: Parcelas, cuadrantes e intercepción</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Práctica 3: Parcelas, cuadrantes e intercepción</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica04.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Práctica 4: Epidemiología y tiempo hasta evento</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/practica05.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Práctica 5: Recursos e interacciones</span></span></a>
   </div>
 </li>
       </ul>
@@ -424,32 +460,32 @@ window.Quarto = {
     <h2 id="toc-title">Contenido</h2>
    
   <ul>
-  <li><a href="#de-la-pregunta-a-la-matriz-comunitaria" id="toc-de-la-pregunta-a-la-matriz-comunitaria" class="nav-link active" data-scroll-target="#de-la-pregunta-a-la-matriz-comunitaria"><span class="header-section-number">11.1</span> De la pregunta a la matriz comunitaria</a></li>
-  <li><a href="#riqueza-y-diversidad-clásica" id="toc-riqueza-y-diversidad-clásica" class="nav-link" data-scroll-target="#riqueza-y-diversidad-clásica"><span class="header-section-number">11.2</span> Riqueza y diversidad clásica</a></li>
-  <li><a href="#semejanza-y-disimilitud" id="toc-semejanza-y-disimilitud" class="nav-link" data-scroll-target="#semejanza-y-disimilitud"><span class="header-section-number">11.3</span> Semejanza y disimilitud</a></li>
-  <li><a href="#clasificación-y-ordenación" id="toc-clasificación-y-ordenación" class="nav-link" data-scroll-target="#clasificación-y-ordenación"><span class="header-section-number">11.4</span> Clasificación y ordenación</a></li>
-  <li><a href="#aplicación-con-vegandune" id="toc-aplicación-con-vegandune" class="nav-link" data-scroll-target="#aplicación-con-vegandune"><span class="header-section-number">11.5</span> Aplicación con <code>vegan::dune</code></a>
+  <li><a href="#de-la-pregunta-a-la-matriz-comunitaria" id="toc-de-la-pregunta-a-la-matriz-comunitaria" class="nav-link active" data-scroll-target="#de-la-pregunta-a-la-matriz-comunitaria"><span class="header-section-number">13.1</span> De la pregunta a la matriz comunitaria</a></li>
+  <li><a href="#riqueza-y-diversidad-clásica" id="toc-riqueza-y-diversidad-clásica" class="nav-link" data-scroll-target="#riqueza-y-diversidad-clásica"><span class="header-section-number">13.2</span> Riqueza y diversidad clásica</a></li>
+  <li><a href="#semejanza-y-disimilitud" id="toc-semejanza-y-disimilitud" class="nav-link" data-scroll-target="#semejanza-y-disimilitud"><span class="header-section-number">13.3</span> Semejanza y disimilitud</a></li>
+  <li><a href="#clasificación-y-ordenación" id="toc-clasificación-y-ordenación" class="nav-link" data-scroll-target="#clasificación-y-ordenación"><span class="header-section-number">13.4</span> Clasificación y ordenación</a></li>
+  <li><a href="#aplicación-con-vegandune" id="toc-aplicación-con-vegandune" class="nav-link" data-scroll-target="#aplicación-con-vegandune"><span class="header-section-number">13.5</span> Aplicación con <code>vegan::dune</code></a>
   <ul class="collapse">
-  <li><a href="#procedencia-pregunta-y-auditoría" id="toc-procedencia-pregunta-y-auditoría" class="nav-link" data-scroll-target="#procedencia-pregunta-y-auditoría"><span class="header-section-number">11.5.1</span> Procedencia, pregunta y auditoría</a></li>
-  <li><a href="#riqueza-shannon-simpson-y-equidad" id="toc-riqueza-shannon-simpson-y-equidad" class="nav-link" data-scroll-target="#riqueza-shannon-simpson-y-equidad"><span class="header-section-number">11.5.2</span> Riqueza, Shannon, Simpson y equidad</a></li>
-  <li><a href="#jaccard-y-bray-curtis" id="toc-jaccard-y-bray-curtis" class="nav-link" data-scroll-target="#jaccard-y-bray-curtis"><span class="header-section-number">11.5.3</span> Jaccard y Bray-Curtis</a></li>
-  <li><a href="#clasificación-jerárquica" id="toc-clasificación-jerárquica" class="nav-link" data-scroll-target="#clasificación-jerárquica"><span class="header-section-number">11.5.4</span> Clasificación jerárquica</a></li>
-  <li><a href="#ordenación-por-coordenadas-principales" id="toc-ordenación-por-coordenadas-principales" class="nav-link" data-scroll-target="#ordenación-por-coordenadas-principales"><span class="header-section-number">11.5.5</span> Ordenación por coordenadas principales</a></li>
-  <li><a href="#sensibilidad-a-abundancia-y-presencia" id="toc-sensibilidad-a-abundancia-y-presencia" class="nav-link" data-scroll-target="#sensibilidad-a-abundancia-y-presencia"><span class="header-section-number">11.5.6</span> Sensibilidad a abundancia y presencia</a></li>
+  <li><a href="#procedencia-pregunta-y-auditoría" id="toc-procedencia-pregunta-y-auditoría" class="nav-link" data-scroll-target="#procedencia-pregunta-y-auditoría"><span class="header-section-number">13.5.1</span> Procedencia, pregunta y auditoría</a></li>
+  <li><a href="#riqueza-shannon-simpson-y-equidad" id="toc-riqueza-shannon-simpson-y-equidad" class="nav-link" data-scroll-target="#riqueza-shannon-simpson-y-equidad"><span class="header-section-number">13.5.2</span> Riqueza, Shannon, Simpson y equidad</a></li>
+  <li><a href="#jaccard-y-bray-curtis" id="toc-jaccard-y-bray-curtis" class="nav-link" data-scroll-target="#jaccard-y-bray-curtis"><span class="header-section-number">13.5.3</span> Jaccard y Bray-Curtis</a></li>
+  <li><a href="#clasificación-jerárquica" id="toc-clasificación-jerárquica" class="nav-link" data-scroll-target="#clasificación-jerárquica"><span class="header-section-number">13.5.4</span> Clasificación jerárquica</a></li>
+  <li><a href="#ordenación-por-coordenadas-principales" id="toc-ordenación-por-coordenadas-principales" class="nav-link" data-scroll-target="#ordenación-por-coordenadas-principales"><span class="header-section-number">13.5.5</span> Ordenación por coordenadas principales</a></li>
+  <li><a href="#sensibilidad-a-abundancia-y-presencia" id="toc-sensibilidad-a-abundancia-y-presencia" class="nav-link" data-scroll-target="#sensibilidad-a-abundancia-y-presencia"><span class="header-section-number">13.5.6</span> Sensibilidad a abundancia y presencia</a></li>
   </ul></li>
-  <li><a href="#supuestos-y-alcance" id="toc-supuestos-y-alcance" class="nav-link" data-scroll-target="#supuestos-y-alcance"><span class="header-section-number">11.6</span> Supuestos y alcance</a></li>
-  <li><a href="#errores-comunes" id="toc-errores-comunes" class="nav-link" data-scroll-target="#errores-comunes"><span class="header-section-number">11.7</span> Errores comunes</a></li>
-  <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis"><span class="header-section-number">11.8</span> Síntesis</a></li>
-  <li><a href="#actividad-propuesta-para-el-lector" id="toc-actividad-propuesta-para-el-lector" class="nav-link" data-scroll-target="#actividad-propuesta-para-el-lector"><span class="header-section-number">11.9</span> Actividad propuesta para el lector</a></li>
+  <li><a href="#supuestos-y-alcance" id="toc-supuestos-y-alcance" class="nav-link" data-scroll-target="#supuestos-y-alcance"><span class="header-section-number">13.6</span> Supuestos y alcance</a></li>
+  <li><a href="#errores-comunes" id="toc-errores-comunes" class="nav-link" data-scroll-target="#errores-comunes"><span class="header-section-number">13.7</span> Errores comunes</a></li>
+  <li><a href="#síntesis" id="toc-síntesis" class="nav-link" data-scroll-target="#síntesis"><span class="header-section-number">13.8</span> Síntesis</a></li>
+  <li><a href="#actividad-propuesta-para-el-lector" id="toc-actividad-propuesta-para-el-lector" class="nav-link" data-scroll-target="#actividad-propuesta-para-el-lector"><span class="header-section-number">13.9</span> Actividad propuesta para el lector</a></li>
   </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter10.html">Parte V — Poblaciones y comunidades</a></li><li class="breadcrumb-item"><a href="../chapters/chapter11.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/chapter10.html">Parte V — Poblaciones y comunidades</a></li><li class="breadcrumb-item"><a href="../chapters/chapter11.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></h1>
+<h1 class="title"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Riqueza, diversidad y composición de comunidades</span></h1>
 <p class="subtitle lead">Índices clásicos, semejanza, clasificación y ordenación</p>
 </div>
 
@@ -483,8 +519,8 @@ window.Quarto = {
 </div>
 
 <p>Una muestra comunitaria no es una lista completa de especies. Es el resultado de una unidad espacial, un periodo, un método, un esfuerzo y una capacidad de detección. Por eso, riqueza, diversidad y composición solo son comparables cuando esas condiciones tienen significado semejante. El tratamiento metodológico de este capítulo sigue los índices y métodos multivariados clásicos presentados por <span class="citation" data-cites="henderson2016ecological">Henderson y Southwood (<a href="../references.html#ref-henderson2016ecological" role="doc-biblioref">2016</a>)</span>.</p>
-<section id="de-la-pregunta-a-la-matriz-comunitaria" class="level2" data-number="11.1">
-<h2 data-number="11.1" class="anchored" data-anchor-id="de-la-pregunta-a-la-matriz-comunitaria"><span class="header-section-number">11.1</span> De la pregunta a la matriz comunitaria</h2>
+<section id="de-la-pregunta-a-la-matriz-comunitaria" class="level2" data-number="13.1">
+<h2 data-number="13.1" class="anchored" data-anchor-id="de-la-pregunta-a-la-matriz-comunitaria"><span class="header-section-number">13.1</span> De la pregunta a la matriz comunitaria</h2>
 <p>Una pregunta comunitaria debe precisar población, unidad, periodo y atributo. Por ejemplo: <strong>¿cómo varían la riqueza, la diversidad y la composición vegetal entre los 20 sitios de pastizal observados bajo distintas formas de manejo?</strong> La matriz analítica es</p>
 <p><span class="math display">\[
 \mathbf{Y}=[y_{ij}],
@@ -505,8 +541,8 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="riqueza-y-diversidad-clásica" class="level2" data-number="11.2">
-<h2 data-number="11.2" class="anchored" data-anchor-id="riqueza-y-diversidad-clásica"><span class="header-section-number">11.2</span> Riqueza y diversidad clásica</h2>
+<section id="riqueza-y-diversidad-clásica" class="level2" data-number="13.2">
+<h2 data-number="13.2" class="anchored" data-anchor-id="riqueza-y-diversidad-clásica"><span class="header-section-number">13.2</span> Riqueza y diversidad clásica</h2>
 <p>Para una unidad con abundancias <span class="math inline">\(n_j\)</span>, total <span class="math inline">\(N=\sum_j n_j\)</span> y proporciones <span class="math inline">\(p_j=n_j/N\)</span>, la <strong>riqueza observada</strong> es</p>
 <p><span class="math display">\[
 S_{obs}=\sum_j I(n_j&gt;0).
@@ -527,8 +563,8 @@ J'=\frac{H'}{\log(S_{obs})}.
 \]</span></p>
 <p>Está definida para <span class="math inline">\(S_{obs}&gt;1\)</span>. Una comunidad con muchas especies puede tener equidad baja si una de ellas domina.</p>
 </section>
-<section id="semejanza-y-disimilitud" class="level2" data-number="11.3">
-<h2 data-number="11.3" class="anchored" data-anchor-id="semejanza-y-disimilitud"><span class="header-section-number">11.3</span> Semejanza y disimilitud</h2>
+<section id="semejanza-y-disimilitud" class="level2" data-number="13.3">
+<h2 data-number="13.3" class="anchored" data-anchor-id="semejanza-y-disimilitud"><span class="header-section-number">13.3</span> Semejanza y disimilitud</h2>
 <p>Para dos sitios, sean <span class="math inline">\(a\)</span> las especies compartidas y <span class="math inline">\(b,c\)</span> las exclusivas. La disimilitud de Jaccard en presencia-ausencia es</p>
 <p><span class="math display">\[
 d_J=\frac{b+c}{a+b+c}.
@@ -541,15 +577,15 @@ d_{BC}(i,k)=
 \]</span></p>
 <p>También ignora dobles ceros, pero responde tanto al reemplazo de especies como a diferencias en abundancia. Un sitio sin registros no tiene una comparación Bray-Curtis interpretable. La métrica se elige antes de examinar cuál produce la separación visual más atractiva.</p>
 </section>
-<section id="clasificación-y-ordenación" class="level2" data-number="11.4">
-<h2 data-number="11.4" class="anchored" data-anchor-id="clasificación-y-ordenación"><span class="header-section-number">11.4</span> Clasificación y ordenación</h2>
+<section id="clasificación-y-ordenación" class="level2" data-number="13.4">
+<h2 data-number="13.4" class="anchored" data-anchor-id="clasificación-y-ordenación"><span class="header-section-number">13.4</span> Clasificación y ordenación</h2>
 <p>La <strong>clasificación jerárquica</strong> agrupa sitios a partir de una matriz de disimilitud. El resultado depende de la distancia, la transformación y el método de enlace. El enlace promedio combina grupos mediante su disimilitud media y produce un dendrograma descriptivo. Cortar el árbol en cierto número de grupos no demuestra que existan comunidades discretas.</p>
 <p>La <strong>ordenación</strong> representa sitios en pocas dimensiones. Aquí se usa análisis de coordenadas principales sobre Bray-Curtis. Los ejes aproximan la configuración de distancias; su signo es arbitrario y no son gradientes ambientales demostrados. Los autovalores negativos advierten que la distancia no es completamente euclidiana. La clasificación y la ordenación son vistas complementarias de la misma estructura, no pruebas independientes.</p>
 </section>
-<section id="aplicación-con-vegandune" class="level2" data-number="11.5">
-<h2 data-number="11.5" class="anchored" data-anchor-id="aplicación-con-vegandune"><span class="header-section-number">11.5</span> Aplicación con <code>vegan::dune</code></h2>
-<section id="procedencia-pregunta-y-auditoría" class="level3" data-number="11.5.1">
-<h3 data-number="11.5.1" class="anchored" data-anchor-id="procedencia-pregunta-y-auditoría"><span class="header-section-number">11.5.1</span> Procedencia, pregunta y auditoría</h3>
+<section id="aplicación-con-vegandune" class="level2" data-number="13.5">
+<h2 data-number="13.5" class="anchored" data-anchor-id="aplicación-con-vegandune"><span class="header-section-number">13.5</span> Aplicación con <code>vegan::dune</code></h2>
+<section id="procedencia-pregunta-y-auditoría" class="level3" data-number="13.5.1">
+<h3 data-number="13.5.1" class="anchored" data-anchor-id="procedencia-pregunta-y-auditoría"><span class="header-section-number">13.5.1</span> Procedencia, pregunta y auditoría</h3>
 <p><code>vegan::dune</code> contiene abundancias de 30 especies vegetales en 20 sitios de pastizales de dunas, y <code>dune.env</code> aporta variables ambientales y de manejo <span class="citation" data-cites="oksanen2024vegan">(<a href="../references.html#ref-oksanen2024vegan" role="doc-biblioref">Oksanen et&nbsp;al. 2024</a>)</span>. Se describirá la diversidad local y se explorará si sitios con formas de manejo semejantes también son semejantes en composición. El caso es observacional y la documentación del objeto no proporciona un marco probabilístico completo; por ello no se atribuyen efectos causales ni se generaliza a todos los pastizales.</p>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">"vegan"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
@@ -582,8 +618,8 @@ d_{BC}(i,k)=
 </div>
 <p>La coincidencia por orden se comprueba en este objeto distribuido por el paquete. En un proyecto propio se usaría una columna identificadora en ambas tablas; unir por posición sin verificar claves es un error silencioso.</p>
 </section>
-<section id="riqueza-shannon-simpson-y-equidad" class="level3" data-number="11.5.2">
-<h3 data-number="11.5.2" class="anchored" data-anchor-id="riqueza-shannon-simpson-y-equidad"><span class="header-section-number">11.5.2</span> Riqueza, Shannon, Simpson y equidad</h3>
+<section id="riqueza-shannon-simpson-y-equidad" class="level3" data-number="13.5.2">
+<h3 data-number="13.5.2" class="anchored" data-anchor-id="riqueza-shannon-simpson-y-equidad"><span class="header-section-number">13.5.2</span> Riqueza, Shannon, Simpson y equidad</h3>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>richness <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">specnumber</span>(comm)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>shannon <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">diversity</span>(comm, <span class="at">index =</span> <span class="st">"shannon"</span>)</span>
@@ -693,8 +729,8 @@ d_{BC}(i,k)=
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(op)</span></code></pre></div><button title="Copiar al portapapeles" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="jaccard-y-bray-curtis" class="level3" data-number="11.5.3">
-<h3 data-number="11.5.3" class="anchored" data-anchor-id="jaccard-y-bray-curtis"><span class="header-section-number">11.5.3</span> Jaccard y Bray-Curtis</h3>
+<section id="jaccard-y-bray-curtis" class="level3" data-number="13.5.3">
+<h3 data-number="13.5.3" class="anchored" data-anchor-id="jaccard-y-bray-curtis"><span class="header-section-number">13.5.3</span> Jaccard y Bray-Curtis</h3>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>jaccard <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">vegdist</span>(comm <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">method =</span> <span class="st">"jaccard"</span>, <span class="at">binary =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>bray <span class="ot">&lt;-</span> vegan<span class="sc">::</span><span class="fu">vegdist</span>(comm, <span class="at">method =</span> <span class="st">"bray"</span>)</span>
@@ -712,8 +748,8 @@ d_{BC}(i,k)=
 </div>
 <p>Una correlación alta entre ambas matrices no las vuelve equivalentes. Jaccard pregunta por identidades; Bray-Curtis también conserva la distribución de abundancias.</p>
 </section>
-<section id="clasificación-jerárquica" class="level3" data-number="11.5.4">
-<h3 data-number="11.5.4" class="anchored" data-anchor-id="clasificación-jerárquica"><span class="header-section-number">11.5.4</span> Clasificación jerárquica</h3>
+<section id="clasificación-jerárquica" class="level3" data-number="13.5.4">
+<h3 data-number="13.5.4" class="anchored" data-anchor-id="clasificación-jerárquica"><span class="header-section-number">13.5.4</span> Clasificación jerárquica</h3>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cluster_bray <span class="ot">&lt;-</span> <span class="fu">hclust</span>(bray, <span class="at">method =</span> <span class="st">"average"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(cluster_bray, <span class="at">xlab =</span> <span class="st">"Sitio"</span>, <span class="at">sub =</span> <span class="st">""</span>, <span class="at">ylab =</span> <span class="st">"Bray-Curtis"</span>)</span>
@@ -737,8 +773,8 @@ d_{BC}(i,k)=
 </div>
 <p>La tabla permite describir coincidencias entre los cuatro grupos elegidos y el manejo. Cuatro es una decisión de lectura, no una cantidad estimada ni una prueba de significación.</p>
 </section>
-<section id="ordenación-por-coordenadas-principales" class="level3" data-number="11.5.5">
-<h3 data-number="11.5.5" class="anchored" data-anchor-id="ordenación-por-coordenadas-principales"><span class="header-section-number">11.5.5</span> Ordenación por coordenadas principales</h3>
+<section id="ordenación-por-coordenadas-principales" class="level3" data-number="13.5.5">
+<h3 data-number="13.5.5" class="anchored" data-anchor-id="ordenación-por-coordenadas-principales"><span class="header-section-number">13.5.5</span> Ordenación por coordenadas principales</h3>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pcoa <span class="ot">&lt;-</span> <span class="fu">cmdscale</span>(bray, <span class="at">k =</span> <span class="dv">2</span>, <span class="at">eig =</span> <span class="cn">TRUE</span>, <span class="at">add =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>site_scores <span class="ot">&lt;-</span> pcoa<span class="sc">$</span>points</span>
@@ -773,8 +809,8 @@ d_{BC}(i,k)=
 </div>
 <p>La fracción informada resume cuánto representan los dos primeros ejes respecto a los autovalores positivos. La figura comprime información: proximidad sugiere composición semejante, pero solapamiento o separación visual no establece una diferencia poblacional.</p>
 </section>
-<section id="sensibilidad-a-abundancia-y-presencia" class="level3" data-number="11.5.6">
-<h3 data-number="11.5.6" class="anchored" data-anchor-id="sensibilidad-a-abundancia-y-presencia"><span class="header-section-number">11.5.6</span> Sensibilidad a abundancia y presencia</h3>
+<section id="sensibilidad-a-abundancia-y-presencia" class="level3" data-number="13.5.6">
+<h3 data-number="13.5.6" class="anchored" data-anchor-id="sensibilidad-a-abundancia-y-presencia"><span class="header-section-number">13.5.6</span> Sensibilidad a abundancia y presencia</h3>
 <div class="cell" data-layout-align="center">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cluster_jaccard <span class="ot">&lt;-</span> <span class="fu">cutree</span>(<span class="fu">hclust</span>(jaccard, <span class="at">method =</span> <span class="st">"average"</span>), <span class="at">k =</span> <span class="dv">4</span>)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>cluster_agreement <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">outer</span>(cluster_membership, cluster_membership, <span class="st">"=="</span>) <span class="sc">==</span></span>
@@ -800,8 +836,8 @@ d_{BC}(i,k)=
 <p>La primera medida compara decisiones de agrupación por pares; la segunda compara la geometría representada después de reducir la influencia de especies abundantes. Ninguna selecciona una versión vencedora. Si la lectura ecológica cambia, debe explicarse si la pregunta depende de identidad, abundancia o dominancia.</p>
 </section>
 </section>
-<section id="supuestos-y-alcance" class="level2" data-number="11.6">
-<h2 data-number="11.6" class="anchored" data-anchor-id="supuestos-y-alcance"><span class="header-section-number">11.6</span> Supuestos y alcance</h2>
+<section id="supuestos-y-alcance" class="level2" data-number="13.6">
+<h2 data-number="13.6" class="anchored" data-anchor-id="supuestos-y-alcance"><span class="header-section-number">13.6</span> Supuestos y alcance</h2>
 <ul>
 <li>Las filas representan unidades comparables y no submuestras tratadas como réplicas independientes.</li>
 <li>Área, duración, método, periodo y resolución taxonómica son comparables.</li>
@@ -812,8 +848,8 @@ d_{BC}(i,k)=
 <li>Clasificación y ordenación describen los sitios observados; no identifican por sí solas mecanismos, causalidad ni poblaciones discretas.</li>
 </ul>
 </section>
-<section id="errores-comunes" class="level2" data-number="11.7">
-<h2 data-number="11.7" class="anchored" data-anchor-id="errores-comunes"><span class="header-section-number">11.7</span> Errores comunes</h2>
+<section id="errores-comunes" class="level2" data-number="13.7">
+<h2 data-number="13.7" class="anchored" data-anchor-id="errores-comunes"><span class="header-section-number">13.7</span> Errores comunes</h2>
 <ul>
 <li>Comparar riqueza entre unidades con esfuerzo o área diferentes.</li>
 <li>Llamar riqueza a Shannon o informar Simpson sin indicar su variante.</li>
@@ -827,8 +863,8 @@ d_{BC}(i,k)=
 <li>Generalizar los 20 sitios a un paisaje cuyo marco de muestreo no se conoce.</li>
 </ul>
 </section>
-<section id="síntesis" class="level2" data-number="11.8">
-<h2 data-number="11.8" class="anchored" data-anchor-id="síntesis"><span class="header-section-number">11.8</span> Síntesis</h2>
+<section id="síntesis" class="level2" data-number="13.8">
+<h2 data-number="13.8" class="anchored" data-anchor-id="síntesis"><span class="header-section-number">13.8</span> Síntesis</h2>
 <ul>
 <li>Riqueza cuenta especies observadas; Shannon combina riqueza y abundancia; Simpson enfatiza las especies comunes; la equidad compara Shannon con su máximo para la riqueza registrada.</li>
 <li>Jaccard representa identidad en presencia-ausencia y Bray-Curtis representa diferencias de abundancia sin usar dobles ceros.</li>
@@ -837,8 +873,8 @@ d_{BC}(i,k)=
 <li>Una aplicación responsable muestra auditoría, definiciones, sensibilidad y alcance, no solo una figura multivariada.</li>
 </ul>
 </section>
-<section id="actividad-propuesta-para-el-lector" class="level2" data-number="11.9">
-<h2 data-number="11.9" class="anchored" data-anchor-id="actividad-propuesta-para-el-lector"><span class="header-section-number">11.9</span> Actividad propuesta para el lector</h2>
+<section id="actividad-propuesta-para-el-lector" class="level2" data-number="13.9">
+<h2 data-number="13.9" class="anchored" data-anchor-id="actividad-propuesta-para-el-lector"><span class="header-section-number">13.9</span> Actividad propuesta para el lector</h2>
 <ol type="1">
 <li>Calcule a mano riqueza, Shannon, <span class="math inline">\(1-D\)</span> y equidad para <code>(10, 10, 10, 10)</code> y <code>(37, 1, 1, 1)</code>; explique qué aspecto distingue cada índice.</li>
 <li>Para tres listas de especies, construya la tabla de <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span> y <span class="math inline">\(c\)</span>, calcule Jaccard y compruebe el resultado con <code>vegan::vegdist()</code>.</li>
@@ -1270,12 +1306,12 @@ Oksanen, Jari, Gavin L. Simpson, F. Guillaume Blanchet, et&nbsp;al. 2024. <em>ve
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../chapters/chapter10.html" class="pagination-link" aria-label="Demografía y dinámica poblacional">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Demografía y dinámica poblacional</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/chapter12.html" class="pagination-link" aria-label="Proyecto completo de muestreo ecológico">
-        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Proyecto completo de muestreo ecológico</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/chapter11-interacciones.html" class="pagination-link" aria-label="Uso de recursos e interacciones ecológicas">
+        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Uso de recursos e interacciones ecológicas</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
